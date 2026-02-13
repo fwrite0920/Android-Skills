@@ -1,49 +1,49 @@
 ---
 name: Coding Style Conventions
-description: Kotlin 代碼規範、Linter 配置與 Code Review 檢核標準
+description: Kotlin 代码规范、Linter 配置与 Code Review 检核标准
 ---
 
-# Coding Style Conventions (代碼規範)
+# Coding Style Conventions (代码规范)
 
 ## Instructions
-- 確認需求屬於本技能範圍（命名、格式、檢核）
-- 依照下方章節順序套用
-- 一次只調整一類規範，避免混雜變更
-- 完成後對照 Quick Checklist
+- 确认需求属于本技能范围（命名、格式、检核）
+- 依照下方章节顺序套用
+- 一次只调整一类规范，避免混杂变更
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario A：新專案建立規範
-- Scenario C：舊專案現代化基準
+- Scenario A：新项目创建规范
+- Scenario C：旧项目现代化基准
 
 ## Example Prompts
-- "請參考本技能的 Naming Conventions，檢查這段 Kotlin 代碼命名是否一致"
-- "依照 Detekt 與 Ktlint 配置章節，幫我建立專案規範"
-- "請用 Code Review Checklist 審視這個 PR 的風格問題"
+- "请参考本技能的 Naming Conventions，检查这段 Kotlin 代码命名是否一致"
+- "依照 Detekt 与 Ktlint 配置章节，帮我创建项目规范"
+- "请用 Code Review Checklist 审视这个 PR 的风格问题"
 
 ## Workflow
-1. 先對照 Naming Conventions 設定命名規則
-2. 再依 Detekt / Ktlint 配置落實到專案
-3. 最後用 Code Review Checklist 驗收
+1. 先对照 Naming Conventions 设置命名规则
+2. 再依 Detekt / Ktlint 配置落实到项目
+3. 最后用 Code Review Checklist 验收
 
 ## Practical Notes (2026)
-- CI Gate 僅針對變更檔案執行 Lint/Detekt/Ktlint
-- 規範調整與功能變更分開提交，方便回溯
-- Code Review 以 Checklist 作為硬性驗收
+- CI Gate 仅针对变更文件运行 Lint/Detekt/Ktlint
+- 规范调整与功能变更分开提交，方便回溯
+- Code Review 以 Checklist 作为硬性验收
 
 ## Minimal Template
 ```
-目標: 
-適用範圍: 
-規範重點: 
-檢核方式: 
-驗收: Quick Checklist
+目标: 
+适用范围: 
+规范重点: 
+检核方式: 
+验收: Quick Checklist
 ```
 
 ---
 
-## Naming Conventions (命名規則)
+## Naming Conventions (命名规则)
 
-| 類型 | 規則 | 範例 |
+| 类型 | 规则 | 范例 |
 |------|------|------|
 | Class / Interface | `PascalCase` | `UserRepository`, `Drawable` |
 | Function / Method | `camelCase` | `getUserById()`, `onClick()` |
@@ -56,14 +56,14 @@ description: Kotlin 代碼規範、Linter 配置與 Code Review 檢核標準
 ### Compose Specific
 
 ```kotlin
-// ✅ Composable 函數用 PascalCase (像 Class)
+// ✅ Composable 函数用 PascalCase (像 Class)
 @Composable
 fun UserProfileCard(user: User, modifier: Modifier = Modifier) { }
 
 // ✅ State holder 用 remember + camelCase
 val scrollState = rememberScrollState()
 
-// ✅ Event callback 用 on 前綴
+// ✅ Event callback 用 on 前缀
 onUserClick: (User) -> Unit
 ```
 
@@ -71,7 +71,7 @@ onUserClick: (User) -> Unit
 
 ## Detekt Configuration
 
-### 安裝與設定
+### 安装与设置
 
 ```kotlin
 // build.gradle.kts (project-level)
@@ -87,7 +87,7 @@ detekt {
 }
 ```
 
-### 建議規則集 (detekt.yml)
+### 建议规则集 (detekt.yml)
 
 ```yaml
 complexity:
@@ -111,13 +111,13 @@ style:
     ignoreCompanionObjectPropertyDeclaration: true
 ```
 
-### Baseline 機制 (舊專案適用)
+### Baseline 机制 (旧项目适用)
 
 ```bash
-# 生成 baseline，忽略現有問題
+# 生成 baseline，忽略现有问题
 ./gradlew detektBaseline
 
-# 之後只檢查新代碼的違規
+# 之后只检查新代码的违规
 ./gradlew detekt
 ```
 
@@ -125,7 +125,7 @@ style:
 
 ## Ktlint Configuration
 
-### 安裝
+### 安装
 
 ```kotlin
 // build.gradle.kts
@@ -139,7 +139,7 @@ ktlint {
 }
 ```
 
-### .editorconfig (與 IDE 同步)
+### .editorconfig (与 IDE 同步)
 
 ```ini
 [*.{kt,kts}]
@@ -157,28 +157,28 @@ ktlint_standard_trailing-comma-on-declaration-site = enabled
 
 ## Documentation Standards (KDoc)
 
-### 何時該寫
+### 何时该写
 
 - ✅ Public API (SDK, Library)
-- ✅ 複雜的業務邏輯
-- ✅ 非直觀的參數或回傳值
-- ✅ 重要的設計決策
+- ✅ 复杂的业务逻辑
+- ✅ 非直观的参数或回传值
+- ✅ 重要的设计决策
 
-### 何時不該寫
+### 何时不该写
 
-- ❌ 自解釋的代碼 (e.g., `fun getUserName(): String`)
-- ❌ 覆寫的方法 (繼承父類文檔)
-- ❌ 簡單的 CRUD 操作
+- ❌ 自解释的代码 (e.g., `fun getUserName(): String`)
+- ❌ 覆写的方法 (继承父类文档)
+- ❌ 简单的 CRUD 操作
 
-### 範例
+### 范例
 
 ```kotlin
 /**
- * 根據優先級排序並過濾過期的任務。
+ * 根据优先级排序并过滤过期的任务。
  *
- * @param tasks 待處理的任務列表
- * @param now 用於判斷過期的時間點，預設為當前時間
- * @return 依優先級排序的有效任務，過期任務會被過濾
+ * @param tasks 待处理的任务列表
+ * @param now 用于判断过期的时间点，默认为当前时间
+ * @return 依优先级排序的有效任务，过期任务会被过滤
  * @throws IllegalArgumentException 如果 tasks 包含 null 元素
  */
 fun filterAndSort(tasks: List<Task>, now: Instant = Instant.now()): List<Task>
@@ -189,21 +189,21 @@ fun filterAndSort(tasks: List<Task>, now: Instant = Instant.now()): List<Task>
 ## Code Review Checklist
 
 ### Naming & Style
-- [ ] 命名是否遵循上述規則？
-- [ ] Compose 函數是否用 PascalCase？
+- [ ] 命名是否遵循上述规则？
+- [ ] Compose 函数是否用 PascalCase？
 - [ ] 是否有 Magic Number？
 
 ### Structure
-- [ ] 函數是否過長 (> 30 行)？
-- [ ] 參數是否過多 (> 6 個)？
-- [ ] 是否有 God Class 傾向？
+- [ ] 函数是否过长 (> 30 行)？
+- [ ] 参数是否过多 (> 6 个)？
+- [ ] 是否有 God Class 倾向？
 
 ### Safety
-- [ ] Nullable 處理是否安全？
-- [ ] 是否有潛在的 NPE？
-- [ ] 異常處理是否完善？
+- [ ] Nullable 处理是否安全？
+- [ ] 是否有潜在的 NPE？
+- [ ] 异常处理是否完善？
 
 ### Compose Specific
-- [ ] Modifier 是否為第一個可選參數？
-- [ ] State 是否正確 hoist？
-- [ ] 是否有 unstable 的參數導致不必要重組？
+- [ ] Modifier 是否为第一个可选参数？
+- [ ] State 是否正确 hoist？
+- [ ] 是否有 unstable 的参数导致不必要重组？

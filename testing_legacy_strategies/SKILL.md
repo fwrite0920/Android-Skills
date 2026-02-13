@@ -1,68 +1,68 @@
 ---
 name: Testing Legacy Strategies
-description: 為無測試的舊代碼建立安全網的策略
+description: 为无测试的旧代码创建安全网的策略
 ---
 
-# Testing Legacy Strategies (遺留代碼測試)
+# Testing Legacy Strategies (遗留代码测试)
 
 ## Instructions
-- 僅在缺乏測試的既有代碼上使用
-- 依照下方章節順序建立安全網
-- 一次只鎖定一類行為或輸出
-- 完成後對照 Quick Checklist
+- 仅在缺乏测试的既有代码上使用
+- 依照下方章节顺序创建安全网
+- 一次只锁定一类行为或输出
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario C：舊專案現代化前的安全網
-- Scenario F：共享邏輯需要測試保障
+- Scenario C：旧项目现代化前的安全网
+- Scenario F：共享逻辑需要测试保障
 
 ## Example Prompts
-- "請依照 Characterization Tests 章節，替這個類別建立現狀測試"
-- "用 Robolectric 章節，為依賴 Framework 的 Activity 寫測試"
-- "請用 Detekt/Lint Baseline 章節建立技術債控管"
+- "请依照 Characterization Tests 章节，替这个类别创建现状测试"
+- "用 Robolectric 章节，为依赖 Framework 的 Activity 写测试"
+- "请用 Detekt/Lint Baseline 章节创建技术债控管"
 
 ## Workflow
-1. 先建立 Characterization Tests 鎖定行為
-2. 再補齊 Framework 測試與 MockK 策略
-3. 最後用 Quick Checklist 驗收
+1. 先创建 Characterization Tests 锁定行为
+2. 再补齐 Framework 测试与 MockK 策略
+3. 最后用 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- 測試輸出必須可重複與可比對
-- 每次只鎖定一類行為，避免測試爆量
-- Baseline 逐步收斂，避免一次性大改
+- 测试输出必须可重复与可比对
+- 每次只锁定一类行为，避免测试爆量
+- Baseline 逐步收敛，避免一次性大改
 
 ## Minimal Template
 ```
-目標: 
-測試範圍: 
-行為鎖定: 
-回歸方式: 
-驗收: Quick Checklist
+目标: 
+测试范围: 
+行为锁定: 
+回归方式: 
+验收: Quick Checklist
 ```
 
 ---
 
-## Characterization Tests (現狀測試)
+## Characterization Tests (现状测试)
 
-為沒有測試的舊代碼撰寫「現狀測試」，不管對錯，先鎖定行為。
+为没有测试的旧代码撰写「现状测试」，不管对错，先锁定行为。
 
 ### 策略
 
 ```kotlin
-// 1. 先寫一個會失敗的測試
+// 1. 先写一个会失败的测试
 @Test
 fun `calculateDiscount returns unknown value`() {
     val result = legacyCalculator.calculateDiscount(100.0, "VIP")
-    assertEquals(0.0, result)  // 故意用錯誤的預期值
+    assertEquals(0.0, result)  // 故意用错误的预期值
 }
 
-// 2. 執行測試，記錄實際回傳值
+// 2. 运行测试，记录实际回传值
 // AssertionError: expected 0.0 but was 15.0
 
-// 3. 更新測試為實際值
+// 3. 更新测试为实际值
 @Test
 fun `calculateDiscount returns 15 percent for VIP`() {
     val result = legacyCalculator.calculateDiscount(100.0, "VIP")
-    assertEquals(15.0, result)  // 鎖定現有行為
+    assertEquals(15.0, result)  // 锁定现有行为
 }
 ```
 
@@ -86,17 +86,17 @@ fun `calculateDiscount characterization`(
 
 ---
 
-## Robolectric (Android Framework 測試)
+## Robolectric (Android Framework 测试)
 
-處理高度依賴 Android Framework 的舊單元測試。
+处理高度依赖 Android Framework 的旧单元测试。
 
-### 設定
+### 设置
 
 ```kotlin
 // build.gradle.kts
 testImplementation("org.robolectric:robolectric:4.11.1")
 
-// 測試類別
+// 测试类别
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33])
 class LegacyActivityTest {
@@ -161,7 +161,7 @@ fun `suspend function mocking`() = runTest {
 ### Relaxed Mocks
 
 ```kotlin
-// 自動回傳預設值，適合舊代碼測試
+// 自动回传默认值，适合旧代码测试
 val service = mockk<LegacyService>(relaxed = true)
 ```
 
@@ -169,21 +169,21 @@ val service = mockk<LegacyService>(relaxed = true)
 
 ## Detekt/Lint Baseline
 
-漸進式收緊舊專案的品質標準。
+渐进式收紧旧项目的品质标准。
 
 ### 生成 Baseline
 
 ```bash
 # Detekt
 ./gradlew detektBaseline
-# 產生 config/detekt/baseline.xml
+# 产生 config/detekt/baseline.xml
 
 # Lint
 ./gradlew lintDebug -Dlint.baselines.continue=true
-# 產生 lint-baseline.xml
+# 产生 lint-baseline.xml
 ```
 
-### 只檢查新代碼
+### 只检查新代码
 
 ```kotlin
 // build.gradle.kts
@@ -198,11 +198,11 @@ detekt {
 }
 ```
 
-### 漸進式修復
+### 渐进式修复
 
 ```bash
-# 每個 Sprint 減少 Baseline 中的項目
-# 1. 修復一批問題
+# 每个 Sprint 减少 Baseline 中的项目
+# 1. 修复一批问题
 # 2. 重新生成 Baseline
 ./gradlew detektBaseline
 ```
@@ -211,17 +211,17 @@ detekt {
 
 ## Golden Master Testing
 
-適合複雜輸出 (HTML, JSON) 的舊代碼。
+适合复杂输出 (HTML, JSON) 的旧代码。
 
 ```kotlin
 @Test
 fun `report generator produces expected output`() {
     val output = legacyReportGenerator.generate(testData)
     
-    // 首次執行：儲存為 golden file
+    // 首次运行：保存为 golden file
     // File("src/test/resources/golden/report.html").writeText(output)
     
-    // 後續執行：比對
+    // 后续运行：比对
     val golden = File("src/test/resources/golden/report.html").readText()
     assertEquals(golden, output)
 }
@@ -231,8 +231,8 @@ fun `report generator produces expected output`() {
 
 ## Quick Checklist
 
-- [ ] 重構前先撰寫 Characterization Tests
-- [ ] 使用 Robolectric 處理 Android 依賴
-- [ ] MockK 的 relaxed mock 加速舊代碼測試
-- [ ] Detekt/Lint Baseline 控制技術債
-- [ ] 每個 Sprint 減少 Baseline 項目
+- [ ] 重构前先撰写 Characterization Tests
+- [ ] 使用 Robolectric 处理 Android 依赖
+- [ ] MockK 的 relaxed mock 加速旧代码测试
+- [ ] Detekt/Lint Baseline 控制技术债
+- [ ] 每个 Sprint 减少 Baseline 项目

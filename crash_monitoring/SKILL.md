@@ -1,49 +1,49 @@
 ---
 name: Crash Monitoring
-description: Crashlytics 設定、ANR 分析與結構化日誌
+description: Crashlytics 设置、ANR 分析与结构化日志
 ---
 
-# Crash Monitoring (當機監控)
+# Crash Monitoring (当机监控)
 
 ## Instructions
-- 確認需求屬於當機/ANR/日誌監控
-- 依照下方章節順序套用
-- 一次只調整一種監控或警報設定
-- 完成後對照 Quick Checklist
+- 确认需求属于当机/ANR/日志监控
+- 依照下方章节顺序套用
+- 一次只调整一种监控或警报设置
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario D：效能問題排查
-- Scenario E：發布前監控準備
+- Scenario D：性能问题排查
+- Scenario E：发布前监控准备
 
 ## Example Prompts
-- "請依照 Firebase Crashlytics Setup，完成 Crashlytics 整合"
-- "用 ANR Analysis 章節加入 StrictMode 與 ANR Watchdog"
-- "請依 Structured Logging 章節統一日誌格式"
+- "请依照 Firebase Crashlytics Setup，完成 Crashlytics 集成"
+- "用 ANR Analysis 章节加入 StrictMode 与 ANR Watchdog"
+- "请依 Structured Logging 章节统一日志格式"
 
 ## Workflow
-1. 先完成 Crashlytics 基本設定與 Custom Keys
-2. 再加入 ANR 與 Structured Logging
-3. 最後用 Dashboard & Alerting 與 Quick Checklist 驗收
+1. 先完成 Crashlytics 基本设置与 Custom Keys
+2. 再加入 ANR 与 Structured Logging
+3. 最后用 Dashboard & Alerting 与 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- Release 前先確立 Crash/ANR 的告警門檻
-- 重要流程必有結構化事件與關鍵鍵值
-- Non-Fatal 記錄以高價值事件為主
+- Release 前先确立 Crash/ANR 的告警门槛
+- 重要流程必有结构化事件与关键键值
+- Non-Fatal 记录以高价值事件为主
 
 ## Minimal Template
 ```
-目標: 
-監控範圍: 
-告警門檻: 
-事件欄位: 
-驗收: Quick Checklist
+目标: 
+监控范围: 
+告警门槛: 
+事件字段: 
+验收: Quick Checklist
 ```
 
 ---
 
 ## Firebase Crashlytics Setup
 
-### 基本設定
+### 基本设置
 
 ```kotlin
 // build.gradle.kts (app)
@@ -61,7 +61,7 @@ dependencies {
 ### Custom Keys
 
 ```kotlin
-// 記錄使用者狀態
+// 记录用户状态
 Firebase.crashlytics.apply {
     setUserId("user_123")
     setCustomKey("subscription_tier", "premium")
@@ -72,15 +72,15 @@ Firebase.crashlytics.apply {
 ### Non-Fatal Logging
 
 ```kotlin
-// 記錄非致命錯誤
+// 记录非致命错误
 try {
     riskyOperation()
 } catch (e: Exception) {
     Firebase.crashlytics.recordException(e)
-    // 繼續正常流程
+    // 继续正常流程
 }
 
-// 帶上下文的 Non-Fatal
+// 带上下文的 Non-Fatal
 Firebase.crashlytics.log("Starting payment flow")
 try {
     processPayment()
@@ -111,7 +111,7 @@ class MyApplication : Application() {
                     .detectDiskWrites()
                     .detectNetwork()
                     .penaltyLog()
-                    .penaltyDeath()  // 強制 Crash
+                    .penaltyDeath()  // 强制 Crash
                     .build()
             )
             
@@ -186,15 +186,15 @@ class CrashlyticsTree : Timber.Tree() {
 }
 ```
 
-### Log Levels 使用規範
+### Log Levels 使用规范
 
-| Level | 使用場景 | 例子 |
+| Level | 使用场景 | 例子 |
 |-------|---------|------|
-| VERBOSE | Debug 專用細節 | API Response body |
-| DEBUG | 開發除錯 | ViewModel state changes |
+| VERBOSE | Debug 专用细节 | API Response body |
+| DEBUG | 开发调试 | ViewModel state changes |
 | INFO | 重要里程碑 | User login success |
-| WARN | 潛在問題 | Retry attempt |
-| ERROR | 可恢復錯誤 | Network timeout |
+| WARN | 潜在问题 | Retry attempt |
+| ERROR | 可恢复错误 | Network timeout |
 
 ---
 
@@ -211,7 +211,7 @@ Firebase Console > Crashlytics > Settings
 ### Custom Metrics
 
 ```kotlin
-// 追蹤關鍵指標
+// 追踪关键指标
 Firebase.analytics.logEvent("checkout_started") {
     param("cart_value", cartValue)
 }
@@ -226,9 +226,9 @@ Firebase.analytics.logEvent("checkout_completed") {
 
 ## Quick Checklist
 
-- [ ] Crashlytics 整合完成
-- [ ] Custom Keys 設定 (User tier, Feature flags)
-- [ ] Non-Fatal 記錄重要異常
-- [ ] StrictMode 在 Debug 啟用
-- [ ] Timber 統一日誌
-- [ ] Velocity Alerts 設定
+- [ ] Crashlytics 集成完成
+- [ ] Custom Keys 设置 (User tier, Feature flags)
+- [ ] Non-Fatal 记录重要异常
+- [ ] StrictMode 在 Debug 激活
+- [ ] Timber 统一日志
+- [ ] Velocity Alerts 设置

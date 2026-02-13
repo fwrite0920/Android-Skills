@@ -1,50 +1,50 @@
 ---
 name: UI/UX Engineering
-description: Design System 實作、複雜 UI 模式與 Accessibility
+description: Design System 实作、复杂 UI 模式与 Accessibility
 ---
 
 # UI/UX Engineering (UI/UX 工程化)
 
 ## Instructions
-- 確認需求屬於 UI 架構、互動或可近用性
-- 依照下方章節順序套用
-- 一次只調整一種 UI 模式或設計 token
-- 完成後對照 Quick Checklist
+- 确认需求属于 UI 架构、交互或可近用性
+- 依照下方章节顺序套用
+- 一次只调整一种 UI 模式或设计 token
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario A：新專案設計系統建立
-- Scenario B：舊專案新增 UI 功能
-- Scenario D：UI 效能與體驗問題
+- Scenario A：新项目设计系统创建
+- Scenario B：旧项目添加 UI 功能
+- Scenario D：UI 性能与体验问题
 
 ## Example Prompts
-- "請依照 Design System Implementation 章節，建立主題與 spacing"
-- "請參考 Complex UI Patterns，實作 Collapsing Toolbar"
-- "用 Accessibility 章節檢視主要流程是否符合 a11y"
+- "请依照 Design System Implementation 章节，创建主题与 spacing"
+- "请参考 Complex UI Patterns，实作 Collapsing Toolbar"
+- "用 Accessibility 章节查看主要流程是否符合 a11y"
 
 ## Workflow
-1. 先建立 Design System 的基礎 tokens
-2. 再套用 Complex UI Patterns 與 Adaptive Layouts
-3. 最後用 Accessibility 與 Quick Checklist 驗收
+1. 先创建 Design System 的基础 tokens
+2. 再套用 Complex UI Patterns 与 Adaptive Layouts
+3. 最后用 Accessibility 与 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- Compose-first，但保留 View/Fragment 互通規範
-- a11y 驗收必包含 TalkBack 走查與觸控目標
-- UI 效能以重組與列表滾動為優先檢查點
+- Compose-first，但保留 View/Fragment 互通规范
+- a11y 验收必包含 TalkBack 走查与触摸目标
+- UI 性能以重组与列表滚动为优先检查点
 
 ## Minimal Template
 ```
-目標: 
-畫面範圍: 
-設計規範: 
+目标: 
+画面范围: 
+设计规范: 
 a11y 要求: 
-驗收: Quick Checklist
+验收: Quick Checklist
 ```
 
 ---
 
 ## Design System Implementation
 
-### Theme 架構
+### Theme 架构
 
 ```kotlin
 // ui/theme/Theme.kt
@@ -89,7 +89,7 @@ Spacer(modifier = Modifier.height(spacing.md))
 ### Figma Token Sync
 
 ```kotlin
-// 從 Figma 導出的 Tokens
+// 从 Figma 导出的 Tokens
 object DesignTokens {
     object Colors {
         val Primary = Color(0xFF6200EE)
@@ -238,18 +238,18 @@ fun AccessibleButton(
 
 ### TalkBack Testing Checklist
 
-- [ ] 所有可互動元素都有 `contentDescription`
-- [ ] 圖片有適當的 `contentDescription` 或標記為 decorative
-- [ ] 觸控目標 >= 48dp
-- [ ] 顏色對比度符合 WCAG 2.1 標準
-- [ ] 使用 TalkBack 完整走過主要流程
+- [ ] 所有可交互元素都有 `contentDescription`
+- [ ] 图片有适当的 `contentDescription` 或标记为 decorative
+- [ ] 触摸目标 >= 48dp
+- [ ] 颜色对比度符合 WCAG 2.1 标准
+- [ ] 使用 TalkBack 完整走过主要流程
 
 ### Decorative Images
 
 ```kotlin
 Image(
     painter = painterResource(R.drawable.decoration),
-    contentDescription = null,  // 裝飾性圖片
+    contentDescription = null,  // 装饰性图片
     modifier = Modifier.semantics { invisibleToUser() }
 )
 ```
@@ -259,13 +259,13 @@ Image(
 ## Quick Checklist
 
 ### Design System
-- [ ] Color Scheme 定義 (Light/Dark)
-- [ ] Typography Scale 定義
+- [ ] Color Scheme 定义 (Light/Dark)
+- [ ] Typography Scale 定义
 - [ ] Spacing System (Tokens)
-- [ ] Common Components 封裝
+- [ ] Common Components 封装
 
 ### Accessibility
-- [ ] 所有按鈕有 contentDescription
-- [ ] 觸控目標 >= 48dp
-- [ ] 顏色對比度檢查
-- [ ] TalkBack 測試通過
+- [ ] 所有按钮有 contentDescription
+- [ ] 触摸目标 >= 48dp
+- [ ] 颜色对比度检查
+- [ ] TalkBack 测试通过

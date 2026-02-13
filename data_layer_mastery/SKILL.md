@@ -1,43 +1,43 @@
 ---
 name: Data Layer Mastery
-description: Room 進階用法、Retrofit 整合與 Offline-First 架構
+description: Room 进阶用法、Retrofit 集成与 Offline-First 架构
 ---
 
-# Data Layer Mastery (資料層專精)
+# Data Layer Mastery (数据层专精)
 
 ## Instructions
-- 確認需求屬於資料層（Room、網路、離線策略）
-- 依照下方章節順序套用
-- 一次只調整一個資料流或責任邊界
-- 完成後對照 Quick Checklist
+- 确认需求属于数据层（Room、网络、脱机策略）
+- 依照下方章节顺序套用
+- 一次只调整一个数据流或责任边界
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario A：新專案資料層建立
-- Scenario D：效能問題的資料層瓶頸
-- Scenario F：KMP 共享資料層設計
+- Scenario A：新项目数据层创建
+- Scenario D：性能问题的数据层瓶颈
+- Scenario F：KMP 共享数据层设计
 
 ## Example Prompts
-- "請參考 Room Advanced，幫我設計 Migration 策略"
-- "依照 Network Layer 章節，建立統一的錯誤處理"
-- "請用 Offline-First 章節檢視目前 Repository 是否符合 SSOT"
+- "请参考 Room Advanced，帮我设计 Migration 策略"
+- "依照 Network Layer 章节，创建统一的错误处理"
+- "请用 Offline-First 章节查看目前 Repository 是否符合 SSOT"
 
 ## Workflow
-1. 先檢查 Room / Network 的基礎設計
-2. 再確立 Offline-First 與資料同步策略
-3. 最後用 Quick Checklist 驗收
+1. 先检查 Room / Network 的基础设计
+2. 再确立 Offline-First 与数据同步策略
+3. 最后用 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- Offline-first 只在不穩網路或高一致性需求時啟用
-- Repository 必須是 SSOT，避免多處來源競爭
-- 錯誤處理統一化，避免每層自行判斷
+- Offline-first 只在不稳网络或高一致性需求时激活
+- Repository 必须是 SSOT，避免多处来源竞争
+- 错误处理统一化，避免每层自行判断
 
 ## Minimal Template
 ```
-目標: 
-資料來源: 
-快取策略: 
-錯誤處理: 
-驗收: Quick Checklist
+目标: 
+数据源: 
+缓存策略: 
+错误处理: 
+验收: Quick Checklist
 ```
 
 ---
@@ -55,7 +55,7 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
 
 val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(database: SupportSQLiteDatabase) {
-        // 複雜遷移：建立新表、複製資料、刪除舊表
+        // 复杂迁移：创建新表、复制数据、删除旧表
         database.execSQL("CREATE TABLE users_new (...)")
         database.execSQL("INSERT INTO users_new SELECT ... FROM users")
         database.execSQL("DROP TABLE users")
@@ -68,7 +68,7 @@ Room.databaseBuilder(context, AppDatabase::class.java, "app.db")
     .build()
 ```
 
-### Paging 3 整合
+### Paging 3 集成
 
 ```kotlin
 @Dao
@@ -182,16 +182,16 @@ class UserRepository(
     private val localDataSource: UserLocalDataSource
 ) {
     fun getUser(id: String): Flow<User> = flow {
-        // 1. 先從 Local 發射
+        // 1. 先从 Local 发射
         localDataSource.getUser(id)?.let { emit(it) }
         
-        // 2. 從 Remote 取得最新
+        // 2. 从 Remote 取得最新
         val remote = remoteDataSource.fetchUser(id)
         
         // 3. 存入 Local
         localDataSource.saveUser(remote)
         
-        // 4. 發射更新後的資料
+        // 4. 发射更新后的数据
         emit(remote)
     }
     
@@ -236,8 +236,8 @@ val darkThemeFlow: Flow<Boolean> = context.dataStore.data
 
 ## Quick Checklist
 
-- [ ] Room Migration 測試通過
-- [ ] Network Error 統一處理
-- [ ] Repository 實作 SSOT
+- [ ] Room Migration 测试通过
+- [ ] Network Error 统一处理
+- [ ] Repository 实作 SSOT
 - [ ] DataStore 取代 SharedPreferences
-- [ ] Paging 用於大量資料列表
+- [ ] Paging 用于大量数据列表

@@ -1,41 +1,41 @@
 ---
 name: Tech Stack Migration
-description: View→Compose, RxJava→Flow 等技術遷移指南
+description: View→Compose, RxJava→Flow 等技术迁移指南
 ---
 
-# Tech Stack Migration (技術遷移)
+# Tech Stack Migration (技术迁移)
 
 ## Instructions
-- 僅在需要漸進式遷移時使用
-- 依照下方章節順序套用
-- 一次只替換一個技術棧
-- 完成後對照 Quick Checklist
+- 仅在需要渐进式迁移时使用
+- 依照下方章节顺序套用
+- 一次只替换一个技术栈
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario C：舊專案現代化
+- Scenario C：旧项目现代化
 
 ## Example Prompts
-- "請依照 View → Compose 章節，幫我嵌入 ComposeView"
-- "用 RxJava → Flow 對照表，改寫這段 stream"
-- "請用 LiveData → StateFlow 的步驟規劃遷移"
+- "请依照 View → Compose 章节，帮我嵌入 ComposeView"
+- "用 RxJava → Flow 对照表，改写这段 stream"
+- "请用 LiveData → StateFlow 的步骤规划迁移"
 
 ## Workflow
-1. 先確認要遷移的技術棧與範圍
-2. 依序套用對應章節的範例與對照表
-3. 最後用 Quick Checklist 驗收
+1. 先确认要迁移的技术栈与范围
+2. 依序套用对应章节的范例与对照表
+3. 最后用 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- 遷移必先有可驗證的測試安全網
-- 一次只遷移一個維度（UI 或 Data 或 DI）
-- 指標回歸後才能推進下一步
+- 迁移必先有可验证的测试安全网
+- 一次只迁移一个维度（UI 或 Data 或 DI）
+- 指标回归后才能推进下一步
 
 ## Minimal Template
 ```
-目標: 
-遷移範圍: 
-測試安全網: 
-回歸指標: 
-驗收: Quick Checklist
+目标: 
+迁移范围: 
+测试安全网: 
+回归指标: 
+验收: Quick Checklist
 ```
 
 ---
@@ -113,21 +113,21 @@ fun LegacyFragmentContainer() {
 
 ### Operator Mapping
 
-| RxJava | Coroutines/Flow | 備註 |
+| RxJava | Coroutines/Flow | 备注 |
 |--------|-----------------|------|
 | `Observable` | `Flow` | Cold stream |
-| `Single` | `suspend fun` | 單值 |
-| `Completable` | `suspend fun` | 無回傳 |
-| `flatMap` | `flatMapLatest` | 取消前一個 |
-| `flatMap` | `flatMapConcat` | 依序執行 |
+| `Single` | `suspend fun` | 单值 |
+| `Completable` | `suspend fun` | 无回传 |
+| `flatMap` | `flatMapLatest` | 取消前一个 |
+| `flatMap` | `flatMapConcat` | 依序运行 |
 | `switchMap` | `flatMapLatest` | 等同 |
 | `debounce` | `debounce` | 相同 |
 | `combineLatest` | `combine` | 相同 |
 | `zip` | `zip` | 相同 |
 | `observeOn(main)` | `flowOn(Dispatchers.Main)` | 注意位置不同 |
-| `subscribeOn(io)` | `flowOn(Dispatchers.IO)` | 影響上游 |
+| `subscribeOn(io)` | `flowOn(Dispatchers.IO)` | 影响上游 |
 
-### 範例：Search with Debounce
+### 范例：Search with Debounce
 
 ```kotlin
 // Before (RxJava)
@@ -145,20 +145,20 @@ searchFlow
     .collect { results -> updateUI(results) }
 ```
 
-### Error Handling 差異
+### Error Handling 差异
 
 ```kotlin
-// RxJava: onError 終止 stream
+// RxJava: onError 终止 stream
 observable
     .onErrorReturn { defaultValue }
     .subscribe()
 
-// Flow: catch 不終止 stream
+// Flow: catch 不终止 stream
 flow
     .catch { emit(defaultValue) }
     .collect()
 
-// Flow: 重試
+// Flow: 重试
 flow
     .retry(3) { e -> e is IOException }
     .collect()
@@ -168,14 +168,14 @@ flow
 
 ## LiveData → StateFlow
 
-### 漸進式替換
+### 渐进式替换
 
 ```kotlin
-// Step 1: ViewModel 內部用 StateFlow
+// Step 1: ViewModel 内部用 StateFlow
 private val _uiState = MutableStateFlow(UiState())
 val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-// Step 2: 暴露 LiveData 給舊 UI (過渡期)
+// Step 2: 暴露 LiveData 给旧 UI (过渡期)
 val uiStateLiveData: LiveData<UiState> = uiState.asLiveData()
 
 // Step 3: 新 UI 直接 collect StateFlow
@@ -189,22 +189,22 @@ fun Screen(viewModel: MyViewModel) {
 
 ## Dagger → Hilt
 
-### 漸進式遷移
+### 渐进式迁移
 
 ```kotlin
 // 1. 保留 Dagger Component，加入 Hilt
 @HiltAndroidApp
 class MyApp : Application() {
-    // 保留舊的 Dagger component (過渡期)
+    // 保留旧的 Dagger component (过渡期)
     val legacyComponent by lazy { DaggerLegacyComponent.create() }
 }
 
-// 2. 新模組用 Hilt
+// 2. 新模块用 Hilt
 @Module
 @InstallIn(SingletonComponent::class)
 object NewModule { }
 
-// 3. 橋接舊模組
+// 3. 桥接旧模块
 @Module
 @InstallIn(SingletonComponent::class)
 object LegacyBridgeModule {
@@ -219,8 +219,8 @@ object LegacyBridgeModule {
 
 ## Quick Checklist
 
-- [ ] Compose 與 View 的生命週期對齊
-- [ ] AndroidView 正確處理 onRelease
-- [ ] Flow operator 對照 RxJava 正確
+- [ ] Compose 与 View 的生命周期对齐
+- [ ] AndroidView 正确处理 onRelease
+- [ ] Flow operator 对照 RxJava 正确
 - [ ] StateFlow 使用 collectAsStateWithLifecycle
-- [ ] Hilt 遷移維持向後相容
+- [ ] Hilt 迁移维持向后兼容

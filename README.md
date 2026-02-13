@@ -1,44 +1,44 @@
-# Android Skills 技能庫
+# Android Skills 技能库
 
-這是一個專為資深 Android 工程師設計的技能庫，涵蓋了從開發規範、架構設計到效能優化的全方位指南。
+这是一个专为资深 Android 工程师设计的技能库，涵盖了从开发规范、架构设计到性能优化的全方位指南。
 
 ## 📖 使用指南
 
-請參考 [**ANDROID_SKILLS_GUIDE.md**](./ANDROID_SKILLS_GUIDE.md) 獲取完整的詳細使用教學。該指南說明了如何在 Antigravity、Cursor、Windsurf 等各種 AI 工具中有效地使用這些技能。
+请参考 [**ANDROID_SKILLS_GUIDE.md**](./ANDROID_SKILLS_GUIDE.md) 获取完整的详细使用教学。该指南说明了如何在 Antigravity、Cursor、Windsurf 等各种 AI 工具中有效地使用这些技能。
 
 ## 🛠️ 技能列表
 
-這個技能庫包含以下 16 個專業領域的技能：
+这个技能库包含以下 16 个专业领域的技能：
 
-| 技能目錄 | 用途簡述 |
+| 技能目录 | 用途简述 |
 |---------|---------|
-| **`skill_index`** | 技能導航中心，協助選擇適合的技能組合 |
-| **`coding_style_conventions`** | Kotlin 代碼規範、Linter 配置與 Code Review 標準 |
-| **`project_bootstrapping`** | 快速建立專案架構、Gradle Convention Plugins |
-| **`ui_ux_engineering`** | Design System、Accessibility 與複雜 UI 模式 |
-| **`dependency_injection_mastery`** | Hilt 進階用法、Custom Components |
-| **`data_layer_mastery`** | Room、Retrofit、Offline-First 架構 |
-| **`navigation_patterns`** | Deep Links、跨模組導航與 Back Stack 管理 |
-| **`legacy_rapid_expansion`** | 舊專案快速擴充功能的 Islanding 策略 |
-| **`tech_stack_migration`** | 技術遷移指南 (Rx→Flow, View→Compose) |
-| **`testing_legacy_strategies`** | 遺留代碼測試策略與安全網建立 |
-| **`deep_performance_tuning`** | 效能深度優化 (Systrace, R8, Startup) |
-| **`devops_and_security`** | CI/CD 自動化與應用程式安全加固 |
-| **`crash_monitoring`** | Crashlytics 設定與 ANR 分析 |
-| **`kotlin_multiplatform`** | KMP 跨平台架構與邏輯共享 |
-| **`observability_first`** | 可觀測性優先與指標閉環 |
-| **`supply_chain_security`** | 依賴治理與供應鏈安全 |
+| **`skill_index`** | 技能导航中心，协助选择适合的技能组合 |
+| **`coding_style_conventions`** | Kotlin 代码规范、Linter 配置与 Code Review 标准 |
+| **`project_bootstrapping`** | 快速创建项目架构、Gradle Convention Plugins |
+| **`ui_ux_engineering`** | Design System、Accessibility 与复杂 UI 模式 |
+| **`dependency_injection_mastery`** | Hilt 进阶用法、Custom Components |
+| **`data_layer_mastery`** | Room、Retrofit、Offline-First 架构 |
+| **`navigation_patterns`** | Deep Links、跨模块导航与 Back Stack 管理 |
+| **`legacy_rapid_expansion`** | 旧项目快速扩充功能的 Islanding 策略 |
+| **`tech_stack_migration`** | 技术迁移指南 (Rx→Flow, View→Compose) |
+| **`testing_legacy_strategies`** | 遗留代码测试策略与安全网创建 |
+| **`deep_performance_tuning`** | 性能深度优化 (Systrace, R8, Startup) |
+| **`devops_and_security`** | CI/CD 自动化与应用程序安全加固 |
+| **`crash_monitoring`** | Crashlytics 设置与 ANR 分析 |
+| **`kotlin_multiplatform`** | KMP 跨平台架构与逻辑共享 |
+| **`observability_first`** | 可观测性优先与指标闭环 |
+| **`supply_chain_security`** | 依赖治理与供应链安全 |
 
-## 🚀 快速開始 (Antigravity)
+## 🚀 快速开始 (Antigravity)
 
-如果您正在使用 Antigravity，可以直接在對話中引用技能：
-
-```
-@coding_style_conventions 請幫我檢查這段代碼
-```
-
-或先諮詢技能索引：
+如果您正在使用 Antigravity，可以直接在对话中引用技能：
 
 ```
-@skill_index 我有一個舊專案需要重構，請推薦適合的技能
+@coding_style_conventions 请帮我检查这段代码
+```
+
+或先咨询技能索引：
+
+```
+@skill_index 我有一个旧项目需要重构，请推荐适合的技能
 ```

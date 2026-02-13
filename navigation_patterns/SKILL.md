@@ -1,42 +1,42 @@
 ---
 name: Navigation Patterns
-description: Deep Links、跨模組導航與複雜 Back Stack 管理
+description: Deep Links、跨模块导航与复杂 Back Stack 管理
 ---
 
-# Navigation Patterns (導航模式)
+# Navigation Patterns (导航模式)
 
 ## Instructions
-- 確認需求屬於導覽與 Back Stack 管理
-- 依照下方章節順序套用
-- 一次只處理一個導航面向（Deep Link、跨模組、Back Stack）
-- 完成後對照 Quick Checklist
+- 确认需求属于导览与 Back Stack 管理
+- 依照下方章节顺序套用
+- 一次只处理一个导航面向（Deep Link、跨模块、Back Stack）
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario A：新專案導航設計
-- Scenario B：舊專案擴充與導航橋接
+- Scenario A：新项目导航设计
+- Scenario B：旧项目扩充与导航桥接
 
 ## Example Prompts
-- "請參考 Type-Safe Args，更新我的 NavHost 寫法"
-- "依照 Deep Links 章節，幫我加入 App Links"
-- "請用 Multi-Module Navigation 設計跨模組導航介面"
+- "请参考 Type-Safe Args，更新我的 NavHost 写法"
+- "依照 Deep Links 章节，帮我加入 App Links"
+- "请用 Multi-Module Navigation 设计跨模块导航接口"
 
 ## Workflow
-1. 先建立 Compose Navigation 基礎路由
-2. 再加入 Deep Links 與跨模組導航
-3. 最後用 Back Stack 管理與 Quick Checklist 驗收
+1. 先创建 Compose Navigation 基础路由
+2. 再加入 Deep Links 与跨模块导航
+3. 最后用 Back Stack 管理与 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- 預設採用 type-safe args，避免字串路由散落
-- Deep Link 必須有驗證與回歸測試流程
-- Back Stack 規則統一化，避免各模組自訂邏輯
+- 默认采用 type-safe args，避免字符串路由散落
+- Deep Link 必须有验证与回归测试流程
+- Back Stack 规则统一化，避免各模块自订逻辑
 
 ## Minimal Template
 ```
-目標: 
-路由範圍: 
+目标: 
+路由范围: 
 Deep Link: 
-Back Stack 規則: 
-驗收: Quick Checklist
+Back Stack 规则: 
+验收: Quick Checklist
 ```
 
 ---
@@ -46,7 +46,7 @@ Back Stack 規則:
 ### Type-Safe Args (Navigation 2.8+)
 
 ```kotlin
-// 定義路由
+// 定义路由
 @Serializable
 data class DetailRoute(val productId: String)
 
@@ -88,7 +88,7 @@ NavHost(navController, startDestination = "main") {
 
 ## Deep Links
 
-### App Links 設定
+### App Links 设置
 
 ```xml
 <!-- AndroidManifest.xml -->
@@ -105,7 +105,7 @@ NavHost(navController, startDestination = "main") {
 </activity>
 ```
 
-### assetlinks.json (Host 驗證)
+### assetlinks.json (Host 验证)
 
 ```json
 // https://example.com/.well-known/assetlinks.json
@@ -119,7 +119,7 @@ NavHost(navController, startDestination = "main") {
 }]
 ```
 
-### Navigation 整合
+### Navigation 集成
 
 ```kotlin
 composable(
@@ -155,7 +155,7 @@ class ProductNavigatorImpl @Inject constructor(
     }
 }
 
-// 其他模組使用
+// 其他模块使用
 class HomeViewModel @Inject constructor(
     private val productNavigator: ProductNavigator
 ) {
@@ -239,6 +239,6 @@ fun MainScreen() {
 
 - [ ] 使用 Type-Safe Args (Navigation 2.8+)
 - [ ] Deep Links 配置 assetlinks.json
-- [ ] 跨模組使用 Navigator interface
-- [ ] Navigation Events 作為 Single Event 處理
-- [ ] Bottom Nav 正確保存/恢復 State
+- [ ] 跨模块使用 Navigator interface
+- [ ] Navigation Events 作为 Single Event 处理
+- [ ] Bottom Nav 正确保存/恢复 State

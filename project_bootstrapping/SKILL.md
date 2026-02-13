@@ -1,41 +1,41 @@
 ---
 name: Project Bootstrapping
-description: 快速建立專案骨架、Gradle Convention Plugins 與標準化架構
+description: 快速创建项目骨架、Gradle Convention Plugins 与标准化架构
 ---
 
-# Project Bootstrapping (專案快速建置)
+# Project Bootstrapping (项目快速建置)
 
 ## Instructions
-- 僅在新專案或新模組起步時使用
-- 依照下方章節順序建立骨架
-- 一次只處理一個子系統（插件、版本、結構）
-- 完成後對照 Quick Checklist
+- 仅在新项目或新模块起步时使用
+- 依照下方章节顺序创建骨架
+- 一次只处理一个子系统（插件、版本、结构）
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario A：從零建立新專案
+- Scenario A：从零创建新项目
 
 ## Example Prompts
-- "請依照 One-Command Setup，建立公司模板的專案骨架"
-- "依照 Gradle Convention Plugins 章節，建立 feature module 插件"
-- "請根據 Package Structure 規劃模組與套件配置"
+- "请依照 One-Command Setup，创建公司模板的项目骨架"
+- "依照 Gradle Convention Plugins 章节，创建 feature module 插件"
+- "请根据 Package Structure 规划模块与套件配置"
 
 ## Workflow
-1. 先建立 Template 與目錄結構
-2. 再落實 Convention Plugins 與 Version Catalog
-3. 最後用 Quick Checklist 驗收
+1. 先创建 Template 与目录结构
+2. 再落实 Convention Plugins 与 Version Catalog
+3. 最后用 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- 預設建立 CI Gate：lint、detekt、unit test、assemble
-- 新專案先建立 Baseline Profile 量測框架
-- Version Catalog 作為單一依賴來源
+- 默认创建 CI Gate：lint、detekt、unit test、assemble
+- 新项目先创建 Baseline Profile 量测框架
+- Version Catalog 作为单一依赖来源
 
 ## Minimal Template
 ```
-目標: 
-模組範圍: 
+目标: 
+模块范围: 
 Convention Plugins: 
 CI Gate: 
-驗收: Quick Checklist
+验收: Quick Checklist
 ```
 
 ---
@@ -44,7 +44,7 @@ CI Gate:
 
 ### GitHub Template Repository
 
-建立公司內部的 Template Repository，包含：
+创建公司内部的 Template Repository，包含：
 
 ```
 my-company-android-template/
@@ -78,7 +78,7 @@ gh repo create my-new-app --template my-company/android-template
 
 ## Gradle Convention Plugins
 
-### 目錄結構
+### 目录结构
 
 ```
 build-logic/
@@ -177,7 +177,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 com.example.app/
 ├── core/
 │   ├── common/          # 共用工具 (Extensions, Utils)
-│   ├── data/            # Repository 實作
+│   ├── data/            # Repository 实作
 │   ├── domain/          # UseCase, Entity
 │   ├── network/         # Retrofit, API
 │   └── ui/              # Design System, Theme
@@ -194,14 +194,14 @@ com.example.app/
 
 ## Quick Checklist
 
-### 新專案建立
+### 新项目创建
 - [ ] 使用 Template Repository
-- [ ] Convention Plugins 設定完成
+- [ ] Convention Plugins 设置完成
 - [ ] Version Catalog 配置
-- [ ] Detekt/Ktlint 整合
-- [ ] CI/CD 基礎 Pipeline
+- [ ] Detekt/Ktlint 集成
+- [ ] CI/CD 基础 Pipeline
 
-### 新模組建立
-- [ ] 使用正確的 Convention Plugin
+### 新模块创建
+- [ ] 使用正确的 Convention Plugin
 - [ ] 遵循 Package Structure
 - [ ] 加入 Navigation Graph (如需要)

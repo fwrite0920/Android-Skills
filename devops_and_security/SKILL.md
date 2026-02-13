@@ -1,41 +1,41 @@
 ---
 name: DevOps and Security
-description: CI/CD 自動化、Gradle 優化與應用程式安全加固
+description: CI/CD 自动化、Gradle 优化与应用程序安全加固
 ---
 
-# DevOps and Security (DevOps 與資安)
+# DevOps and Security (DevOps 与资安)
 
 ## Instructions
-- 僅在發布準備或流程自動化需求時使用
-- 依照下方章節順序套用
-- 一次只處理一個 pipeline 或安全措施
-- 完成後對照 Quick Checklist
+- 仅在发布准备或流程自动化需求时使用
+- 依照下方章节顺序套用
+- 一次只处理一个 pipeline 或安全措施
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario E：App 發布準備
+- Scenario E：App 发布准备
 
 ## Example Prompts
-- "請依照 Build Speed Optimization，調整 Gradle 設定"
-- "用 CI Quality Gates 章節建立 GitHub Actions"
-- "請參考 Security Hardening，檢查 secrets 與網路安全"
+- "请依照 Build Speed Optimization，调整 Gradle 设置"
+- "用 CI Quality Gates 章节创建 GitHub Actions"
+- "请参考 Security Hardening，检查 secrets 与网络安全"
 
 ## Workflow
-1. 先建立 Build Speed 與 CI Quality Gates
-2. 再導入 Fastlane 與 Security Hardening
-3. 最後用 Quick Checklist 驗收
+1. 先创建 Build Speed 与 CI Quality Gates
+2. 再导入 Fastlane 与 Security Hardening
+3. 最后用 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- 依賴來源與版本必有審核與鎖定策略
-- Secrets 僅能透過環境變數或安全儲存
+- 依赖来源与版本必有审核与锁定策略
+- Secrets 仅能通过环境变量或安全保存
 - CI Gate 必含 Lint/Detekt/Test/Build
 
 ## Minimal Template
 ```
-目標: 
+目标: 
 CI Gate: 
 安全措施: 
-發版流程: 
-驗收: Quick Checklist
+发版流程: 
+验收: Quick Checklist
 ```
 
 ---
@@ -60,7 +60,7 @@ buildCache {
         removeUnusedEntriesAfterDays = 7
     }
     
-    // 企業級：Remote cache
+    // 企业级：Remote cache
     remote<HttpBuildCache> {
         url = uri("https://cache.example.com/")
         isPush = System.getenv("CI") != null
@@ -81,7 +81,7 @@ org.gradle.jvmargs=-Xmx4g -XX:+HeapDumpOnOutOfMemoryError
 
 ## CI Quality Gates
 
-### GitHub Actions 範例
+### GitHub Actions 范例
 
 ```yaml
 name: Android CI
@@ -241,9 +241,9 @@ class RootDetection {
 
 ## Quick Checklist
 
-- [ ] Build Cache 啟用 (Local + Remote)
+- [ ] Build Cache 激活 (Local + Remote)
 - [ ] CI 包含 Lint, Detekt, Unit Test
-- [ ] Fastlane 自動化部署
-- [ ] Secrets 不進版控
-- [ ] Certificate Pinning 啟用
+- [ ] Fastlane 自动化部署
+- [ ] Secrets 不进版控
+- [ ] Certificate Pinning 激活
 - [ ] Network Security Config 禁止 Cleartext

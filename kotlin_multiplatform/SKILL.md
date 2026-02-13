@@ -1,48 +1,48 @@
 ---
 name: Kotlin Multiplatform
-description: KMP 跨平台架構、共享邏輯與平台整合
+description: KMP 跨平台架构、共享逻辑与平台集成
 ---
 
 # Kotlin Multiplatform (KMP 跨平台)
 
 ## Instructions
-- 僅在需要跨平台共享邏輯時使用
-- 依照下方章節順序套用
-- 一次只擴充一個共享模組或平台端整合
-- 完成後對照 Quick Checklist
+- 仅在需要跨平台共享逻辑时使用
+- 依照下方章节顺序套用
+- 一次只扩充一个共享模块或平台端集成
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario F：跨平台共享邏輯
+- Scenario F：跨平台共享逻辑
 
 ## Example Prompts
-- "請依照 Architecture Decision，界定可共享與不可共享範圍"
-- "用 Project Setup 章節建立 shared 模組"
-- "請參考 Ktor Client 與 SQLDelight，規劃跨平台資料層"
+- "请依照 Architecture Decision，界定可共享与不可共享范围"
+- "用 Project Setup 章节创建 shared 模块"
+- "请参考 Ktor Client 与 SQLDelight，规划跨平台数据层"
 
 ## Workflow
-1. 先定義共享邊界與專案結構
-2. 再落實 Network/Database 的 expect/actual
-3. 最後用 Testing Shared Code 與 Quick Checklist 驗收
+1. 先定义共享边界与项目结构
+2. 再落实 Network/Database 的 expect/actual
+3. 最后用 Testing Shared Code 与 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- 共享邏輯必限制在 Domain/Data，避免 UI 共享
-- commonTest 必覆蓋核心業務流程
-- 平台特性變更需回寫到共享邊界文件
+- 共享逻辑必限制在 Domain/Data，避免 UI 共享
+- commonTest 必覆盖内核业务流程
+- 平台特性变更需回写到共享边界文档
 
 ## Minimal Template
 ```
-目標: 
-共享邊界: 
-平台差異: 
-測試策略: 
-驗收: Quick Checklist
+目标: 
+共享边界: 
+平台差异: 
+测试策略: 
+验收: Quick Checklist
 ```
 
 ---
 
 ## Architecture Decision
 
-### 共享邊界定義
+### 共享边界定义
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -61,7 +61,7 @@ description: KMP 跨平台架構、共享邏輯與平台整合
 └─────────────────┘  └─────────────────┘  └─────────────────┘
 ```
 
-### 不共享的內容
+### 不共享的内容
 
 - UI Layer (Compose / SwiftUI)
 - Platform-specific APIs (Notifications, Sensors)
@@ -71,7 +71,7 @@ description: KMP 跨平台架構、共享邏輯與平台整合
 
 ## Project Setup
 
-### 目錄結構
+### 目录结构
 
 ```
 my-kmp-project/
@@ -168,7 +168,7 @@ actual fun createHttpClient(): HttpClient = HttpClient(Darwin) {
 
 ## SQLDelight (跨平台 Database)
 
-### 設定
+### 设置
 
 ```kotlin
 // build.gradle.kts
@@ -253,8 +253,8 @@ class UserRepositoryTest {
 
 ## Quick Checklist
 
-- [ ] 共享邊界明確 (Domain + Data)
+- [ ] 共享边界明确 (Domain + Data)
 - [ ] UI 保持平台原生
 - [ ] Ktor Client 配置 expect/actual
 - [ ] SQLDelight 取代 Room (跨平台)
-- [ ] commonTest 測試共享邏輯
+- [ ] commonTest 测试共享逻辑

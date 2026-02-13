@@ -1,14 +1,14 @@
-# Android Skills 完整使用教學
+# Android Skills 完整使用教学
 
-這份指南詳細說明如何在各種 AI 工具中使用這 16 個 Android 技能。
+这份指南详细说明如何在各种 AI 工具中使用这 16 个 Android 技能。
 
 ---
 
-## 📚 目錄
+## 📚 目录
 
-1. [Skills 總覽](#skills-總覽)
-2. [通用使用原則](#通用使用原則)
-3. [各 AI 工具詳細教學](#各-ai-工具詳細教學)
+1. [Skills 总览](#skills-总览)
+2. [通用使用原则](#通用使用原则)
+3. [各 AI 工具详细教学](#各-ai-工具详细教学)
    - [Antigravity (Gemini CLI/VS Code)](#a-antigravity)
    - [Cursor](#b-cursor)
    - [Windsurf](#c-windsurf)
@@ -29,87 +29,87 @@
    - [Fabric](#r-fabric)
    - [Ollama + Open WebUI](#s-ollama--open-webui)
    - [OpenCode CLI (opencode.ai)](#t-opencode-cli-opencodeai)
-4. [場景導向完整範例](#場景導向完整範例)
-5. [進階整合技巧](#進階整合技巧)
-6. [常見問題](#常見問題)
+4. [场景导向完整范例](#场景导向完整范例)
+5. [进阶集成技巧](#进阶集成技巧)
+6. [常见问题](#常见问题)
 
 ---
 
-## Skills 總覽
+## Skills 总览
 
-| # | Skill 名稱 | 用途簡述 | 檔案路徑 |
+| # | Skill 名称 | 用途简述 | 文件路径 |
 |---|-----------|---------|---------|
-| 1 | `skill_index` | 技能導航中心 | `skill_index/SKILL.md` |
-| 2 | `coding_style_conventions` | 代碼規範、Detekt/Ktlint | `coding_style_conventions/SKILL.md` |
-| 3 | `project_bootstrapping` | 專案快速建置、Convention Plugins | `project_bootstrapping/SKILL.md` |
+| 1 | `skill_index` | 技能导航中心 | `skill_index/SKILL.md` |
+| 2 | `coding_style_conventions` | 代码规范、Detekt/Ktlint | `coding_style_conventions/SKILL.md` |
+| 3 | `project_bootstrapping` | 项目快速建置、Convention Plugins | `project_bootstrapping/SKILL.md` |
 | 4 | `ui_ux_engineering` | Design System、Accessibility | `ui_ux_engineering/SKILL.md` |
-| 5 | `dependency_injection_mastery` | Hilt 進階、Multibinding | `dependency_injection_mastery/SKILL.md` |
+| 5 | `dependency_injection_mastery` | Hilt 进阶、Multibinding | `dependency_injection_mastery/SKILL.md` |
 | 6 | `data_layer_mastery` | Room、Retrofit、Offline-First | `data_layer_mastery/SKILL.md` |
-| 7 | `navigation_patterns` | Deep Links、跨模組導航 | `navigation_patterns/SKILL.md` |
-| 8 | `legacy_rapid_expansion` | 舊專案快速擴充、Islanding | `legacy_rapid_expansion/SKILL.md` |
+| 7 | `navigation_patterns` | Deep Links、跨模块导航 | `navigation_patterns/SKILL.md` |
+| 8 | `legacy_rapid_expansion` | 旧项目快速扩充、Islanding | `legacy_rapid_expansion/SKILL.md` |
 | 9 | `tech_stack_migration` | Rx→Flow、View→Compose | `tech_stack_migration/SKILL.md` |
-| 10 | `testing_legacy_strategies` | 遺留代碼測試策略 | `testing_legacy_strategies/SKILL.md` |
-| 11 | `deep_performance_tuning` | 效能深度優化 | `deep_performance_tuning/SKILL.md` |
+| 10 | `testing_legacy_strategies` | 遗留代码测试策略 | `testing_legacy_strategies/SKILL.md` |
+| 11 | `deep_performance_tuning` | 性能深度优化 | `deep_performance_tuning/SKILL.md` |
 | 12 | `devops_and_security` | CI/CD、安全加固 | `devops_and_security/SKILL.md` |
 | 13 | `crash_monitoring` | Crashlytics、ANR 分析 | `crash_monitoring/SKILL.md` |
-| 14 | `kotlin_multiplatform` | KMP 跨平台架構 | `kotlin_multiplatform/SKILL.md` |
-| 15 | `observability_first` | 可觀測性優先與指標閉環 | `observability_first/SKILL.md` |
-| 16 | `supply_chain_security` | 依賴治理與供應鏈安全 | `supply_chain_security/SKILL.md` |
+| 14 | `kotlin_multiplatform` | KMP 跨平台架构 | `kotlin_multiplatform/SKILL.md` |
+| 15 | `observability_first` | 可观测性优先与指标闭环 | `observability_first/SKILL.md` |
+| 16 | `supply_chain_security` | 依赖治理与供应链安全 | `supply_chain_security/SKILL.md` |
 
 ---
 
-## 通用使用原則
+## 通用使用原则
 
-### 原則 1：Context 管理 (不浪費 Token)
+### 原则 1：Context 管理 (不浪费 Token)
 
 ```
-❌ 錯誤做法：把 16 個檔案全部丟給 AI
-   → Token 浪費、AI 注意力分散、回應品質下降
+❌ 错误做法：把 16 个文件全部丢给 AI
+   → Token 浪费、AI 注意力分散、回应品质下降
 
-✅ 正確做法：根據任務只載入 2-3 個相關技能
-   → Token 節省、AI 專注、回應精準
+✅ 正确做法：根据任务只加载 2-3 个相关技能
+   → Token 节省、AI 专注、回应精准
 ```
 
-### 原則 2：使用場景路由 (Scenario Router)
+### 原则 2：使用场景路由 (Scenario Router)
 
-先參考 `skill_index/SKILL.md` 選擇技能組合：
+先参考 `skill_index/SKILL.md` 选择技能组合：
 
-| 場景 | 描述 | 建議載入的技能 |
+| 场景 | 描述 | 建议加载的技能 |
 |------|------|--------------|
-| A | 從零建立新專案 | `project_bootstrapping` + `coding_style_conventions` + `ui_ux_engineering` |
-| B | 舊專案加新功能 | `legacy_rapid_expansion` + `navigation_patterns` |
-| C | 舊專案全面現代化 | `testing_legacy_strategies` + `tech_stack_migration` |
-| D | 效能問題排查 | `deep_performance_tuning` + `crash_monitoring` |
-| E | App 發布準備 | `devops_and_security` + `deep_performance_tuning` |
-| F | 跨平台共享邏輯 | `kotlin_multiplatform` + `data_layer_mastery` |
+| A | 从零创建新项目 | `project_bootstrapping` + `coding_style_conventions` + `ui_ux_engineering` |
+| B | 旧项目加新功能 | `legacy_rapid_expansion` + `navigation_patterns` |
+| C | 旧项目全面现代化 | `testing_legacy_strategies` + `tech_stack_migration` |
+| D | 性能问题排查 | `deep_performance_tuning` + `crash_monitoring` |
+| E | App 发布准备 | `devops_and_security` + `deep_performance_tuning` |
+| F | 跨平台共享逻辑 | `kotlin_multiplatform` + `data_layer_mastery` |
 | G | AI-assisted CI / Quality Gates | `coding_style_conventions` + `devops_and_security` |
 | H | Performance-by-default | `deep_performance_tuning` + `project_bootstrapping` |
 | I | Observability-first | `observability_first` + `crash_monitoring` |
 | J | Supply Chain Security | `supply_chain_security` + `devops_and_security` |
 | K | Compose-first + Interop | `tech_stack_migration` + `ui_ux_engineering` |
-| L | 多模組治理 | `project_bootstrapping` + `dependency_injection_mastery` |
+| L | 多模块治理 | `project_bootstrapping` + `dependency_injection_mastery` |
 
-### 原則 3：明確引用章節
+### 原则 3：明确引用章节
 
 ```
 ❌ 模糊指令：
-   「幫我優化這段代碼」
+   「帮我优化这段代码」
 
-✅ 明確指令：
-   「請參考 @ui_ux_engineering 中的【Accessibility】章節，
-    檢查這個按鈕的 contentDescription 和觸控目標大小」
+✅ 明确指令：
+   「请参考 @ui_ux_engineering 中的【Accessibility】章节，
+    检查这个按钮的 contentDescription 和触摸目标大小」
 ```
 
-### 原則 4：強制 Checklist 驗收
+### 原则 4：强制 Checklist 验收
 
 ```
-「任務完成後，請逐一對照 @coding_style_conventions 中的 Quick Checklist，
- 確認每一項都符合規範」
+「任务完成后，请逐一对照 @coding_style_conventions 中的 Quick Checklist，
+ 确认每一项都符合规范」
 ```
 
 ---
 
-## 各 AI 工具詳細教學
+## 各 AI 工具详细教学
 
 ---
 
@@ -117,16 +117,16 @@
 
 **契合度：⭐⭐⭐⭐⭐ (高)**
 
-**注意**：Antigravity 官方來源尚未確認，以下為目前可用資訊整理；若有官方連結請提供以便更新。
+**注意**：Antigravity 官方来源尚未确认，以下为目前可用信息整理；若有官方链接请提供以便更新。
 
-#### 安裝方式
+#### 安装方式
 
 ```bash
-# CLI 安裝
+# CLI 安装
 npm install -g @anthropic-ai/antigravity
 
 # VS Code Extension
-# 在 Extensions 中搜尋 "Antigravity" 並安裝
+# 在 Extensions 中搜索 "Antigravity" 并安装
 ```
 
 #### 技能存放位置
@@ -136,69 +136,69 @@ npm install -g @anthropic-ai/antigravity
 ├── skill_index/SKILL.md
 ├── coding_style_conventions/SKILL.md
 ├── project_bootstrapping/SKILL.md
-└── ... (共 16 個)
+└── ... (共 16 个)
 ```
 
-#### 使用方式 1：自動識別
+#### 使用方式 1：自动识别
 
-Antigravity 會自動掃描 `~/.gemini/antigravity/skills/` 目錄下的技能。
-在對話中直接提到技能名稱即可：
-
-```
-請根據 coding_style_conventions 技能，檢查這個檔案的命名規範
-```
-
-#### 使用方式 2：使用 `@` 符號引用
+Antigravity 会自动扫描 `~/.gemini/antigravity/skills/` 目录下的技能。
+在对话中直接提到技能名称即可：
 
 ```
-@coding_style_conventions 請幫我檢查目前開啟的檔案
+请根据 coding_style_conventions 技能，检查这个文件的命名规范
+```
 
-# 組合多個技能
-請同時參考：
+#### 使用方式 2：使用 `@` 符号引用
+
+```
+@coding_style_conventions 请帮我检查目前打开的文件
+
+# 组合多个技能
+请同时参考：
 @coding_style_conventions
 @dependency_injection_mastery
 
-幫我建立一個 UserRepository
+帮我创建一个 UserRepository
 ```
 
-#### 使用方式 3：引用技能與程式碼
+#### 使用方式 3：引用技能与代码
 
 ```
-請對照 @data_layer_mastery 的 Offline-First 架構，
-檢視目前開啟的 UserRepository.kt 是否符合規範
+请对照 @data_layer_mastery 的 Offline-First 架构，
+查看目前打开的 UserRepository.kt 是否符合规范
 ```
 
-#### 使用方式 4：場景導向
+#### 使用方式 4：场景导向
 
 ```
-# 先諮詢 skill_index
-@skill_index 我要進行舊專案現代化，請推薦適合的技能組合
+# 先咨询 skill_index
+@skill_index 我要进行旧项目现代化，请推荐适合的技能组合
 
-# AI 會推薦：
+# AI 会推荐：
 # - testing_legacy_strategies
 # - tech_stack_migration
 # - coding_style_conventions
 
-# 然後引用推薦的技能
+# 然后引用推荐的技能
 @testing_legacy_strategies @tech_stack_migration 
-請按照這兩份技能的指南，幫我重構 PaymentManager
+请按照这两份技能的指南，帮我重构 PaymentManager
 ```
 
-#### 進階：Planning Mode
+#### 进阶：Planning Mode
 
-Antigravity 支援 Planning Mode，適合複雜任務：
+Antigravity 支持 Planning Mode，适合复杂任务：
 
 ```
-# 開啟 Planning Mode (在 VS Code 中)
-# 使用 task.md 追蹤進度
+# 打开 Planning Mode (在 VS Code 中)
+# 使用 task.md 追踪进度
 
-請根據 @project_bootstrapping 建立一個完整的專案架構，
-使用 Planning Mode 先規劃再執行
+请根据 @project_bootstrapping 创建一个完整的项目架构，
+使用 Planning Mode 先规划再运行
 ```
 
-#### 進階：使用 Workflows
+#### 进阶：使用 Workflows
 
-可以將常用流程存為 Workflow：
+可以将常用流程存为 Workflow：
 
 ```markdown
 <!-- .agent/workflows/android-review.md -->
@@ -206,11 +206,11 @@ Antigravity 支援 Planning Mode，適合複雜任務：
 description: Android Code Review 流程
 ---
 
-1. 讀取 @coding_style_conventions 技能
-2. 檢查命名規範
-3. 檢查 Compose 相關規範
-4. 對照 Quick Checklist
-5. 生成報告
+1. 读取 @coding_style_conventions 技能
+2. 检查命名规范
+3. 检查 Compose 相关规范
+4. 对照 Quick Checklist
+5. 生成报告
 ```
 
 使用：
@@ -218,12 +218,12 @@ description: Android Code Review 流程
 /android-review
 ```
 
-#### 最佳實踐
+#### 最佳实践
 
-1. **技能已內建**：這些技能放在 `~/.gemini/antigravity/skills/`，Antigravity 會自動識別
-2. **使用場景路由**：先 `@skill_index` 獲取建議
-3. **組合使用**：同時引用 2-3 個相關技能
-4. **Checklist 驗收**：任務結束前要求使用 Quick Checklist
+1. **技能已内置**：这些技能放在 `~/.gemini/antigravity/skills/`，Antigravity 会自动识别
+2. **使用场景路由**：先 `@skill_index` 获取建议
+3. **组合使用**：同时引用 2-3 个相关技能
+4. **Checklist 验收**：任务结束前要求使用 Quick Checklist
 
 ---
 
@@ -231,75 +231,75 @@ description: Android Code Review 流程
 
 **契合度：⭐⭐⭐⭐⭐ (完美)**
 
-官方文件：
+官方文档：
 - https://geminicli.com/docs/
 - https://github.com/google-gemini/gemini-cli
 
-Cursor 是目前最適合使用這些技能的工具之一。
+Cursor 是目前最适合使用这些技能的工具之一。
 
-官方下載與文件：
-- 下載：https://cursor.com/downloads
-- 文件：https://cursor.com/docs
+官方下载与文档：
+- 下载：https://cursor.com/downloads
+- 文档：https://cursor.com/docs
 
-#### 環境設定
+#### 环境设置
 
-1. **開啟 Cursor Settings** (`Ctrl/Cmd + ,`)
-2. **進入 Features > Rules**
-3. **新增 Project Rules**（可選）
+1. **打开 Cursor Settings** (`Ctrl/Cmd + ,`)
+2. **进入 Features > Rules**
+3. **添加 Project Rules**（可选）
 
-#### 方法 1：使用 `@` 符號直接引用
+#### 方法 1：使用 `@` 符号直接引用
 
 ```
-# 在 Chat 中輸入
+# 在 Chat 中输入
 @coding_style_conventions
 
-# 然後輸入指令
-請依照這份規範，檢查目前開啟的檔案
+# 然后输入指令
+请依照这份规范，检查目前打开的文件
 ```
 
-#### 方法 2：引用多個技能
+#### 方法 2：引用多个技能
 
 ```
-請同時參考以下規範：
+请同时参考以下规范：
 @coding_style_conventions
 @dependency_injection_mastery
 
-幫我建立一個符合規範的 UserRepository，使用 Hilt 注入
+帮我创建一个符合规范的 UserRepository，使用 Hilt 注入
 ```
 
-#### 方法 3：同時引用技能與程式碼
+#### 方法 3：同时引用技能与代码
 
 ```
-請對照 @data_layer_mastery 的 Offline-First 架構，
-檢視 @src/main/kotlin/data/UserRepository.kt 是否符合規範，
-並列出需要修改的地方
+请对照 @data_layer_mastery 的 Offline-First 架构，
+查看 @src/main/kotlin/data/UserRepository.kt 是否符合规范，
+并列出需要修改的地方
 ```
 
-#### 方法 4：使用 Cursor Rules (自動套用)
+#### 方法 4：使用 Cursor Rules (自动套用)
 
-在專案根目錄建立 `.cursor/rules/android.mdc`：
+在项目根目录创建 `.cursor/rules/android.mdc`：
 
 ```markdown
 ---
-description: Android 開發規範
+description: Android 开发规范
 globs: ["**/*.kt", "**/*.kts"]
 ---
 
-這是 Android 專案，請遵循以下規範：
+这是 Android 项目，请遵循以下规范：
 
-1. 命名規則：參考 @coding_style_conventions
-2. 架構設計：參考 @dependency_injection_mastery
-3. UI 開發：參考 @ui_ux_engineering
+1. 命名规则：参考 @coding_style_conventions
+2. 架构设计：参考 @dependency_injection_mastery
+3. UI 开发：参考 @ui_ux_engineering
 ```
 
 #### Cursor Composer 模式
 
 ```
-# 適合大規模重構
+# 适合大规模重构
 /composer
 
-請根據 @project_bootstrapping 的架構，
-幫我將這個 monolithic app 拆分成以下模組：
+请根据 @project_bootstrapping 的架构，
+帮我将这个 monolithic app 拆分成以下模块：
 - :core:common
 - :core:data
 - :core:ui
@@ -313,33 +313,33 @@ globs: ["**/*.kt", "**/*.kts"]
 
 **契合度：⭐⭐⭐⭐⭐ (完美)**
 
-Windsurf 的 Cascade 功能非常適合多步驟任務。
+Windsurf 的 Cascade 功能非常适合多步骤任务。
 
-官方下載與文件：
-- 下載：https://windsurf.com/download/editor
-- 入門：https://docs.windsurf.com/windsurf/getting-started.md
+官方下载与文档：
+- 下载：https://windsurf.com/download/editor
+- 入门：https://docs.windsurf.com/windsurf/getting-started.md
 
-補充：若使用外掛版，官方註記維護模式，優先使用 Windsurf Editor 或官方 JetBrains 外掛。
+补充：若使用插件版，官方注记维护模式，优先使用 Windsurf Editor 或官方 JetBrains 插件。
 
 #### 基本使用
 
 ```
-# 開啟 Cascade (Cmd/Ctrl + L)
+# 打开 Cascade (Cmd/Ctrl + L)
 
-@skill_index 我要進行舊專案現代化，請告訴我步驟
+@skill_index 我要进行旧项目现代化，请告诉我步骤
 
-# Cascade 會自動規劃多步驟任務
+# Cascade 会自动规划多步骤任务
 ```
 
-#### 引用技能進行任務
+#### 引用技能进行任务
 
 ```
-請根據 @testing_legacy_strategies：
+请根据 @testing_legacy_strategies：
 
 1. 分析 @src/main/kotlin/legacy/PaymentManager.kt
-2. 列出所有公開方法
-3. 為每個方法生成 Characterization Test
-4. 將測試檔案放在對應的 test 目錄
+2. 列出所有公开方法
+3. 为每个方法生成 Characterization Test
+4. 将测试文件放在对应的 test 目录
 ```
 
 #### 使用 Windsurf Rules
@@ -349,13 +349,13 @@ Windsurf 的 Cascade 功能非常適合多步驟任務。
 ```markdown
 # Android Project Rules
 
-當處理 Kotlin 檔案時：
-- 遵循 coding_style_conventions 中的命名規則
-- Compose 函數使用 PascalCase
+当处理 Kotlin 文件时：
+- 遵循 coding_style_conventions 中的命名规则
+- Compose 函数使用 PascalCase
 - ViewModel 使用 Hilt 注入
 
-當建立新模組時：
-- 參考 project_bootstrapping 的 Package Structure
+当创建新模块时：
+- 参考 project_bootstrapping 的 Package Structure
 - 使用 Convention Plugins
 ```
 
@@ -365,36 +365,36 @@ Windsurf 的 Cascade 功能非常適合多步驟任務。
 
 **契合度：⭐⭐⭐⭐⭐ (完美)**
 
-VS Code Extension，支援多種 AI Provider。
+VS Code Extension，支持多种 AI Provider。
 
-官方文件與安裝：
-- 文件：https://docs.roocode.com
-- 安裝：https://docs.roocode.com/getting-started/installing
+官方文档与安装：
+- 文档：https://docs.roocode.com
+- 安装：https://docs.roocode.com/getting-started/installing
 
-VS Code 擴充套件 ID：`RooVeterinaryInc.roo-cline`（官方名稱為 Roo Code）
+VS Code 扩展 ID：`RooVeterinaryInc.roo-cline`（官方名称为 Roo Code）
 
-#### 安裝
+#### 安装
 
-1. VS Code Extensions 搜尋 "Roo Code"
-2. 安裝並設定 API Key
+1. VS Code Extensions 搜索 "Roo Code"
+2. 安装并设置 API Key
 
 #### 使用方式
 
 ```
-# 開啟 Roo Code Panel (Ctrl + Shift + P > Roo Code)
+# 打开 Roo Code Panel (Ctrl + Shift + P > Roo Code)
 
 # 引用技能
-請參考 @~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md
+请参考 @~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md
 
-幫我重構這個檔案
+帮我重构这个文件
 ```
 
 #### 使用 Custom Instructions
 
-在 Roo Code 設定中加入：
+在 Roo Code 设置中加入：
 
 ```
-當處理 Android/Kotlin 代碼時，請參考以下技能檔案：
+当处理 Android/Kotlin 代码时，请参考以下技能文件：
 - ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md
 - ~/.gemini/antigravity/skills/ui_ux_engineering/SKILL.md
 ```
@@ -405,33 +405,33 @@ VS Code 擴充套件 ID：`RooVeterinaryInc.roo-cline`（官方名稱為 Roo Cod
 
 **契合度：⭐⭐⭐⭐⭐ (完美)**
 
-VS Code Extension，支援自主執行任務。
+VS Code Extension，支持自主运行任务。
 
-支援：VS Code、Cursor、JetBrains、VSCodium、Windsurf
+支持：VS Code、Cursor、JetBrains、VSCodium、Windsurf
 
-官方文件與安裝：
-- 文件：https://docs.cline.bot
-- 安裝：https://docs.cline.bot/getting-started/installing-cline
+官方文档与安装：
+- 文档：https://docs.cline.bot
+- 安装：https://docs.cline.bot/getting-started/installing-cline
 
-安裝後需登入：https://app.cline.bot
+安装后需登录：https://app.cline.bot
 
-#### 安裝
+#### 安装
 
-1. VS Code Extensions 搜尋 "Cline"
-2. 設定 API Key (支援 Claude, OpenAI, Gemini 等)
+1. VS Code Extensions 搜索 "Cline"
+2. 设置 API Key (支持 Claude, OpenAI, Gemini 等)
 
 #### 使用方式
 
 ```
-# 開啟 Cline (Ctrl + Shift + P > Cline: Open)
+# 打开 Cline (Ctrl + Shift + P > Cline: Open)
 
-請讀取 ~/.gemini/antigravity/skills/project_bootstrapping/SKILL.md
-然後根據內容，在當前目錄建立一個新的 Android 模組骨架
+请读取 ~/.gemini/antigravity/skills/project_bootstrapping/SKILL.md
+然后根据内容，在当前目录创建一个新的 Android 模块骨架
 ```
 
 #### 使用 .clinerules
 
-在專案根目錄建立 `.clinerules`：
+在项目根目录创建 `.clinerules`：
 
 ```
 # Android Development Rules
@@ -450,16 +450,16 @@ Always run Quick Checklist before completing a task.
 
 **契合度：⭐⭐⭐⭐⭐ (高效)**
 
-Terminal 愛好者的首選，功能強大。
+Terminal 爱好者的首选，功能强大。
 
-官方文件：
-- 安裝：https://aider.chat/docs/install.html
+官方文档：
+- 安装：https://aider.chat/docs/install.html
 - 使用：https://aider.chat/docs/usage.html
 
-#### 安裝
+#### 安装
 
 ```bash
-# 官方推薦（aider-install）
+# 官方推荐（aider-install）
 python -m pip install aider-install
 aider-install
 
@@ -467,12 +467,12 @@ aider-install
 pipx install aider-chat
 ```
 
-#### 設定環境變數
+#### 设置环境变量
 
 ```bash
 # ~/.bashrc 或 ~/.zshrc
 
-# Claude (推薦)
+# Claude (推荐)
 export ANTHROPIC_API_KEY="your-key"
 
 # OpenAI
@@ -482,13 +482,13 @@ export OPENAI_API_KEY="your-key"
 export GEMINI_API_KEY="your-key"
 ```
 
-#### 啟動方式
+#### 启动方式
 
 ```bash
-# 使用 Claude Sonnet (推薦，平衡性能與成本)
+# 使用 Claude Sonnet (推荐，平衡性能与成本)
 aider --model claude-3-5-sonnet-20241022
 
-# 使用 Claude Opus (最強，成本高)
+# 使用 Claude Opus (最强，成本高)
 aider --model claude-3-opus-20240229
 
 # 使用 GPT-4 Turbo
@@ -507,112 +507,112 @@ aider --model deepseek/deepseek-chat
 #### 基本操作流程
 
 ```bash
-# Step 1: 啟動 aider
+# Step 1: 启动 aider
 aider --model claude-3-5-sonnet-20241022
 
-# Step 2: 加入技能檔案到 Context (唯讀)
+# Step 2: 加入技能文件到 Context (唯读)
 /read ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md
 
-# Step 3: 加入要修改的程式碼 (可寫)
+# Step 3: 加入要修改的代码 (可写)
 /add app/src/main/kotlin/data/UserRepository.kt
 
-# Step 4: 下達指令
-請依照 coding_style_conventions 的規範重構 UserRepository，
-特別注意命名規則和 Compose 相關的命名
+# Step 4: 下达指令
+请依照 coding_style_conventions 的规范重构 UserRepository，
+特别注意命名规则和 Compose 相关的命名
 ```
 
 #### 重要指令大全
 
 ```bash
-# 檔案管理
-/add <file>          # 加入可編輯的檔案
-/read <file>         # 加入唯讀檔案 (適合技能)
-/drop <file>         # 移除檔案
-/ls                  # 列出目前載入的檔案
+# 文件管理
+/add <file>          # 加入可编辑的文件
+/read <file>         # 加入唯读文件 (适合技能)
+/drop <file>         # 移除文件
+/ls                  # 列出目前加载的文件
 
-# 模式切換
-/architect           # 切換 Architect 模式 (先規劃再執行)
-/code                # 切換回 Code 模式
+# 模式切换
+/architect           # 切换 Architect 模式 (先规划再运行)
+/code                # 切换回 Code 模式
 
-# 執行控制
-/undo                # 撤銷上一次修改
-/diff                # 顯示差異
-/commit              # 提交變更
-/clear               # 清除對話
+# 运行控制
+/undo                # 撤销上一次修改
+/diff                # 显示差异
+/commit              # 提交变更
+/clear               # 清除对话
 
-# 設定
-/model <name>        # 切換模型
-/tokens              # 顯示 Token 使用量
+# 设置
+/model <name>        # 切换模型
+/tokens              # 显示 Token 使用量
 ```
 
-#### 進階：場景 C 完整流程
+#### 进阶：场景 C 完整流程
 
 ```bash
-# Step 1: 啟動並載入技能
+# Step 1: 启动并加载技能
 aider --model claude-3-5-sonnet-20241022 \
   --read ~/.gemini/antigravity/skills/testing_legacy_strategies/SKILL.md \
   --read ~/.gemini/antigravity/skills/tech_stack_migration/SKILL.md
 
-# Step 2: 加入目標檔案
+# Step 2: 加入目标文件
 /add app/src/main/kotlin/legacy/PaymentManager.kt
 /add app/src/test/kotlin/legacy/PaymentManagerTest.kt
 
-# Step 3: 建立 Characterization Tests
+# Step 3: 创建 Characterization Tests
 依照 testing_legacy_strategies 的指南，
-為 PaymentManager 的所有公開方法建立 Characterization Tests
+为 PaymentManager 的所有公开方法创建 Characterization Tests
 
-# Step 4: 執行測試確認
+# Step 4: 运行测试确认
 /run ./gradlew test --tests "PaymentManagerTest"
 
-# Step 5: 進行遷移
-測試全部通過了。
-現在依照 tech_stack_migration 的 RxJava → Flow 對照表，
-將 PaymentManager 中的 Observable 改為 Flow
+# Step 5: 进行迁移
+测试全部通过了。
+现在依照 tech_stack_migration 的 RxJava → Flow 对照表，
+将 PaymentManager 中的 Observable 改为 Flow
 
-# Step 6: 再次測試
+# Step 6: 再次测试
 /run ./gradlew test --tests "PaymentManagerTest"
 
-# Step 7: 使用 Checklist 驗收
-請對照 coding_style_conventions 的 Quick Checklist，
-確認修改後的代碼符合所有規範
+# Step 7: 使用 Checklist 验收
+请对照 coding_style_conventions 的 Quick Checklist，
+确认修改后的代码符合所有规范
 ```
 
-#### Aider 設定檔
+#### Aider 设置档
 
-建立 `~/.aider.conf.yml`：
+创建 `~/.aider.conf.yml`：
 
 ```yaml
-# 預設模型
+# 默认模型
 model: claude-3-5-sonnet-20241022
 
-# 自動載入規範
+# 自动加载规范
 read:
   - ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md
 
-# Git 設定
+# Git 设置
 auto-commits: true
 dirty-commits: true
 
-# 編輯器設定
+# 编辑器设置
 editor: code --wait
 ```
 
-#### 建立 Shell Alias
+#### 创建 Shell Alias
 
 ```bash
 # ~/.bashrc 或 ~/.zshrc
 
-# 快速啟動 + 載入 Android 技能
+# 快速启动 + 加载 Android 技能
 alias aider-android='aider --model claude-3-5-sonnet-20241022 \
   --read ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md \
   --read ~/.gemini/antigravity/skills/dependency_injection_mastery/SKILL.md'
 
-# 專門用於 Code Review
+# 专门用于 Code Review
 alias aider-review='aider --model claude-3-5-sonnet-20241022 \
   --read ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md \
   --read ~/.gemini/antigravity/skills/deep_performance_tuning/SKILL.md'
 
-# 專門用於舊專案
+# 专门用于旧项目
 alias aider-legacy='aider --model claude-3-5-sonnet-20241022 \
   --read ~/.gemini/antigravity/skills/legacy_rapid_expansion/SKILL.md \
   --read ~/.gemini/antigravity/skills/tech_stack_migration/SKILL.md'
@@ -624,20 +624,20 @@ alias aider-legacy='aider --model claude-3-5-sonnet-20241022 \
 
 **契合度：⭐⭐⭐⭐⭐ (完美)**
 
-Anthropic 官方的 Agentic CLI 工具，支援 Skills 系統。
+Anthropic 官方的 Agentic CLI 工具，支持 Skills 系统。
 
-#### 安裝
+#### 安装
 
 ```bash
-# 官方安裝指南
+# 官方安装指南
 # https://code.claude.com/docs/en/setup
 
-# 依官方安裝指南進行安裝
+# 依官方安装指南进行安装
 ```
 
-註：Homebrew 套件名為 `fabric-ai`，如需 `fabric` 指令可自行設 alias。
+注：Homebrew 套件名为 `fabric-ai`，如需 `fabric` 指令可自行设 alias。
 
-註：官方文件標示 npm 安裝方式已 deprecated，請以官方安裝指南為主。
+注：官方文档标示 npm 安装方式已 deprecated，请以官方安装指南为主。
 
 #### Skills 位置
 
@@ -647,50 +647,50 @@ Anthropic 官方的 Agentic CLI 工具，支援 Skills 系統。
 │   └── SKILL.md
 ├── data_layer_mastery/
 │   └── SKILL.md
-└── ... (共 16 個 Android skills)
+└── ... (共 16 个 Android skills)
 ```
 
-#### 使用方式 1：Slash Command（直接呼叫）
+#### 使用方式 1：Slash Command（直接调用）
 
-Skill 的 `name` 會自動成為 slash command：
+Skill 的 `name` 会自动成为 slash command：
 
 ```bash
-# 啟動
+# 启动
 claude
 
-# 使用 slash command 直接呼叫 skill
+# 使用 slash command 直接调用 skill
 > /coding_style_conventions
-> 請檢查這段 Kotlin 代碼的命名規範
+> 请检查这段 Kotlin 代码的命名规范
 
-# 多個 skill 組合
+# 多个 skill 组合
 > /coding_style_conventions
 > /dependency_injection_mastery
-> 幫我建立一個 UserRepository
+> 帮我创建一个 UserRepository
 ```
 
-#### 使用方式 2：自動識別
+#### 使用方式 2：自动识别
 
-Claude 會根據 skill 的 `description` 自動判斷是否載入：
+Claude 会根据 skill 的 `description` 自动判断是否加载：
 
 ```bash
-> 請檢查這段 Kotlin 代碼的命名規範
-# Claude 自動識別並載入 coding_style_conventions skill
+> 请检查这段 Kotlin 代码的命名规范
+# Claude 自动识别并加载 coding_style_conventions skill
 ```
 
-#### 使用方式 3：動態 Context（進階）
+#### 使用方式 3：动态 Context（进阶）
 
-使用 `! command` 語法注入動態資料：
+使用 `! command` 语法注入动态数据：
 
 ```bash
 # 在 SKILL.md 中可以使用
-! gh pr diff        # 注入 GitHub PR 差異
-! cat package.json  # 注入檔案內容
+! gh pr diff        # 注入 GitHub PR 差异
+! cat package.json  # 注入文件内容
 ```
 
-#### 進階：停用 Skills
+#### 进阶：停用 Skills
 
 ```bash
-# 啟動時停用所有 skills
+# 启动时停用所有 skills
 claude --disable-slash-commands
 ```
 
@@ -698,36 +698,36 @@ claude --disable-slash-commands
 
 ### H. GitHub Copilot
 
-**契合度：⭐⭐⭐⭐⭐ (完美 - 2026 支援 Agent Skills)**
+**契合度：⭐⭐⭐⭐⭐ (完美 - 2026 支持 Agent Skills)**
 
-2026 年的 GitHub Copilot 支援 Agent Skills 和多層級 Instructions。
+2026 年的 GitHub Copilot 支持 Agent Skills 和多层级 Instructions。
 
-官方文件：
-- 安裝：https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-extension
-- 入門：https://docs.github.com/en/copilot/get-started/quickstart
+官方文档：
+- 安装：https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-extension
+- 入门：https://docs.github.com/en/copilot/get-started/quickstart
 
 #### Skills 位置（2026 新功能）
 
-Copilot 現在支援類似 Claude Code 的 Agent Skills：
+Copilot 现在支持类似 Claude Code 的 Agent Skills：
 
 ```
 .github/
 ├── copilot-instructions.md      # Workspace 全域指令
-├── instructions/                # 檔案特定指令
-│   ├── kotlin.instructions.md   # Kotlin 檔案適用
-│   └── compose.instructions.md  # Compose 檔案適用
+├── instructions/                # 文件特定指令
+│   ├── kotlin.instructions.md   # Kotlin 文件适用
+│   └── compose.instructions.md  # Compose 文件适用
 └── skills/                      # Agent Skills (2026)
     ├── coding_style_conventions/
     │   └── SKILL.md
     └── ...
 ```
 
-#### 方法 1：Workspace Instructions（自動套用）
+#### 方法 1：Workspace Instructions（自动套用）
 
-建立 `.github/copilot-instructions.md`：
+创建 `.github/copilot-instructions.md`：
 
 ```markdown
-# Android 專案規範
+# Android 项目规范
 
 ## Kotlin Coding Style
 - Class/Interface: PascalCase
@@ -738,45 +738,45 @@ Copilot 現在支援類似 Claude Code 的 Agent Skills：
 ## Architecture
 - 使用 Clean Architecture
 - ViewModel 使用 Hilt @HiltViewModel
-- Repository 實作 SSOT 模式
+- Repository 实作 SSOT 模式
 
 ## Compose
-- Modifier 作為第一個可選參數
+- Modifier 作为第一个可选参数
 - 使用 collectAsStateWithLifecycle
 ```
 
 #### 方法 2：File-Specific Instructions（2026）
 
-建立 `.github/instructions/kotlin.instructions.md`：
+创建 `.github/instructions/kotlin.instructions.md`：
 
 ```markdown
 ---
 applyTo: "**/*.kt"
 ---
-處理 Kotlin 檔案時，請遵循 coding_style_conventions 技能的規範。
+处理 Kotlin 文件时，请遵循 coding_style_conventions 技能的规范。
 ```
 
 #### 方法 3：使用 @workspace 引用
 
 ```
-@workspace 請根據 .github/skills/coding_style_conventions/SKILL.md，
-檢查目前檔案的命名規範
+@workspace 请根据 .github/skills/coding_style_conventions/SKILL.md，
+检查目前文件的命名规范
 ```
 
 #### 方法 4：Open Tab Context
 
-1. **開啟 SKILL.md 作為 Tab**
+1. **打开 SKILL.md 作为 Tab**
 2. **使用 Copilot Chat**：
 ```
-參考我開啟的技能文件，檢查這段代碼
+参考我打开的技能文档，检查这段代码
 ```
 
 #### 方法 5：Copilot Edits
 
 ```
-# 開啟 Copilot Edits (Ctrl + Shift + I)
-請根據 #file:SKILL.md 中的規範，
-重構 #file:UserRepository.kt
+# 打开 Copilot Edits (Ctrl + Shift + I)
+请根据 #file:SKILL.md 中的规范，
+重构 #file:UserRepository.kt
 ```
 
 ---
@@ -792,17 +792,17 @@ applyTo: "**/*.kt"
 
 AWS 官方的 AI Coding Assistant。
 
-官方入門：
+官方入门：
 - https://aws.amazon.com/q/developer/getting-started/
 
-登入方式：Builder ID 或 IAM Identity Center（依官方入門頁為準）
+登录方式：Builder ID 或 IAM Identity Center（依官方入门页为准）
 
 #### 使用方式
 
 ```
 # 在 Chat 中使用 @file 引用
-請參考 @file:.gemini/antigravity/skills/coding_style_conventions/SKILL.md
-幫我檢查這段代碼
+请参考 @file:.gemini/antigravity/skills/coding_style_conventions/SKILL.md
+帮我检查这段代码
 ```
 
 ---
@@ -813,21 +813,21 @@ AWS 官方的 AI Coding Assistant。
 
 Android Studio / IntelliJ IDEA 的原生 AI。
 
-官方文件與外掛：
-- 使用說明：https://www.jetbrains.com/help/idea/ai-assistant.html
-- 外掛：https://plugins.jetbrains.com/plugin/22282-jetbrains-ai-assistant
+官方文档与插件：
+- 使用说明：https://www.jetbrains.com/help/idea/ai-assistant.html
+- 插件：https://plugins.jetbrains.com/plugin/22282-jetbrains-ai-assistant
 
-#### 方法 1：透過 Chat
+#### 方法 1：通过 Chat
 
-1. **開啟 AI Assistant (Alt + Enter > AI)**
-2. **在 Chat 中貼入技能內容**
+1. **打开 AI Assistant (Alt + Enter > AI)**
+2. **在 Chat 中贴入技能内容**
 
 ```
-請依照以下規範進行 Code Review：
+请依照以下规范进行 Code Review：
 
-[貼入 SKILL.md 內容]
+[贴入 SKILL.md 内容]
 
-現在請檢查這段代碼...
+现在请检查这段代码...
 ```
 
 #### 方法 2：Custom Prompts
@@ -837,12 +837,12 @@ Android Studio / IntelliJ IDEA 的原生 AI。
 ```
 Name: Android Style Check
 Prompt: 
-依照以下 Kotlin 命名規範檢查選中的代碼：
+依照以下 Kotlin 命名规范检查选中的代码：
 - Class: PascalCase
 - Function: camelCase
 - Constants: SCREAMING_SNAKE_CASE
 - Composable: PascalCase
-列出所有違規項目。
+列出所有违规项目。
 ```
 
 ---
@@ -851,89 +851,89 @@ Prompt:
 
 **契合度：⭐⭐⭐⭐ (良好)**
 
-使用 Claude Projects 可大幅提升體驗。
+使用 Claude Projects 可大幅提升体验。
 
-官方文件：
+官方文档：
 - Getting started：https://support.claude.com/en/articles/8114491-getting-started-with-claude
 - Projects：https://support.claude.com/en/articles/9517075-what-are-projects
 
-備註：Projects 為官方功能，免費帳號最多 5 個 Projects（依官方說明為準）。
+备注：Projects 为官方功能，免费帐号最多 5 个 Projects（依官方说明为准）。
 
-#### 方法 1：Claude Projects (推薦)
+#### 方法 1：Claude Projects (推荐)
 
-1. **建立 Project** (claude.ai > Projects > New)
-2. **命名為 "Android Development"**
-3. **上傳所有 SKILL.md 到 Project Knowledge**
-4. **設定 Project Instructions**：
-
-```
-你是一位資深 Android 工程師。
-在回答問題時，請優先參考 Project Knowledge 中的技能文件。
-每次程式碼產出後，請對照相關技能的 Quick Checklist 驗收。
-```
-
-5. **在對話中使用**：
+1. **创建 Project** (claude.ai > Projects > New)
+2. **命名为 "Android Development"**
+3. **上传所有 SKILL.md 到 Project Knowledge**
+4. **设置 Project Instructions**：
 
 ```
-請參考 coding_style_conventions 技能，
-幫我審查以下 Kotlin 代碼：
+你是一位资深 Android 工程师。
+在回答问题时，请优先参考 Project Knowledge 中的技能文档。
+每次代码产出后，请对照相关技能的 Quick Checklist 验收。
+```
+
+5. **在对话中使用**：
+
+```
+请参考 coding_style_conventions 技能，
+帮我审查以下 Kotlin 代码：
 
 ```kotlin
-[貼上代碼]
+[粘贴代码]
 ```
 ```
 
-#### 方法 2：一般對話
+#### 方法 2：一般对话
 
 ```
-# System Prompt 區塊
-你是一位資深 Android 工程師。請依照以下規範進行開發：
+# System Prompt 区块
+你是一位资深 Android 工程师。请依照以下规范进行开发：
 
 ---
-[貼入 SKILL.md 完整內容]
+[贴入 SKILL.md 完整内容]
 ---
 
 # User Prompt
-現在請幫我...
+现在请帮我...
 ```
 
 ---
 
 ### L. ChatGPT
 
-**契合度：⭐⭐⭐ (手動)**
+**契合度：⭐⭐⭐ (手动)**
 
-官方文件：
+官方文档：
 - Projects：https://help.openai.com/en/articles/10169521-projects-in-chatgpt
 - macOS App：https://help.openai.com/en/articles/9275200-downloading-the-chatgpt-macos-app
 - Android App：https://help.openai.com/en/articles/8167604-how-to-find-and-install-the-chatgpt-android-app-on-the-google-play-store
 
-#### 方法 1：Custom GPT (推薦)
+#### 方法 1：Custom GPT (推荐)
 
 1. **ChatGPT Plus > Explore GPTs > Create**
 2. **配置**：
    - Name: Android Senior Engineer
-   - Instructions: 貼入 `skill_index/SKILL.md` 內容
-   - Knowledge: 上傳所有 SKILL.md 檔案
+   - Instructions: 贴入 `skill_index/SKILL.md` 内容
+   - Knowledge: 上传所有 SKILL.md 文件
 
 3. **使用**：
 ```
-請參考 coding_style_conventions，檢查以下代碼...
+请参考 coding_style_conventions，检查以下代码...
 ```
 
-注意：Android App 請確認發行者為 OpenAI。
+注意：Android App 请确认发行者为 OpenAI。
 
-#### 方法 2：一般對話
+#### 方法 2：一般对话
 
 ```
-# 在對話開頭設定 Context
-請扮演資深 Android 工程師，依照以下規範：
+# 在对话开头设置 Context
+请扮演资深 Android 工程师，依照以下规范：
 
-[貼入 SKILL.md 內容]
+[贴入 SKILL.md 内容]
 
 ---
 
-現在請幫我...
+现在请帮我...
 ```
 
 ---
@@ -944,25 +944,25 @@ Prompt:
 
 #### 方法 1：System Instructions
 
-1. **開啟 AI Studio（網頁版）**
-2. **取得 API Key（需要登入）**
-3. **設定 System Instructions**：
+1. **打开 AI Studio（网页版）**
+2. **取得 API Key（需要登录）**
+3. **设置 System Instructions**：
 
 ```
-你是資深 Android 工程師。
-請遵循以下開發規範：
+你是资深 Android 工程师。
+请遵循以下开发规范：
 
-[貼入技能內容]
+[贴入技能内容]
 ```
 
-#### 方法 2：上傳檔案
+#### 方法 2：上传文件
 
-1. **點擊 📎 圖示**
-2. **上傳 SKILL.md 檔案**
-3. **下達指令**：
+1. **点击 📎 图标**
+2. **上传 SKILL.md 文件**
+3. **下达指令**：
 
 ```
-請依照上傳的規範文件，檢查以下代碼...
+请依照上传的规范文档，检查以下代码...
 ```
 
 ---
@@ -971,9 +971,9 @@ Prompt:
 
 **契合度：⭐⭐⭐⭐⭐ (高效)**
 
-Simon Willison 開發的強大 CLI 工具。
+Simon Willison 开发的强大 CLI 工具。
 
-#### 安裝
+#### 安装
 
 ```bash
 pip install llm
@@ -987,42 +987,42 @@ uv tool install llm
 # 或使用 Homebrew
 brew install llm
 
-# 安裝 Claude plugin
+# 安装 Claude plugin
 llm install llm-claude-3
 
-# 設定 API Key
+# 设置 API Key
 llm keys set anthropic
 ```
 
 #### 基本使用
 
 ```bash
-# 單一技能
+# 单一技能
 cat ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md | \
-llm "根據這份規範，給我一個標準的 Kotlin ViewModel 範例"
+llm "根据这份规范，给我一个标准的 Kotlin ViewModel 范例"
 
-# 多個技能組合
+# 多个技能组合
 cat ~/.gemini/antigravity/skills/project_bootstrapping/SKILL.md \
     ~/.gemini/antigravity/skills/dependency_injection_mastery/SKILL.md | \
-llm "根據這兩份技能，幫我設計一個 Feature Module 的架構"
+llm "根据这两份技能，帮我设计一个 Feature Module 的架构"
 ```
 
-#### 搭配程式碼
+#### 搭配代码
 
 ```bash
-# 讀取規範 + 程式碼，進行 Review
+# 读取规范 + 代码，进行 Review
 cat ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md \
     ./app/src/main/kotlin/UserRepository.kt | \
-llm "請依照第一份文件的規範，Review 第二份的程式碼"
+llm "请依照第一份文档的规范，Review 第二份的代码"
 ```
 
-#### 建立 Alias
+#### 创建 Alias
 
 ```bash
 # ~/.bashrc
 alias android-check='function _ac() { 
   cat ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md "$1" | \
-  llm "依照規範檢查程式碼，列出問題"
+  llm "依照规范检查代码，列出问题"
 }; _ac'
 
 # 使用
@@ -1035,13 +1035,13 @@ android-check ./UserRepository.kt
 
 **契合度：⭐⭐⭐⭐⭐ (完美)**
 
-OpenAI 官方的 Agentic Coding CLI，支援 Skills 系統。
+OpenAI 官方的 Agentic Coding CLI，支持 Skills 系统。
 
-官方文件：
+官方文档：
 - https://developers.openai.com/codex/cli
 - https://github.com/openai/codex
 
-#### 安裝
+#### 安装
 
 ```bash
 # npm
@@ -1059,32 +1059,32 @@ brew install --cask codex
 │   └── SKILL.md
 ├── data_layer_mastery/
 │   └── SKILL.md
-└── ... (共 16 個 Android skills)
+└── ... (共 16 个 Android skills)
 ```
 
-#### 啟用 Skills 功能
+#### 激活 Skills 功能
 
 ```bash
-# 啟動時啟用 skills
+# 启动时激活 skills
 codex --enable skills
 
-# 或在 ~/.codex/config.toml 中設定
+# 或在 ~/.codex/config.toml 中设置
 # [features]
 # skills = true
 ```
 
-#### 使用方式 1：$ 符號引用 Skill
+#### 使用方式 1：$ 符号引用 Skill
 
 ```bash
-# 啟動
+# 启动
 codex --enable skills
 
-# 使用 $ 符號引用 skill
-> $coding_style_conventions 請檢查這段 Kotlin 代碼
+# 使用 $ 符号引用 skill
+> $coding_style_conventions 请检查这段 Kotlin 代码
 
-# 多個 skill
+# 多个 skill
 > $coding_style_conventions $dependency_injection_mastery 
-> 幫我建立一個 UserRepository
+> 帮我创建一个 UserRepository
 ```
 
 #### 使用方式 2：/skills 指令
@@ -1093,17 +1093,17 @@ codex --enable skills
 # 列出可用 skills
 > /skills
 
-# 查看特定 skill 詳情
+# 查看特定 skill 详情
 > /skills coding_style_conventions
 ```
 
-#### 使用方式 3：自動識別
+#### 使用方式 3：自动识别
 
-Codex 會根據 skill 的 `description` 自動判斷：
+Codex 会根据 skill 的 `description` 自动判断：
 
 ```bash
-> 請檢查這段代碼的命名規範
-# Codex 自動識別並載入相關 skill
+> 请检查这段代码的命名规范
+# Codex 自动识别并加载相关 skill
 ```
 
 ---
@@ -1112,12 +1112,12 @@ Codex 會根據 skill 的 `description` 自動判斷：
 
 **契合度：⭐⭐⭐⭐⭐ (完美)**
 
-Google 官方的 Agentic CLI，支援 Agent Skills 系統。
+Google 官方的 Agentic CLI，支持 Agent Skills 系统。
 
-#### 安裝
+#### 安装
 
 ```bash
-# npx（免安裝）
+# npx（免安装）
 npx @google/gemini-cli
 
 # npm
@@ -1138,19 +1138,19 @@ sudo port install gemini-cli
 │   └── SKILL.md
 ├── data_layer_mastery/
 │   └── SKILL.md
-└── ... (共 14 個 Android skills)
+└── ... (共 14 个 Android skills)
 ```
 
-#### 啟用 Agent Skills（首次需要）
+#### 激活 Agent Skills（首次需要）
 
 ```bash
-# 啟動 Gemini CLI
+# 启动 Gemini CLI
 gemini
 
-# 開啟設定
+# 打开设置
 > /settings
 
-# 搜尋 "Skills" → 開啟 "Agent Skills" → 按 Esc 儲存
+# 搜索 "Skills" → 打开 "Agent Skills" → 按 Esc 保存
 ```
 
 #### 使用方式 1：/skills 管理指令
@@ -1159,35 +1159,35 @@ gemini
 # 列出所有 skills
 > /skills list
 
-# 啟用特定 skill
+# 激活特定 skill
 > /skills enable coding_style_conventions
 
 # 停用特定 skill
 > /skills disable coding_style_conventions
 
-# 重新載入 skills（新增 skill 後使用）
+# 重新加载 skills（添加 skill 后使用）
 > /skills reload
 ```
 
-#### 使用方式 2：自動識別（需確認）
+#### 使用方式 2：自动识别（需确认）
 
-Gemini 會根據 skill 的 `description` 自動判斷，但會詢問確認：
+Gemini 会根据 skill 的 `description` 自动判断，但会询问确认：
 
 ```bash
-> 請檢查這段 Kotlin 代碼的命名規範
+> 请检查这段 Kotlin 代码的命名规范
 
 # Gemini 提示：
-# 「偵測到相關 skill: coding_style_conventions
-#   是否要啟用此 skill？(Y/n)」
+# 「侦测到相关 skill: coding_style_conventions
+#   是否要激活此 skill？(Y/n)」
 
 > Y
-# skill 載入後繼續執行
+# skill 加载后继续运行
 ```
 
-#### 使用方式 3：明確引用
+#### 使用方式 3：明确引用
 
 ```bash
-> 使用 coding_style_conventions skill 來檢查代碼
+> 使用 coding_style_conventions skill 来检查代码
 ```
 
 ---
@@ -1196,15 +1196,15 @@ Gemini 會根據 skill 的 `description` 自動判斷，但會詢問確認：
 
 **契合度：⭐⭐⭐⭐ (良好)**
 
-可以自主執行任務的 AI。
+可以自主运行任务的 AI。
 
-官方文件：
+官方文档：
 - https://docs.openinterpreter.com/
-- 安裝：https://docs.openinterpreter.com/getting-started/setup
+- 安装：https://docs.openinterpreter.com/getting-started/setup
 
-建議 Python 版本：3.10 / 3.11
+建议 Python 版本：3.10 / 3.11
 
-#### 安裝
+#### 安装
 
 ```bash
 pip install open-interpreter
@@ -1213,15 +1213,15 @@ pip install open-interpreter
 #### 使用
 
 ```bash
-# 啟動
+# 启动
 interpreter
 
-# 載入技能
->>> 請讀取並記住這個檔案的規範：~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md
+# 加载技能
+>>> 请读取并记住这个文件的规范：~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md
 
-# 下達任務
->>> 現在請掃描 ./app/src/main/kotlin 下所有 .kt 檔案，
-    找出不符合命名規範的地方，生成報告
+# 下达任务
+>>> 现在请扫描 ./app/src/main/kotlin 下所有 .kt 文件，
+    找出不符合命名规范的地方，生成报告
 ```
 
 ---
@@ -1230,12 +1230,12 @@ interpreter
 
 **契合度：⭐⭐⭐⭐ (良好)**
 
-Daniel Miessler 開發的 AI Pattern 系統。
+Daniel Miessler 开发的 AI Pattern 系统。
 
-官方文件：
+官方文档：
 - https://github.com/danielmiessler/Fabric
 
-#### 安裝
+#### 安装
 
 ```bash
 # macOS/Linux
@@ -1248,24 +1248,24 @@ iwr https://raw.githubusercontent.com/danielmiessler/Fabric/main/scripts/install
 brew install fabric-ai
 ```
 
-#### 建立 Android Pattern
+#### 创建 Android Pattern
 
 ```bash
-# 建立 pattern 目錄
+# 创建 pattern 目录
 mkdir -p ~/.config/fabric/patterns/android_review
 
-# 建立 system.md
+# 创建 system.md
 cat > ~/.config/fabric/patterns/android_review/system.md << 'EOF'
 # IDENTITY and PURPOSE
 
-你是資深 Android 工程師，專門進行 Code Review。
+你是资深 Android 工程师，专门进行 Code Review。
 
 # STEPS
 
-1. 讀取輸入的 Kotlin 代碼
-2. 依照以下規範檢查
-3. 列出所有違規項目
-4. 提供修正建議
+1. 读取输入的 Kotlin 代码
+2. 依照以下规范检查
+3. 列出所有违规项目
+4. 提供修正建议
 
 # RULES
 
@@ -1276,22 +1276,22 @@ cat > ~/.config/fabric/patterns/android_review/system.md << 'EOF'
 - @Composable: PascalCase
 
 ## Compose
-- Modifier 為第一個可選參數
-- 使用 remember 管理狀態
+- Modifier 为第一个可选参数
+- 使用 remember 管理状态
 
 # OUTPUT
 
-以 Markdown 格式輸出報告
+以 Markdown 格式输出报告
 EOF
 ```
 
 #### 使用
 
 ```bash
-# Review 單一檔案
+# Review 单一文件
 cat ./UserRepository.kt | fabric --pattern android_review
 
-# Review 多個檔案
+# Review 多个文件
 find ./app/src -name "*.kt" -exec cat {} \; | fabric --pattern android_review
 ```
 
@@ -1299,25 +1299,25 @@ find ./app/src -name "*.kt" -exec cat {} \; | fabric --pattern android_review
 
 ### S. Ollama + Open WebUI
 
-**契合度：⭐⭐⭐⭐ (本地運行)**
+**契合度：⭐⭐⭐⭐ (本地运行)**
 
-完全本地運行，適合敏感專案。
+完全本地运行，适合敏感项目。
 
-官方文件：
+官方文档：
 - Ollama Quickstart：https://docs.ollama.com/quickstart
 - Open WebUI：https://docs.openwebui.com/
 
-#### 安裝 Ollama
+#### 安装 Ollama
 
 ```bash
 # macOS/Linux
 curl -fsSL https://ollama.com/install.sh | sh
 
-# 下載模型
+# 下载模型
 ollama run gemma3
 ```
 
-#### 安裝 Open WebUI
+#### 安装 Open WebUI
 
 ```bash
 docker run -d -p 3000:8080 \
@@ -1328,29 +1328,29 @@ docker run -d -p 3000:8080 \
 
 #### 使用
 
-1. **開啟 http://localhost:3000**
-2. **上傳 SKILL.md 到 Documents**
-3. **在對話中使用**：
+1. **打开 http://localhost:3000**
+2. **上传 SKILL.md 到 Documents**
+3. **在对话中使用**：
 
 ```
-請參考已上傳的 coding_style_conventions 文件，
-檢查以下代碼...
+请参考已上传的 coding_style_conventions 文档，
+检查以下代码...
 ```
 
 ---
 
 ### T. OpenCode CLI (opencode.ai)
 
-**契合度：⭐⭐⭐⭐⭐ (完美 - 強大的 Agentic CLI)**
+**契合度：⭐⭐⭐⭐⭐ (完美 - 强大的 Agentic CLI)**
 
-OpenCode 是 opencode.ai 的官方 CLI 工具，提供 TUI 介面與本地模型支援。
+OpenCode 是 opencode.ai 的官方 CLI 工具，提供 TUI 接口与本地模型支持。
 
-官方文件：
+官方文档：
 - https://opencode.ai/
 - https://opencode.ai/docs
 - https://github.com/anomalyco/opencode
 
-#### 安裝
+#### 安装
 
 ```bash
 # macOS / Linux
@@ -1360,240 +1360,240 @@ curl -fsSL https://opencode.ai/install | bash
 #### 基本操作
 
 ```bash
-# 啟動並初始化專案 (建立 AGENTS.md)
+# 启动并初始化项目 (创建 AGENTS.md)
 opencode
 > /init
 ```
 
 #### 技能使用
 
-請依官方文件設定技能路徑與使用方式，確保與 OpenCode 版本一致。
+请依官方文档设置技能路径与使用方式，确保与 OpenCode 版本一致。
 
-#### Plan Mode (規劃模式)
+#### Plan Mode (规划模式)
 
-OpenCode 的強項在於先規劃再執行：
+OpenCode 的强项在于先规划再运行：
 
-1. 按 `Tab` 切換到 **Plan Mode**
-2. 輸入指令：
+1. 按 `Tab` 切换到 **Plan Mode**
+2. 输入指令：
 ```
-請根據 @project_bootstrapping 的架構，
-規劃一個 MVVM + Clean Architecture 的模組結構
+请根据 @project_bootstrapping 的架构，
+规划一个 MVVM + Clean Architecture 的模块结构
 ```
-3. 確認計畫後，切換回 **Build Mode** 讓 AI 執行
+3. 确认计划后，切换回 **Build Mode** 让 AI 运行
 
-#### 最佳實踐
+#### 最佳实践
 
-1. **利用 AGENTS.md**：可以在專案內定義專屬 Agent，預載入常用 Skills。
-2. **本地模型整合**：配合 @devops_and_security 中的隱私規範，可完全使用本地模型以避免敏感資料外洩。
+1. **利用 AGENTS.md**：可以在项目内定义专属 Agent，预加载常用 Skills。
+2. **本地模型集成**：配合 @devops_and_security 中的隐私规范，可完全使用本地模型以避免敏感数据外泄。
 
 ---
 
-## 場景導向完整範例
+## 场景导向完整范例
 
-### 場景 A：從零建立新專案 (完整流程)
+### 场景 A：从零创建新项目 (完整流程)
 
 #### 使用 Cursor
 
 ```
-Step 1: 規劃
-@skill_index 我要建立一個新的電商 App，
-需要 Auth, Product, Cart, Checkout 四個功能，
-請告訴我應該使用哪些技能和步驟
+Step 1: 规划
+@skill_index 我要创建一个新的电商 App，
+需要 Auth, Product, Cart, Checkout 四个功能，
+请告诉我应该使用哪些技能和步骤
 
-Step 2: 專案骨架
-@project_bootstrapping 請建立完整的專案結構，包含：
-- build-logic/ 目錄
+Step 2: 项目骨架
+@project_bootstrapping 请创建完整的项目结构，包含：
+- build-logic/ 目录
 - Convention Plugins (android-library, compose-feature)
 - Version Catalog
-- 模組結構
+- 模块结构
 
-Step 3: 規範設定
-@coding_style_conventions 請設定：
+Step 3: 规范设置
+@coding_style_conventions 请设置：
 - Detekt 配置
 - Ktlint 配置
 - .editorconfig
 
 Step 4: Design System
-@ui_ux_engineering 請建立基礎 Design System：
+@ui_ux_engineering 请创建基础 Design System：
 - Color Scheme (Light/Dark)
 - Typography
 - Spacing Tokens
-- 基礎 Components
+- 基础 Components
 
-Step 5: 驗收
-請對照所有使用到的技能的 Quick Checklist，
-確認專案設定完整
+Step 5: 验收
+请对照所有使用到的技能的 Quick Checklist，
+确认项目设置完整
 ```
 
 #### 使用 Aider
 
 ```bash
-# 啟動
+# 启动
 aider --model claude-3-5-sonnet-20241022 \
   --read ~/.gemini/antigravity/skills/skill_index/SKILL.md \
   --read ~/.gemini/antigravity/skills/project_bootstrapping/SKILL.md \
   --read ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md \
   --read ~/.gemini/antigravity/skills/ui_ux_engineering/SKILL.md
 
-# 執行
-我要建立一個電商 App 專案，請依照載入的技能：
-1. 先依照 project_bootstrapping 建立專案骨架
-2. 再依照 coding_style_conventions 設定 linter
-3. 最後依照 ui_ux_engineering 建立 Design System
+# 运行
+我要创建一个电商 App 项目，请依照加载的技能：
+1. 先依照 project_bootstrapping 创建项目骨架
+2. 再依照 coding_style_conventions 设置 linter
+3. 最后依照 ui_ux_engineering 创建 Design System
 
-請建立所有必要的檔案
+请创建所有必要的文件
 ```
 
 ---
 
-### 場景 C：舊專案現代化 (完整流程)
+### 场景 C：旧项目现代化 (完整流程)
 
 #### 使用 Aider
 
 ```bash
-# Step 1: 啟動
+# Step 1: 启动
 aider --model claude-3-5-sonnet-20241022 \
   --read ~/.gemini/antigravity/skills/testing_legacy_strategies/SKILL.md \
   --read ~/.gemini/antigravity/skills/tech_stack_migration/SKILL.md \
   --read ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md
 
-# Step 2: 分析目標
+# Step 2: 分析目标
 /add app/src/main/kotlin/legacy/PaymentManager.kt
 
-請分析這個類別：
-1. 列出所有公開方法
-2. 識別使用的 RxJava 操作
-3. 找出潛在的問題點
+请分析这个类别：
+1. 列出所有公开方法
+2. 识别使用的 RxJava 操作
+3. 找出潜在的问题点
 
-# Step 3: 建立測試
+# Step 3: 创建测试
 /add app/src/test/kotlin/legacy/PaymentManagerTest.kt
 
 依照 testing_legacy_strategies 的 Characterization Tests 指南，
-為 PaymentManager 的每個公開方法建立測試
+为 PaymentManager 的每个公开方法创建测试
 
-# Step 4: 執行測試
+# Step 4: 运行测试
 /run ./gradlew test --tests "*PaymentManagerTest*"
 
-# Step 5: 遷移
-測試通過了。現在依照 tech_stack_migration：
-1. 將 Observable 改為 Flow
-2. 將 subscribe 改為 collect
-3. 處理錯誤使用 catch
+# Step 5: 迁移
+测试通过了。现在依照 tech_stack_migration：
+1. 将 Observable 改为 Flow
+2. 将 subscribe 改为 collect
+3. 处理错误使用 catch
 
-# Step 6: 再次測試
+# Step 6: 再次测试
 /run ./gradlew test --tests "*PaymentManagerTest*"
 
-# Step 7: 程式碼風格
-依照 coding_style_conventions 的 Quick Checklist 檢查最終代碼
+# Step 7: 代码风格
+依照 coding_style_conventions 的 Quick Checklist 检查最终代码
 ```
 
 ---
 
-### 場景 G：AI-assisted CI / Quality Gates (完整流程)
+### 场景 G：AI-assisted CI / Quality Gates (完整流程)
 
 #### 使用 Aider
 
 ```bash
-# Step 1: 啟動並載入技能
+# Step 1: 启动并加载技能
 aider --model claude-3-5-sonnet-20241022 \
   --read ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md \
   --read ~/.gemini/antigravity/skills/devops_and_security/SKILL.md \
   --read ~/.gemini/antigravity/skills/testing_legacy_strategies/SKILL.md
 
-# Step 2: 建立 CI Gate
-請建立 CI Gate：lint、detekt、unit test、assemble
+# Step 2: 创建 CI Gate
+请创建 CI Gate：lint、detekt、unit test、assemble
 
-# Step 3: 驗收
-請對照三份技能的 Quick Checklist 驗收
+# Step 3: 验收
+请对照三份技能的 Quick Checklist 验收
 ```
 
 ---
 
-### 場景 H：Performance-by-default (完整流程)
+### 场景 H：Performance-by-default (完整流程)
 
 #### 使用 Cursor
 
 ```
-Step 1: 設定效能基準
-@deep_performance_tuning 請建立 Baseline Profile 與 Macrobenchmark
+Step 1: 设置性能基准
+@deep_performance_tuning 请创建 Baseline Profile 与 Macrobenchmark
 
-Step 2: 新專案預設
-@project_bootstrapping 請將效能量測流程納入專案骨架
+Step 2: 新项目默认
+@project_bootstrapping 请将性能量测流程纳入项目骨架
 
 Step 3: CI Gate
-@devops_and_security 將效能門檻納入 CI Gate
+@devops_and_security 将性能门槛纳入 CI Gate
 ```
 
 ---
 
-### 場景 I：Observability-first (完整流程)
+### 场景 I：Observability-first (完整流程)
 
 #### 使用 Cursor
 
 ```
-Step 1: 指標與事件
-@observability_first 請定義關鍵流程與事件欄位
+Step 1: 指标与事件
+@observability_first 请定义关键流程与事件字段
 
 Step 2: Crash/ANR
-@crash_monitoring 建立 Crashlytics 與 ANR 告警
+@crash_monitoring 创建 Crashlytics 与 ANR 告警
 
-Step 3: 效能指標
-@deep_performance_tuning 加入效能量測與回歸規則
+Step 3: 性能指标
+@deep_performance_tuning 加入性能量测与回归规则
 ```
 
 ---
 
-### 場景 J：Supply Chain Security (完整流程)
+### 场景 J：Supply Chain Security (完整流程)
 
 #### 使用 Aider
 
 ```bash
-# Step 1: 依賴治理
+# Step 1: 依赖治理
 aider --model claude-3-5-sonnet-20241022 \
   --read ~/.gemini/antigravity/skills/supply_chain_security/SKILL.md \
   --read ~/.gemini/antigravity/skills/devops_and_security/SKILL.md
 
 # Step 2: SCA + Gate
-請建立依賴掃描與風險門檻，納入 CI
+请创建依赖扫描与风险门槛，纳入 CI
 ```
 
 ---
 
-### 場景 K：Compose-first + Legacy Interop (完整流程)
+### 场景 K：Compose-first + Legacy Interop (完整流程)
 
 #### 使用 Cursor
 
 ```
 Step 1: 互通策略
-@tech_stack_migration 請設計 Compose/View 共存策略
+@tech_stack_migration 请设计 Compose/View 共存策略
 
-Step 2: UI 規範
-@ui_ux_engineering 建立 Design System 與 a11y 驗收
+Step 2: UI 规范
+@ui_ux_engineering 创建 Design System 与 a11y 验收
 
-Step 3: 舊專案橋接
-@legacy_rapid_expansion 設計 Bridge 與 Feature Toggle
+Step 3: 旧项目桥接
+@legacy_rapid_expansion 设计 Bridge 与 Feature Toggle
 ```
 
 ---
 
-### 場景 L：多模組擴展與導航治理 (完整流程)
+### 场景 L：多模块扩展与导航治理 (完整流程)
 
 #### 使用 Cursor
 
 ```
-Step 1: 模組骨架
-@project_bootstrapping 請規劃模組與 Convention Plugins
+Step 1: 模块骨架
+@project_bootstrapping 请规划模块与 Convention Plugins
 
-Step 2: DI 邊界
-@dependency_injection_mastery 建立 API/impl 分離
+Step 2: DI 边界
+@dependency_injection_mastery 创建 API/impl 分离
 
-Step 3: 導航治理
-@navigation_patterns 設計跨模組導航介面
+Step 3: 导航治理
+@navigation_patterns 设计跨模块导航接口
 ```
 
 ---
 
-## 進階整合技巧
+## 进阶集成技巧
 
 ### 1. Git Pre-commit Hook
 
@@ -1601,7 +1601,7 @@ Step 3: 導航治理
 #!/bin/bash
 # .git/hooks/pre-commit
 
-# 取得 staged 的 Kotlin 檔案
+# 取得 staged 的 Kotlin 文件
 STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep "\.kt$")
 
 if [ -n "$STAGED" ]; then
@@ -1609,7 +1609,7 @@ if [ -n "$STAGED" ]; then
   
   for file in $STAGED; do
     cat ~/.gemini/antigravity/skills/coding_style_conventions/SKILL.md "$file" | \
-    llm "依照規範快速檢查，只回報嚴重問題" || exit 1
+    llm "依照规范快速检查，只回报严重问题" || exit 1
   done
 fi
 ```
@@ -1623,20 +1623,20 @@ fi
     {
       "label": "Android: Code Review",
       "type": "shell",
-      "command": "cat ${workspaceFolder}/.gemini/antigravity/skills/coding_style_conventions/SKILL.md ${file} | llm '依照規範 Review 代碼'",
+      "command": "cat ${workspaceFolder}/.gemini/antigravity/skills/coding_style_conventions/SKILL.md ${file} | llm '依照规范 Review 代码'",
       "problemMatcher": []
     },
     {
       "label": "Android: Generate Tests",
       "type": "shell", 
-      "command": "aider --model claude-3-5-sonnet-20241022 --read ${workspaceFolder}/.gemini/antigravity/skills/testing_legacy_strategies/SKILL.md ${file} --message '為這個類別生成 Characterization Tests'",
+      "command": "aider --model claude-3-5-sonnet-20241022 --read ${workspaceFolder}/.gemini/antigravity/skills/testing_legacy_strategies/SKILL.md ${file} --message '为这个类别生成 Characterization Tests'",
       "problemMatcher": []
     }
   ]
 }
 ```
 
-### 3. PowerShell 函數 (Windows)
+### 3. PowerShell 函数 (Windows)
 
 ```powershell
 # $PROFILE
@@ -1647,7 +1647,7 @@ function Invoke-AndroidReview {
     $skill = Get-Content "$env:USERPROFILE\.gemini\antigravity\skills\coding_style_conventions\SKILL.md" -Raw
     $code = Get-Content $FilePath -Raw
     
-    "$skill`n---`n$code" | llm "依照規範 Review 代碼"
+    "$skill`n---`n$code" | llm "依照规范 Review 代码"
 }
 
 Set-Alias -Name android-review -Value Invoke-AndroidReview
@@ -1655,39 +1655,39 @@ Set-Alias -Name android-review -Value Invoke-AndroidReview
 
 ---
 
-## 常見問題
+## 常见问题
 
-### Q1: Token 不夠怎麼辦？
+### Q1: Token 不够怎么办？
 **A:** 
-- 只載入當下需要的 2-3 個技能
-- 使用 `skill_index` 的場景路由選擇組合
-- 對於 CLI 工具，使用 `-read` 而非 `/add`
+- 只加载当下需要的 2-3 个技能
+- 使用 `skill_index` 的场景路由选择组合
+- 对于 CLI 工具，使用 `-read` 而非 `/add`
 
-### Q2: AI 沒有遵循規範怎麼辦？
+### Q2: AI 没有遵循规范怎么办？
 **A:** 
-- 在指令最後加上：「請逐一對照 Quick Checklist」
-- 分步驟執行，每步驟驗證
-- 明確指定要參考的章節
+- 在指令最后加上：「请逐一对照 Quick Checklist」
+- 分步骤运行，每步骤验证
+- 明确指定要参考的章节
 
-### Q3: 如何更新技能內容？
+### Q3: 如何更新技能内容？
 **A:** 
-- 直接編輯對應的 SKILL.md
-- 所有工具會自動讀取最新版本
-- 建議使用 Git 追蹤變更
+- 直接编辑对应的 SKILL.md
+- 所有工具会自动读取最新版本
+- 建议使用 Git 追踪变更
 
-### Q4: 哪個工具最推薦？
+### Q4: 哪个工具最推荐？
 **A:** 
-- **Gemini 使用者**: Antigravity / Gemini CLI (技能已內建)
-- **Claude 使用者**: Claude Code CLI (使用 /skill_name)
-- **OpenAI 使用者**: Codex CLI (使用 $skill_name)
-- **最佳體驗**: Cursor / Windsurf
-- **CLI 愛好者**: Aider / OpenCode CLI
+- **Gemini 用户**: Antigravity / Gemini CLI (技能已内置)
+- **Claude 用户**: Claude Code CLI (使用 /skill_name)
+- **OpenAI 用户**: Codex CLI (使用 $skill_name)
+- **最佳体验**: Cursor / Windsurf
+- **CLI 爱好者**: Aider / OpenCode CLI
 - **完全本地**: Ollama + Open WebUI
-- **團隊共享**: Claude Projects
+- **团队共享**: Claude Projects
 
 ---
 
-## 快速參考卡
+## 快速参考卡
 
 ```
 ┌───────────────────────────────────────────────────────────────────────┐
@@ -1697,15 +1697,15 @@ Set-Alias -Name android-review -Value Invoke-AndroidReview
 ├───────────────────────────────────────────────────────────────────────┤
 │ CLAUDE CODE    │ /skill_name (Slash Command)                         │
 │ CODEX CLI      │ $skill_name (需 --enable skills)                    │
-│ GEMINI CLI     │ /skills list, /skills enable (需開啟 Agent Skills)  │
+│ GEMINI CLI     │ /skills list, /skills enable (需打开 Agent Skills)  │
 ├───────────────────────────────────────────────────────────────────────┤
 │                        🖥️ Agentic IDE                                  │
 ├───────────────────────────────────────────────────────────────────────┤
-│ ANTIGRAVITY    │ @skill_name (技能已內建，自動識別)                    │
+│ ANTIGRAVITY    │ @skill_name (技能已内置，自动识别)                    │
 │ CURSOR         │ @skill_name                                         │
 │ WINDSURF       │ @skill_name 在 Cascade 中                            │
 │ ROO CODE       │ @~/.gemini/skills/xxx/SKILL.md                      │
-│ CLINE          │ 請讀取 ~/.claude/skills/xxx/SKILL.md                 │
+│ CLINE          │ 请读取 ~/.claude/skills/xxx/SKILL.md                 │
 ├───────────────────────────────────────────────────────────────────────┤
 │                        🔧 其他 CLI 工具                                │
 ├───────────────────────────────────────────────────────────────────────┤
@@ -1717,19 +1717,19 @@ Set-Alias -Name android-review -Value Invoke-AndroidReview
 │                        🌐 Web / IDE                                    │
 ├───────────────────────────────────────────────────────────────────────┤
 │ COPILOT        │ Open Tab + @workspace                               │
-│ CLAUDE WEB     │ Projects > Knowledge 上傳                            │
-│ CHATGPT        │ Custom GPT > Knowledge 上傳                          │
-│ OLLAMA         │ Open WebUI > Documents 上傳                          │
+│ CLAUDE WEB     │ Projects > Knowledge 上传                            │
+│ CHATGPT        │ Custom GPT > Knowledge 上传                          │
+│ OLLAMA         │ Open WebUI > Documents 上传                          │
 └───────────────────────────────────────────────────────────────────────┘
 ```
 
-註：各工具的技能載入指令以官方文件為準，若版本差異請依官方更新。
+注：各工具的技能加载指令以官方文档为准，若版本差异请依官方更新。
 
-### Skills 安裝位置對照
+### Skills 安装位置对照
 
 ```
 ┌───────────────────────────────────────────────────────────────────────────────┐
-│                    2026 CLI Skills 標準位置                                    │
+│                    2026 CLI Skills 标准位置                                    │
 ├───────────────────────────────────────────────────────────────────────────────┤
 │ OpenCode CLI  │ Windows: %USERPROFILE%\AppData\Roaming\opencode\agents          │
 │               │ macOS/Linux: ~/.opencode/agents                                 │
@@ -1744,6 +1744,6 @@ Set-Alias -Name android-review -Value Invoke-AndroidReview
 └───────────────────────────────────────────────────────────────────────────────┘
 ```
 
-簡短說明：若你的 CLI 已內建 skills 機制，請把對應的 skill 目錄放到以上標準位置；若版本不同，請以官方文件為準並保留此表作為預設值。
+简短说明：若你的 CLI 已内置 skills 机制，请把对应的 skill 目录放到以上标准位置；若版本不同，请以官方文档为准并保留此表作为默认值。
 
 

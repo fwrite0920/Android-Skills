@@ -1,49 +1,49 @@
 ---
 name: Deep Performance Tuning
-description: Systrace, Memory Analysis, R8 優化與 App Startup 調校
+description: Systrace, Memory Analysis, R8 优化与 App Startup 调校
 ---
 
-# Deep Performance Tuning (深度效能優化)
+# Deep Performance Tuning (深度性能优化)
 
 ## Instructions
-- 僅在有量測數據或明確瓶頸時使用
-- 依照下方章節順序套用
-- 一次只施作一種優化並驗證效果
-- 完成後對照 Quick Checklist
+- 仅在有量测数据或明确瓶颈时使用
+- 依照下方章节顺序套用
+- 一次只施作一种优化并验证效果
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario D：效能問題排查
-- Scenario E：發布前效能驗證
+- Scenario D：性能问题排查
+- Scenario E：发布前性能验证
 
 ## Example Prompts
-- "請參考 App Startup Optimization，建立 Macrobenchmark 測量"
-- "用 Memory Analysis 章節，規劃記憶體分析流程"
-- "請依照 R8/Proguard Optimization，檢查規則是否完整"
+- "请参考 App Startup Optimization，创建 Macrobenchmark 测量"
+- "用 Memory Analysis 章节，规划内存分析流程"
+- "请依照 R8/Proguard Optimization，检查规则是否完整"
 
 ## Workflow
-1. 先建立量測基準（Startup/Memory/UI）
-2. 再逐一套用對應優化手段
-3. 最後用 Quick Checklist 驗收
+1. 先创建量测基准（Startup/Memory/UI）
+2. 再逐一套用对应优化手段
+3. 最后用 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- Baseline Profile + Macrobenchmark 作為預設流程
-- 每次只做一項優化並量測差異
-- 效能門檻要進 CI Gate
+- Baseline Profile + Macrobenchmark 作为默认流程
+- 每次只做一项优化并量测差异
+- 性能门槛要进 CI Gate
 
 ## Minimal Template
 ```
-目標: 
-量測基準: 
-優化範圍: 
-回歸指標: 
-驗收: Quick Checklist
+目标: 
+量测基准: 
+优化范围: 
+回归指标: 
+验收: Quick Checklist
 ```
 
 ---
 
 ## App Startup Optimization
 
-### Macrobenchmark 測量
+### Macrobenchmark 测量
 
 ```kotlin
 @LargeTest
@@ -90,7 +90,7 @@ class BaselineProfileGenerator {
             pressHome()
             startActivityAndWait()
             
-            // 關鍵路徑
+            // 关键路径
             device.findObject(By.text("Login")).click()
             device.wait(Until.hasObject(By.text("Home")), 5000)
         }
@@ -98,7 +98,7 @@ class BaselineProfileGenerator {
 }
 ```
 
-### Application onCreate 優化
+### Application onCreate 优化
 
 ```kotlin
 class MyApplication : Application() {
@@ -109,7 +109,7 @@ class MyApplication : Application() {
         // Firebase.initialize(this)
         // Timber.plant(DebugTree())
         
-        // ✅ 延遲初始化
+        // ✅ 延迟初始化
         AppInitializer.getInstance(this)
             .initializeComponent(FirebaseInitializer::class.java)
         
@@ -118,7 +118,7 @@ class MyApplication : Application() {
             object : DefaultLifecycleObserver {
                 override fun onCreate(owner: LifecycleOwner) {
                     lifecycleScope.launch(Dispatchers.Default) {
-                        // 非關鍵初始化
+                        // 非关键初始化
                     }
                 }
             }
@@ -142,13 +142,13 @@ adb pull /data/local/tmp/heap.hprof
 # 或使用 MAT (Memory Analyzer Tool)
 ```
 
-### LeakCanary 設定
+### LeakCanary 设置
 
 ```kotlin
 // build.gradle.kts
 debugImplementation("com.squareup.leakcanary:leakcanary-android:2.12")
 
-// 自定義報告
+// 自定义报告
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
@@ -160,14 +160,14 @@ class MyApplication : Application() {
 }
 ```
 
-### Bitmap 記憶體管理
+### Bitmap 内存管理
 
 ```kotlin
-// 使用 Coil 自動管理
+// 使用 Coil 自动管理
 AsyncImage(
     model = ImageRequest.Builder(LocalContext.current)
         .data(imageUrl)
-        .size(Size.ORIGINAL)  // 根據需求調整
+        .size(Size.ORIGINAL)  // 根据需求调整
         .memoryCachePolicy(CachePolicy.ENABLED)
         .build(),
     contentDescription = null
@@ -178,7 +178,7 @@ AsyncImage(
 
 ## R8/Proguard Optimization
 
-### 自定義規則
+### 自定义规则
 
 ```proguard
 # 保留 Serializable
@@ -237,7 +237,7 @@ class MainActivity : ComponentActivity() {
 ### Compose Recomposition Tracking
 
 ```kotlin
-// 開啟 Composition Tracking
+// 打开 Composition Tracking
 @Composable
 fun DebugComposable() {
     SideEffect {
@@ -245,7 +245,7 @@ fun DebugComposable() {
     }
 }
 
-// 使用 Layout Inspector 檢查 recomposition count
+// 使用 Layout Inspector 检查 recomposition count
 ```
 
 ---
@@ -253,7 +253,7 @@ fun DebugComposable() {
 ## Quick Checklist
 
 - [ ] Startup: Baseline Profiles 生成
-- [ ] Startup: Application onCreate 延遲初始化
-- [ ] Memory: LeakCanary 無洩漏
-- [ ] APK: R8 規則完善
-- [ ] UI: JankStats 無嚴重掉幀
+- [ ] Startup: Application onCreate 延迟初始化
+- [ ] Memory: LeakCanary 无泄漏
+- [ ] APK: R8 规则完善
+- [ ] UI: JankStats 无严重掉帧

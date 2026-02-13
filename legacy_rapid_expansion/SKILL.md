@@ -1,64 +1,64 @@
 ---
 name: Legacy Rapid Expansion
-description: 在舊架構中快速建立新功能的 Islanding 策略
+description: 在旧架构中快速创建新功能的 Islanding 策略
 ---
 
-# Legacy Rapid Expansion (舊專案快速擴充)
+# Legacy Rapid Expansion (旧项目快速扩充)
 
 ## Instructions
-- 僅在舊專案加入新功能時使用
-- 依照下方章節順序套用
-- 一次只建立一個隔離區與橋接點
-- 完成後對照 Quick Checklist
+- 仅在旧项目加入新功能时使用
+- 依照下方章节顺序套用
+- 一次只创建一个隔离区与桥接点
+- 完成后对照 Quick Checklist
 
 ## When to Use
-- Scenario B：舊專案加新功能
+- Scenario B：旧项目加新功能
 
 ## Example Prompts
-- "請依照 Islanding Architecture 建立 modern/ 與 bridge/"
-- "用 Hybrid Theming 章節讓新 Compose UI 沿用舊 Theme"
-- "請用 Feature Toggle 章節設計新功能開關"
+- "请依照 Islanding Architecture 创建 modern/ 与 bridge/"
+- "用 Hybrid Theming 章节让新 Compose UI 沿用旧 Theme"
+- "请用 Feature Toggle 章节设计新功能开关"
 
 ## Workflow
-1. 先建立 Islanding Architecture 與 Bridge Pattern
-2. 再處理 Hybrid Theming 與 Wrapper Activities
-3. 最後用 Feature Toggle 與 Quick Checklist 驗收
+1. 先创建 Islanding Architecture 与 Bridge Pattern
+2. 再处理 Hybrid Theming 与 Wrapper Activities
+3. 最后用 Feature Toggle 与 Quick Checklist 验收
 
 ## Practical Notes (2026)
-- 新功能必須獨立於 legacy 內部實作
-- Bridge API 需穩定，避免頻繁變更造成擴散
-- Feature Toggle 作為上線與回退的唯一入口
+- 新功能必须独立于 legacy 内部实作
+- Bridge API 需稳定，避免频繁变更造成扩散
+- Feature Toggle 作为上线与回退的唯一入口
 
 ## Minimal Template
 ```
-目標: 
-隔離範圍: 
-Bridge 契約: 
+目标: 
+隔离范围: 
+Bridge 契约: 
 Toggle 策略: 
-驗收: Quick Checklist
+验收: Quick Checklist
 ```
 
 ---
 
-## Islanding Architecture (孤島策略)
+## Islanding Architecture (孤岛策略)
 
-在舊架構中切出一塊「淨土」，新功能完全使用現代架構開發。
+在旧架构中切出一块「净土」，新功能完全使用现代架构开发。
 
-### 目錄結構
+### 目录结构
 
 ```
 app/
-├── legacy/                # 舊代碼 (不動)
+├── legacy/                # 旧代码 (不动)
 │   ├── activities/
 │   └── fragments/
-├── modern/                # 新代碼 (淨土)
+├── modern/                # 新代码 (净土)
 │   ├── core/
 │   │   ├── data/
 │   │   ├── domain/
 │   │   └── ui/
 │   └── feature/
 │       └── newfeature/
-└── bridge/                # 橋接層
+└── bridge/                # 桥接层
     ├── LegacyNavigator.kt
     └── ModernEntryPoint.kt
 ```
@@ -78,11 +78,11 @@ object ModernEntryPoint {
     
     @Composable
     fun NewFeatureScreen(params: Map<String, Any>) {
-        // 現代 Compose UI
+        // 现代 Compose UI
     }
 }
 
-// 舊代碼呼叫
+// 旧代码调用
 class LegacyActivity : AppCompatActivity() {
     fun onButtonClick() {
         ModernEntryPoint.startNewFeatureActivity(this, bundleOf("id" to productId))
@@ -94,7 +94,7 @@ class LegacyActivity : AppCompatActivity() {
 
 ## Hybrid Theming
 
-讓 Compose UI 沿用舊有的 XML Theme。
+让 Compose UI 沿用旧有的 XML Theme。
 
 ### MDC-Android Compose Theme Adapter
 
@@ -107,27 +107,27 @@ dependencies {
 // 使用
 @Composable
 fun NewFeatureScreen() {
-    MdcTheme {  // 自動橋接 XML Theme
+    MdcTheme {  // 自动桥接 XML Theme
         Surface {
-            // Compose UI 會使用 XML 定義的 colors/typography
+            // Compose UI 会使用 XML 定义的 colors/typography
         }
     }
 }
 ```
 
-### 漸進式遷移
+### 渐进式迁移
 
 ```kotlin
 // 1. 初期：完全沿用 XML Theme
 MdcTheme { content() }
 
-// 2. 中期：覆寫部分 Token
+// 2. 中期：覆写部分 Token
 MdcTheme(
     setTextColors = true,
     setDefaultFontFamily = true
 ) { content() }
 
-// 3. 後期：完全使用 Compose Theme
+// 3. 后期：完全使用 Compose Theme
 AppTheme { content() }
 ```
 
@@ -135,7 +135,7 @@ AppTheme { content() }
 
 ## Wrapper Activities
 
-快速將 Compose Screen 包裝供舊有 `startActivity` 呼叫。
+快速将 Compose Screen 包装供旧有 `startActivity` 调用。
 
 ### 通用 Wrapper
 
@@ -177,7 +177,7 @@ class ComposeWrapperActivity : ComponentActivity() {
 
 ## Feature Toggle
 
-安全地在 Production 環境開關新功能。
+安全地在 Production 环境开关新功能。
 
 ```kotlin
 interface FeatureFlags {
@@ -210,8 +210,8 @@ class CheckoutNavigator @Inject constructor(
 
 ## Quick Checklist
 
-- [ ] 新功能放在 `modern/` 目錄
-- [ ] 橋接層清晰定義 (bridge/)
-- [ ] Hybrid Theming 確保視覺一致
-- [ ] Feature Toggle 控制上線
-- [ ] 避免新代碼依賴舊代碼的內部實作
+- [ ] 新功能放在 `modern/` 目录
+- [ ] 桥接层清晰定义 (bridge/)
+- [ ] Hybrid Theming 确保视觉一致
+- [ ] Feature Toggle 控制上线
+- [ ] 避免新代码依赖旧代码的内部实作
