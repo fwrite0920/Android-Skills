@@ -1,0 +1,36 @@
+{
+  "name": "android-skills",
+  "owner": {
+    "name": "fwrite0920"
+  },
+  "metadata": {
+    "description": "Android 资深工程师技能库 - 涵盖开发规范、架构设计、性能优化到 DevOps 的全方位指南",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "android-skills",
+      "description": "16 个 Android 开发专业技能，涵盖规范、架构、性能、DevOps 全领域",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skill_index",
+        "./coding_style_conventions",
+        "./project_bootstrapping",
+        "./ui_ux_engineering",
+        "./dependency_injection_mastery",
+        "./data_layer_mastery",
+        "./navigation_patterns",
+        "./legacy_rapid_expansion",
+        "./tech_stack_migration",
+        "./testing_legacy_strategies",
+        "./deep_performance_tuning",
+        "./devops_and_security",
+        "./crash_monitoring",
+        "./kotlin_multiplatform",
+        "./observability_first",
+        "./supply_chain_security"
+      ]
+    }
+  ]
+}

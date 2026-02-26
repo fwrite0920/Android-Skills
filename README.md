@@ -2,6 +2,21 @@
 
 这是一个专为资深 Android 工程师设计的技能库，涵盖了从开发规范、架构设计到性能优化的全方位指南。
 
+## 🔧 安装方式
+
+### Claude Code 快速安装（推荐）
+
+```bash
+npx skills add fwrite0920/Android-Skills
+```
+
+### 或使用 Claude Code 插件命令
+
+```
+/plugin marketplace add fwrite0920/Android-Skills
+/plugin install android-skills@android-skills
+```
+
 ## 📖 使用指南
 
 请参考 [**ANDROID_SKILLS_GUIDE.md**](./ANDROID_SKILLS_GUIDE.md) 获取完整的详细使用教学。该指南说明了如何在 Antigravity、Cursor、Windsurf 等各种 AI 工具中有效地使用这些技能。
