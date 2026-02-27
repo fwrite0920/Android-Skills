@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.1] - 2026-02-27
+
+### Fixes
+- **deep_performance_tuning**: Correct lifecycleScope owner reference
+- **dependency_injection_mastery**: Add EntryPoint interface and fix service accessor
+- **legacy_rapid_expansion**: Add missing parameters to navigation methods
+- **navigation_patterns**: Move comment out of JSON code block
+- **sdk_development**: Use interface for API surface and fix markdown nesting
+- **supply_chain_security**: Move comment out of JSON code block
+- **tech_stack_migration**: Use @ApplicationContext for DI bridge module
+- **ui_ux_engineering**: Add missing activity variable declaration
+
+### Documentation
+- **coding_style_conventions**: Rename Code Review Checklist to Quick Checklist
+- Update skill count to 17 and generalize skills-root paths in guide
+
 ## [1.1.0] - 2026-02-27
 
 ### Features
