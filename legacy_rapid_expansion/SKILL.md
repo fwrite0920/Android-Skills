@@ -75,6 +75,13 @@ object ModernEntryPoint {
         }
         context.startActivity(intent)
     }
+
+    fun startCheckoutCompose(context: Context, orderId: String) {
+        startNewFeatureActivity(
+            context = context,
+            params = bundleOf("order_id" to orderId, "entry" to "checkout")
+        )
+    }
     
     @Composable
     fun NewFeatureScreen(params: Map<String, Any>) {
@@ -194,13 +201,14 @@ class RemoteFeatureFlags @Inject constructor(
 
 // 使用
 class CheckoutNavigator @Inject constructor(
+    private val context: Context,
     private val featureFlags: FeatureFlags
 ) {
-    fun navigateToCheckout() {
+    fun navigateToCheckout(orderId: String) {
         if (featureFlags.useNewCheckout) {
-            ModernEntryPoint.startCheckoutCompose()
+            ModernEntryPoint.startCheckoutCompose(context, orderId)
         } else {
-            startActivity(LegacyCheckoutActivity::class)
+            context.startActivity(Intent(context, LegacyCheckoutActivity::class.java))
         }
     }
 }
