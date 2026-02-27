@@ -107,8 +107,9 @@ NavHost(navController, startDestination = "main") {
 
 ### assetlinks.json (Host 验证)
 
+部署位置：`https://example.com/.well-known/assetlinks.json`
+
 ```json
-// https://example.com/.well-known/assetlinks.json
 [{
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {

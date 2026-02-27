@@ -136,8 +136,9 @@ dependencyCheck {
 
 ### Renovate / Dependabot 自动更新
 
+文件名：`renovate.json`
+
 ```json
-// renovate.json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
