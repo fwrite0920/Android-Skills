@@ -59,13 +59,9 @@ class MySDK {
 }
 
 // ✅ 正确：只暴露必要接口
-class MySDK {
-    private val cache: MutableMap<String, Any> = mutableMapOf()
-
+interface MySDK {
     fun initialize(context: Context, config: Config) { }
     fun performAction(input: String): Result<Output>
-
-    internal fun processInternal(data: String) { }  // 仅供内部模块使用
 }
 ```
 
@@ -136,6 +132,7 @@ data class Config(
     val apiKey: String,
     val enableLogging: Boolean = false
 )
+```
 
 ### sdk-core Module
 
@@ -249,7 +246,7 @@ dependencies {
 }
 ```
 
-```markdown
+````markdown
 <!-- README.md -->
 ## Dependencies
 
@@ -258,7 +255,7 @@ This SDK requires the following dependencies in your app:
 ```gradle
 implementation("com.squareup.okhttp3:okhttp:4.12.0")
 ```
-```
+````
 
 ---
 
@@ -686,7 +683,7 @@ class AdvancedUsageFragment : Fragment() {
 
 ### README.md 示例
 
-```markdown
+````markdown
 # Sample App
 
 演示 My SDK 的各种用法。
@@ -702,7 +699,7 @@ class AdvancedUsageFragment : Fragment() {
 - **BasicUsageFragment**: 基础初始化与调用
 - **AdvancedUsageFragment**: 自定义配置与并发操作
 - **ErrorHandlingFragment**: 错误处理与重试策略
-```
+````
 
 ---
 
