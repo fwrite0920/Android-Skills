@@ -115,6 +115,12 @@ interface UserSessionComponentBuilder {
 ### 管理 Component 生命周期
 
 ```kotlin
+@EntryPoint
+@InstallIn(UserSessionComponent::class)
+interface UserSessionEntryPoint {
+    fun paymentService(): PaymentService
+}
+
 @Singleton
 class UserSessionManager @Inject constructor(
     private val componentBuilder: Provider<UserSessionComponentBuilder>
@@ -129,9 +135,10 @@ class UserSessionManager @Inject constructor(
         component = null
     }
     
-    fun <T> getService(clazz: Class<T>): T {
-        return EntryPoints.get(component!!, UserSessionEntryPoint::class.java)
-            .let { /* get service */ }
+    fun getPaymentService(): PaymentService {
+        val currentComponent = checkNotNull(component) { "User not logged in" }
+        return EntryPoints.get(currentComponent, UserSessionEntryPoint::class.java)
+            .paymentService()
     }
 }
 ```
