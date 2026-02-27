@@ -131,18 +131,18 @@ class MyApplication : Application() {
 
 ```kotlin
 class ANRWatchDog(private val timeoutMs: Long = 5000) : Thread() {
-    
+
     private val mainHandler = Handler(Looper.getMainLooper())
-    private var tick = 0
-    private var reported = false
-    
+    @Volatile private var tick = 0
+    @Volatile private var reported = false
+
     override fun run() {
         while (!isInterrupted) {
             val currentTick = tick
             mainHandler.post { tick++ }
-            
+
             Thread.sleep(timeoutMs)
-            
+
             if (currentTick == tick && !reported) {
                 reported = true
                 val stackTraces = Looper.getMainLooper().thread.stackTrace

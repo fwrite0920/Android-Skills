@@ -123,7 +123,12 @@ suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): NetworkResult<T
     return try {
         val response = apiCall()
         if (response.isSuccessful) {
-            NetworkResult.Success(response.body()!!)
+            val body = response.body()
+            if (body != null) {
+                NetworkResult.Success(body)
+            } else {
+                NetworkResult.Error(response.code(), "Empty response body")
+            }
         } else {
             NetworkResult.Error(response.code(), response.message())
         }
@@ -155,17 +160,25 @@ class AuthInterceptor(private val tokenProvider: TokenProvider) : Interceptor {
 class RetryInterceptor(private val maxRetries: Int = 3) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var attempt = 0
-        var response: Response? = null
+        var lastException: IOException? = null
+
         while (attempt < maxRetries) {
             try {
-                response = chain.proceed(chain.request())
-                if (response.isSuccessful) return response
+                val response = chain.proceed(chain.request())
+                if (response.isSuccessful) {
+                    return response
+                }
+                // 关闭失败的 response 避免连接泄漏
+                response.close()
+                attempt++
             } catch (e: IOException) {
+                lastException = e
                 attempt++
                 if (attempt >= maxRetries) throw e
             }
         }
-        return response!!
+
+        throw lastException ?: IOException("Max retries exceeded")
     }
 }
 ```
