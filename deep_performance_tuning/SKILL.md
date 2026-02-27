@@ -117,7 +117,7 @@ class MyApplication : Application() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(
             object : DefaultLifecycleObserver {
                 override fun onCreate(owner: LifecycleOwner) {
-                    lifecycleScope.launch(Dispatchers.Default) {
+                    owner.lifecycleScope.launch(Dispatchers.Default) {
                         // 非关键初始化
                     }
                 }
