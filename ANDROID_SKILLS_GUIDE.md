@@ -55,6 +55,7 @@
 | 14 | `kotlin_multiplatform` | KMP 跨平台架构 | `kotlin_multiplatform/SKILL.md` |
 | 15 | `observability_first` | 可观测性优先与指标闭环 | `observability_first/SKILL.md` |
 | 16 | `supply_chain_security` | 依赖治理与供应链安全 | `supply_chain_security/SKILL.md` |
+| 17 | `sdk_development` | SDK/Library 开发全生命周期 | `sdk_development/SKILL.md` |
 
 ---
 
@@ -1138,7 +1139,7 @@ sudo port install gemini-cli
 │   └── SKILL.md
 ├── data_layer_mastery/
 │   └── SKILL.md
-└── ... (共 14 个 Android skills)
+└── ... (共 17 个 Android skills)
 ```
 
 #### 激活 Agent Skills（首次需要）
@@ -1704,12 +1705,12 @@ Set-Alias -Name android-review -Value Invoke-AndroidReview
 │ ANTIGRAVITY    │ @skill_name (技能已内置，自动识别)                    │
 │ CURSOR         │ @skill_name                                         │
 │ WINDSURF       │ @skill_name 在 Cascade 中                            │
-│ ROO CODE       │ @~/.gemini/skills/xxx/SKILL.md                      │
-│ CLINE          │ 请读取 ~/.claude/skills/xxx/SKILL.md                 │
+│ ROO CODE       │ @<skills-root>/xxx/SKILL.md                          │
+│ CLINE          │ 请读取 <skills-root>/xxx/SKILL.md                     │
 ├───────────────────────────────────────────────────────────────────────┤
 │                        🔧 其他 CLI 工具                                │
 ├───────────────────────────────────────────────────────────────────────┤
-│ AIDER          │ /read ~/.claude/skills/xxx/SKILL.md                 │
+│ AIDER          │ /read <skills-root>/xxx/SKILL.md                     │
 │ OPENCODE CLI   │ @skill_name (TUI)                                   │
 │ LLM CLI        │ cat SKILL.md | llm "指令"                           │
 │ FABRIC         │ cat code.kt | fabric --pattern android_review       │
@@ -1723,7 +1724,8 @@ Set-Alias -Name android-review -Value Invoke-AndroidReview
 └───────────────────────────────────────────────────────────────────────┘
 ```
 
-注：各工具的技能加载指令以官方文档为准，若版本差异请依官方更新。
+注：`<skills-root>` 请替换为你实际放置目录（如 `~/.gemini/antigravity/skills`、`~/.gemini/skills`、`~/.claude/skills`、`~/.codex/skills`）。
+各工具的技能加载指令以官方文档为准，若版本差异请依官方更新。
 
 ### Skills 安装位置对照
 
@@ -1745,5 +1747,4 @@ Set-Alias -Name android-review -Value Invoke-AndroidReview
 ```
 
 简短说明：若你的 CLI 已内置 skills 机制，请把对应的 skill 目录放到以上标准位置；若版本不同，请以官方文档为准并保留此表作为默认值。
-
 

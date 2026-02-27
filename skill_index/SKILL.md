@@ -276,7 +276,7 @@ Copilot 通常会读取「目前打开的文件」作为上下文。
 为了在有限的 Token 与 Attention 下达到最佳效果：
 
 1. **Context Management (不浪费 Token)**：
-   - 🚫 **Don't**: 一次把 14 个文件全部丢给 AI。
+   - 🚫 **Don't**: 一次把 17 个文件全部丢给 AI。
    - ✅ **Do**: 根据 `Scenario Router`，只加载当下任务需要的 2-3 个技能。
    
 2. **Focusing (聚焦指令)**：
@@ -286,4 +286,3 @@ Copilot 通常会读取「目前打开的文件」作为上下文。
 3. **Enforce Checklists (强制验收)**：
    - 在任务结束前，要求 AI：
    - *「请逐一检查 @SKILL.md 中的 Quick Checklist，确认我们是否遗漏了什么？」*
-
