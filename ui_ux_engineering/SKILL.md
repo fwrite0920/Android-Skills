@@ -195,6 +195,7 @@ SharedTransitionLayout {
 ```kotlin
 @Composable
 fun AdaptiveLayout() {
+    val activity = LocalContext.current as Activity
     val windowSizeClass = calculateWindowSizeClass(activity)
     
     when (windowSizeClass.widthSizeClass) {
