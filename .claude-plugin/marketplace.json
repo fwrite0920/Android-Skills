@@ -5,12 +5,12 @@
   },
   "metadata": {
     "description": "Android 资深工程师技能库 - 涵盖开发规范、架构设计、性能优化到 DevOps 的全方位指南",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "android-skills",
-      "description": "16 个 Android 开发专业技能，涵盖规范、架构、性能、DevOps 全领域",
+      "description": "17 个 Android 开发专业技能，涵盖规范、架构、性能、DevOps 全领域",
       "source": "./",
       "strict": false,
       "skills": [
@@ -29,7 +29,8 @@
         "./crash_monitoring",
         "./kotlin_multiplatform",
         "./observability_first",
-        "./supply_chain_security"
+        "./supply_chain_security",
+        "./sdk_development"
       ]
     }
   ]

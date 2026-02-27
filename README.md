@@ -23,7 +23,7 @@ npx skills add fwrite0920/Android-Skills
 
 ## 🛠️ 技能列表
 
-这个技能库包含以下 16 个专业领域的技能：
+这个技能库包含以下 17 个专业领域的技能：
 
 | 技能目录 | 用途简述 |
 |---------|---------|
@@ -43,6 +43,7 @@ npx skills add fwrite0920/Android-Skills
 | **`kotlin_multiplatform`** | KMP 跨平台架构与逻辑共享 |
 | **`observability_first`** | 可观测性优先与指标闭环 |
 | **`supply_chain_security`** | 依赖治理与供应链安全 |
+| **`sdk_development`** | SDK/Library 开发全生命周期 |
 
 ## 🚀 快速开始 (Antigravity)
 

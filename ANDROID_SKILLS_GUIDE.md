@@ -1,6 +1,6 @@
 # Android Skills 完整使用教学
 
-这份指南详细说明如何在各种 AI 工具中使用这 16 个 Android 技能。
+这份指南详细说明如何在各种 AI 工具中使用这 17 个 Android 技能。
 
 ---
 
@@ -63,7 +63,7 @@
 ### 原则 1：Context 管理 (不浪费 Token)
 
 ```
-❌ 错误做法：把 16 个文件全部丢给 AI
+❌ 错误做法：把 17 个文件全部丢给 AI
    → Token 浪费、AI 注意力分散、回应品质下降
 
 ✅ 正确做法：根据任务只加载 2-3 个相关技能
@@ -136,7 +136,7 @@ npm install -g @anthropic-ai/antigravity
 ├── skill_index/SKILL.md
 ├── coding_style_conventions/SKILL.md
 ├── project_bootstrapping/SKILL.md
-└── ... (共 16 个)
+└── ... (共 17 个)
 ```
 
 #### 使用方式 1：自动识别
@@ -647,7 +647,7 @@ Anthropic 官方的 Agentic CLI 工具，支持 Skills 系统。
 │   └── SKILL.md
 ├── data_layer_mastery/
 │   └── SKILL.md
-└── ... (共 16 个 Android skills)
+└── ... (共 17 个 Android skills)
 ```
 
 #### 使用方式 1：Slash Command（直接调用）
@@ -1059,7 +1059,7 @@ brew install --cask codex
 │   └── SKILL.md
 ├── data_layer_mastery/
 │   └── SKILL.md
-└── ... (共 16 个 Android skills)
+└── ... (共 17 个 Android skills)
 ```
 
 #### 激活 Skills 功能
