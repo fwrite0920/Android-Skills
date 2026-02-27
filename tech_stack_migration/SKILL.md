@@ -209,8 +209,10 @@ object NewModule { }
 @InstallIn(SingletonComponent::class)
 object LegacyBridgeModule {
     @Provides
-    fun provideLegacyService(): LegacyService {
-        return (application as MyApp).legacyComponent.legacyService()
+    fun provideLegacyService(
+        @ApplicationContext context: Context
+    ): LegacyService {
+        return (context.applicationContext as MyApp).legacyComponent.legacyService()
     }
 }
 ```
