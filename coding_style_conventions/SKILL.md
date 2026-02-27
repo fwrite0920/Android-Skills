@@ -18,12 +18,12 @@ description: Kotlin 代码规范、Linter 配置与 Code Review 检核标准
 ## Example Prompts
 - "请参考本技能的 Naming Conventions，检查这段 Kotlin 代码命名是否一致"
 - "依照 Detekt 与 Ktlint 配置章节，帮我创建项目规范"
-- "请用 Code Review Checklist 审视这个 PR 的风格问题"
+- "请用 Quick Checklist 审视这个 PR 的风格问题"
 
 ## Workflow
 1. 先对照 Naming Conventions 设置命名规则
 2. 再依 Detekt / Ktlint 配置落实到项目
-3. 最后用 Code Review Checklist 验收
+3. 最后用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - CI Gate 仅针对变更文件运行 Lint/Detekt/Ktlint
@@ -186,7 +186,7 @@ fun filterAndSort(tasks: List<Task>, now: Instant = Instant.now()): List<Task>
 
 ---
 
-## Code Review Checklist
+## Quick Checklist
 
 ### Naming & Style
 - [ ] 命名是否遵循上述规则？
