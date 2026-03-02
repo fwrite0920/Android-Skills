@@ -23,12 +23,20 @@ description: 为无测试的旧代码创建安全网的策略
 ## Workflow
 1. 先创建 Characterization Tests 锁定行为
 2. 再补齐 Framework 测试与 MockK 策略
-3. 最后用 Quick Checklist 验收
+3. 建立 Baseline 与 CI 门禁，避免技术债回流
+4. 最后用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - 测试输出必须可重复与可比对
 - 每次只锁定一类行为，避免测试爆量
 - Baseline 逐步收敛，避免一次性大改
+
+## Environment & Compatibility (先确认)
+- 在开始前先记录测试栈：`AGP` / `Kotlin` / `JUnit4 or JUnit5` / `Robolectric` / `MockK` / `kotlinx-coroutines-test`
+- 同一模块避免混搭两套测试 runner；若必须混搭，先确认执行入口与依赖冲突
+- Robolectric 版本需与项目 `compileSdk` 与 AGP 组合先做 smoke test
+- 所有示例版本号以项目 `libs.versions.toml` 或既有依赖锁定为准
+- 若版本未定，请先完成 1 个最小可执行测试再批量铺开
 
 ## Minimal Template
 ```
@@ -44,6 +52,12 @@ description: 为无测试的旧代码创建安全网的策略
 ## Characterization Tests (现状测试)
 
 为没有测试的旧代码撰写「现状测试」，不管对错，先锁定行为。
+
+### 样本选择顺序 (避免盲目铺量)
+1. 先测高风险路径：金流、登录、权限、数据写入
+2. 再测边界条件：`null`、空集合、最小/最大值、异常输入
+3. 最后补常见主路径：最常被调用的 20% 场景
+4. 每轮只新增一类行为，确保失败原因单一可诊断
 
 ### 策略
 
@@ -94,20 +108,23 @@ fun `calculateDiscount characterization`(
 
 ```kotlin
 // build.gradle.kts
-testImplementation("org.robolectric:robolectric:4.11.1")
+testImplementation("org.robolectric:robolectric:<project-verified-version>")
 
 // 测试类别
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33])
 class LegacyActivityTest {
+    private lateinit var activity: LegacyActivity
+
+    @Before
+    fun setUp() {
+        activity = Robolectric.buildActivity(LegacyActivity::class.java)
+            .setup()
+            .get()
+    }
     
     @Test
     fun `activity displays correct title`() {
-        val activity = Robolectric.buildActivity(LegacyActivity::class.java)
-            .create()
-            .resume()
-            .get()
-        
         assertEquals("Expected Title", activity.title)
     }
 }
@@ -120,7 +137,6 @@ class LegacyActivityTest {
 fun `shows toast on error`() {
     activity.showError("Network failed")
     
-    val toast = ShadowToast.getLatestToast()
     assertEquals("Network failed", ShadowToast.getTextOfLatestToast())
 }
 ```
@@ -150,11 +166,30 @@ fun `repository returns cached data`() {
 @Test
 fun `suspend function mocking`() = runTest {
     val api = mockk<UserApi>()
-    coEvery { api.fetchUser("123") } returns User(id = "123")
+    coEvery { api.fetchUser("123") } returns User(id = "123", name = "Test")
     
     val result = api.fetchUser("123")
     
-    coVerify { api.fetchUser("123") }
+    assertEquals("123", result.id)
+    assertEquals("Test", result.name)
+    coVerify(exactly = 1) { api.fetchUser("123") }
+}
+```
+
+### Dispatcher 控制 (降低 flaky)
+
+```kotlin
+@OptIn(ExperimentalCoroutinesApi::class)
+class MainDispatcherRule(
+    private val dispatcher: TestDispatcher = UnconfinedTestDispatcher()
+) : TestWatcher() {
+    override fun starting(description: Description) {
+        Dispatchers.setMain(dispatcher)
+    }
+
+    override fun finished(description: Description) {
+        Dispatchers.resetMain()
+    }
 }
 ```
 
@@ -207,6 +242,17 @@ detekt {
 ./gradlew detektBaseline
 ```
 
+### CI 门禁 (防止回流)
+
+```bash
+# PR 常规检查：不允许新增违规
+./gradlew detekt lintDebug
+
+# 建议策略：
+# 1. Baseline 文件只允许在「技术债收敛任务」中变更
+# 2. 业务 PR 若修改 baseline，需额外说明与审批
+```
+
 ---
 
 ## Golden Master Testing
@@ -227,12 +273,22 @@ fun `report generator produces expected output`() {
 }
 ```
 
+实务建议：
+- 先做标准化再比对（时间、时区、随机值、UUID、排序）
+- Golden 文件纳入版本控制并在 PR 中审阅 diff
+- 输出过大时改用结构化断言 + 关键片段 golden，降低维护成本
+
 ---
 
 ## Quick Checklist
 
 - [ ] 重构前先撰写 Characterization Tests
+- [ ] 每次只锁定一类行为，失败原因可单点定位
 - [ ] 使用 Robolectric 处理 Android 依赖
-- [ ] MockK 的 relaxed mock 加速旧代码测试
+- [ ] MockK/Coroutine 测试同时验证「调用次数 + 业务结果」
+- [ ] 使用 `MainDispatcherRule` 或同等机制固定调度器
 - [ ] Detekt/Lint Baseline 控制技术债
+- [ ] CI 阻挡新增违规，不让 baseline 扩张
 - [ ] 每个 Sprint 减少 Baseline 项目
+- [ ] 固定时区、Locale、随机种子，确保测试可重复
+- [ ] 对 flaky 测试标记原因与修复期限，不长期跳过
