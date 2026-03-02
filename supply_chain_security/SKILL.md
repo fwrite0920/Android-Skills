@@ -61,8 +61,8 @@ SCA 门槛:
         <verify-signatures>true</verify-signatures>
     </configuration>
     <components>
-        <component group="com.google.dagger" name="hilt-android" version="2.50">
-            <artifact name="hilt-android-2.50.aar">
+        <component group="com.google.dagger" name="hilt-android" version="<project-verified-version>">
+            <artifact name="hilt-android-<project-verified-version>.aar">
                 <sha256 value="abc123..." />
             </artifact>
         </component>
@@ -75,9 +75,9 @@ SCA 门槛:
 ```toml
 # gradle/libs.versions.toml — 所有依赖版本集中管理
 [versions]
-kotlin = "1.9.22"
-hilt = "2.50"
-retrofit = "2.9.0"
+kotlin = "<project-verified-version>"
+hilt = "<project-verified-version>"
+retrofit = "<project-verified-version>"
 
 [libraries]
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -107,7 +107,7 @@ dependencyResolutionManagement {
 ```kotlin
 // build.gradle.kts
 plugins {
-    id("org.owasp.dependencycheck") version "9.0.7"
+    id("org.owasp.dependencycheck") version "<project-verified-version>"
 }
 
 dependencyCheck {
