@@ -167,26 +167,29 @@ end
 ### Secrets Management
 
 ```kotlin
+// ❌ 不要把真实密钥写进 BuildConfig / strings.xml / assets
+// ✅ 用 secrets-gradle-plugin 管理「可公开但需分环境」的配置
 // build.gradle.kts
-android {
-    buildFeatures {
-        buildConfig = true
-    }
-    
-    buildTypes {
-        release {
-            buildConfigField("String", "API_KEY", "\"${System.getenv("API_KEY")}\"")
-        }
-    }
-}
-
-// 使用 secrets-gradle-plugin
 plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
-// local.properties (不 commit)
-API_KEY=your_secret_key
+secrets {
+    propertiesFileName = "secrets.properties"            // 本地/CI 注入，不进版控
+    defaultPropertiesFileName = "local.defaults.properties" // 可提交的占位值
+}
+```
+
+```kotlin
+// 真正敏感凭证：由后端签发短时 token，不内置在 APK
+interface TokenApi {
+    suspend fun getEphemeralToken(): String
+}
+```
+
+```gitignore
+secrets.properties
+local.properties
 ```
 
 ### Certificate Pinning
