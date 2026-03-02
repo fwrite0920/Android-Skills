@@ -157,28 +157,37 @@ class AuthInterceptor(private val tokenProvider: TokenProvider) : Interceptor {
 }
 
 // Retry
-class RetryInterceptor(private val maxRetries: Int = 3) : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        var attempt = 0
-        var lastException: IOException? = null
+class RetryInterceptor(
+    private val maxRetries: Int = 3,
+    private val baseDelayMs: Long = 200
+) : Interceptor {
+    private val retryableMethods = setOf("GET", "HEAD", "OPTIONS")
+    private val retryableStatusCodes = setOf(408, 429, 500, 502, 503, 504)
 
-        while (attempt < maxRetries) {
-            try {
-                val response = chain.proceed(chain.request())
-                if (response.isSuccessful) {
-                    return response
-                }
-                // 关闭失败的 response 避免连接泄漏
-                response.close()
-                attempt++
-            } catch (e: IOException) {
-                lastException = e
-                attempt++
-                if (attempt >= maxRetries) throw e
-            }
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+
+        // 仅重试幂等请求，避免 POST/PUT 重复提交副作用
+        if (request.method !in retryableMethods) {
+            return chain.proceed(request)
         }
 
-        throw lastException ?: IOException("Max retries exceeded")
+        var attempt = 0
+        while (true) {
+            try {
+                val response = chain.proceed(request)
+                val shouldRetry = response.code in retryableStatusCodes && attempt < maxRetries - 1
+                if (!shouldRetry) {
+                    return response
+                }
+                response.close()
+            } catch (e: IOException) {
+                if (attempt >= maxRetries - 1) throw e
+            }
+
+            attempt++
+            Thread.sleep(baseDelayMs * attempt) // 简单 backoff，降低瞬时失败抖动
+        }
     }
 }
 ```
