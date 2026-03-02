@@ -253,7 +253,7 @@ dependencies {
 This SDK requires the following dependencies in your app:
 
 ```gradle
-implementation("com.squareup.okhttp3:okhttp:4.12.0")
+implementation("com.squareup.okhttp3:okhttp:<project-verified-version>")
 ```
 ````
 
@@ -385,7 +385,7 @@ jobs:
 ```kotlin
 // build.gradle.kts (root)
 plugins {
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.14.0"
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "<project-verified-version>"
 }
 
 apiValidation {
@@ -415,7 +415,7 @@ public final class com/example/sdk/MySDK {
 ```kotlin
 // build.gradle.kts
 plugins {
-    id("me.tylerbwong.gradle.metalava") version "0.3.4"
+    id("me.tylerbwong.gradle.metalava") version "<project-verified-version>"
 }
 
 metalava {
@@ -523,7 +523,7 @@ suspend fun performActionAsync(input: String): Result<Output>
 ```kotlin
 // build.gradle.kts
 plugins {
-    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.dokka") version "<project-verified-version>"
 }
 
 tasks.dokkaHtml.configure {
@@ -628,7 +628,7 @@ dependencies {
     implementation(project(":sdk-core"))
 
     // 或使用已发布版本
-    // implementation("com.example:my-sdk:1.0.0")
+    // implementation("com.example:my-sdk:<project-verified-version>")
 }
 ```
 
