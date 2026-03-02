@@ -52,7 +52,7 @@ plugins {
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation(platform("com.google.firebase:firebase-bom:<project-verified-version>"))
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
 }
@@ -133,20 +133,28 @@ class MyApplication : Application() {
 class ANRWatchDog(private val timeoutMs: Long = 5000) : Thread() {
 
     private val mainHandler = Handler(Looper.getMainLooper())
-    @Volatile private var tick = 0
+    @Volatile private var heartbeat = 0L
     @Volatile private var reported = false
 
     override fun run() {
         while (!isInterrupted) {
-            val currentTick = tick
-            mainHandler.post { tick++ }
+            val currentHeartbeat = heartbeat
+            mainHandler.post {
+                heartbeat++
+                reported = false // 主线程恢复后，允许下一次 ANR 再上报
+            }
 
-            Thread.sleep(timeoutMs)
+            try {
+                Thread.sleep(timeoutMs)
+            } catch (e: InterruptedException) {
+                interrupt()
+                return
+            }
 
-            if (currentTick == tick && !reported) {
+            if (currentHeartbeat == heartbeat && !reported) {
                 reported = true
                 val stackTraces = Looper.getMainLooper().thread.stackTrace
-                Firebase.crashlytics.log("ANR Detected")
+                Firebase.crashlytics.log("ANR detected")
                 Firebase.crashlytics.recordException(ANRException(stackTraces))
             }
         }
