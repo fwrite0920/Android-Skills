@@ -108,7 +108,7 @@ class LegacyActivity : AppCompatActivity() {
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("com.google.android.material:compose-theme-adapter:1.2.1")
+    implementation("com.google.android.material:compose-theme-adapter:<project-verified-version>")
 }
 
 // 使用
