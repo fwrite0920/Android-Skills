@@ -76,7 +76,7 @@ onUserClick: (User) -> Unit
 ```kotlin
 // build.gradle.kts (project-level)
 plugins {
-    id("io.gitlab.arturbosch.detekt") version "1.23.4"
+    id("io.gitlab.arturbosch.detekt") version "<project-verified-version>"
 }
 
 // build.gradle.kts (app-level)
@@ -130,7 +130,7 @@ style:
 ```kotlin
 // build.gradle.kts
 plugins {
-    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
+    id("org.jlleitschuh.gradle.ktlint") version "<project-verified-version>"
 }
 
 ktlint {
