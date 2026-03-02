@@ -115,17 +115,17 @@ kotlin {
     
     sourceSets {
         commonMain.dependencies {
-            implementation("io.ktor:ktor-client-core:2.3.7")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+            implementation("io.ktor:ktor-client-core:<project-verified-version>")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:<project-verified-version>")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:<project-verified-version>")
         }
         
         androidMain.dependencies {
-            implementation("io.ktor:ktor-client-okhttp:2.3.7")
+            implementation("io.ktor:ktor-client-okhttp:<project-verified-version>")
         }
         
         iosMain.dependencies {
-            implementation("io.ktor:ktor-client-darwin:2.3.7")
+            implementation("io.ktor:ktor-client-darwin:<project-verified-version>")
         }
     }
 }
@@ -173,7 +173,7 @@ actual fun createHttpClient(): HttpClient = HttpClient(Darwin) {
 ```kotlin
 // build.gradle.kts
 plugins {
-    id("app.cash.sqldelight") version "2.0.1"
+    id("app.cash.sqldelight") version "<project-verified-version>"
 }
 
 sqldelight {
