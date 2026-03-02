@@ -124,8 +124,8 @@ fun LegacyFragmentContainer() {
 | `debounce` | `debounce` | 相同 |
 | `combineLatest` | `combine` | 相同 |
 | `zip` | `zip` | 相同 |
-| `observeOn(main)` | `flowOn(Dispatchers.Main)` | 注意位置不同 |
-| `subscribeOn(io)` | `flowOn(Dispatchers.IO)` | 影响上游 |
+| `observeOn(main)` | 在 Main scope `collect` | `flowOn` 不会切换下游 collector |
+| `subscribeOn(io)` | `flowOn(Dispatchers.IO)` | 仅影响上游 |
 
 ### 范例：Search with Debounce
 
@@ -138,11 +138,15 @@ searchEditText.textChanges()
     .subscribe { results -> updateUI(results) }
 
 // After (Flow)
-searchFlow
-    .debounce(300)
-    .flatMapLatest { query -> api.search(query) }
-    .flowOn(Dispatchers.IO)
-    .collect { results -> updateUI(results) }
+lifecycleScope.launch {
+    searchFlow
+        .debounce(300)
+        .flatMapLatest { query ->
+            flow { emit(api.search(query)) }
+                .flowOn(Dispatchers.IO) // 对应 Rx 的 subscribeOn(IO)
+        }
+        .collect { results -> updateUI(results) } // 对应 Rx 的 observeOn(Main)
+}
 ```
 
 ### Error Handling 差异
@@ -153,7 +157,7 @@ observable
     .onErrorReturn { defaultValue }
     .subscribe()
 
-// Flow: catch 不终止 stream
+// Flow: catch 会拦截上游异常；是否继续取决于是否 emit fallback
 flow
     .catch { emit(defaultValue) }
     .collect()
