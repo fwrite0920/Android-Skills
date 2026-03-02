@@ -144,11 +144,11 @@ dependencies {
 
 ```toml
 [versions]
-kotlin = "1.9.22"
-compose-bom = "2024.01.00"
-hilt = "2.50"
-room = "2.6.1"
-retrofit = "2.9.0"
+kotlin = "<project-verified-version>"
+compose-bom = "<project-verified-version>"
+hilt = "<project-verified-version>"
+room = "<project-verified-version>"
+retrofit = "<project-verified-version>"
 
 [libraries]
 # Compose
@@ -164,7 +164,7 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 compose = ["compose-ui", "compose-material3"]
 
 [plugins]
-android-application = { id = "com.android.application", version = "8.2.2" }
+android-application = { id = "com.android.application", version = "<project-verified-version>" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ```
