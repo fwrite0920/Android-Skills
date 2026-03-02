@@ -117,14 +117,18 @@ class PerformanceInterceptor : Interceptor {
         )
         metric.start()
 
-        val response = chain.proceed(request)
-
-        metric.setResponseContentType(response.header("Content-Type"))
-        metric.setHttpResponseCode(response.code)
-        metric.setResponsePayloadSize(response.body?.contentLength() ?: 0)
-        metric.stop()
-
-        return response
+        return try {
+            val response = chain.proceed(request)
+            metric.setResponseContentType(response.header("Content-Type"))
+            metric.setHttpResponseCode(response.code)
+            metric.setResponsePayloadSize(response.body?.contentLength() ?: 0)
+            response
+        } catch (e: IOException) {
+            metric.putAttribute("result", "io_exception")
+            throw e
+        } finally {
+            metric.stop()
+        }
     }
 }
 ```
