@@ -7,6 +7,7 @@ description: Systrace, Memory Analysis, R8 优化与 App Startup 调校
 
 ## Instructions
 - 仅在有量测数据或明确瓶颈时使用
+- 先填写 Required Inputs（基线、设备、阈值）并冻结
 - 依照下方章节顺序套用
 - 一次只施作一种优化并验证效果
 - 完成后对照 Quick Checklist
@@ -21,23 +22,55 @@ description: Systrace, Memory Analysis, R8 优化与 App Startup 调校
 - "请依照 R8/Proguard Optimization，检查规则是否完整"
 
 ## Workflow
-1. 先创建量测基准（Startup/Memory/UI）
-2. 再逐一套用对应优化手段
-3. 最后用 Quick Checklist 验收
+1. 先确认 Required Inputs（量测设备、指标阈值、回归标准）
+2. 创建量测基准（Startup/Memory/UI）
+3. 逐一套用对应优化手段（一次一项）
+4. 执行 Performance Gate 并记录前后对比
+5. 用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - Baseline Profile + Macrobenchmark 作为默认流程
 - 每次只做一项优化并量测差异
 - 性能门槛要进 CI Gate
+- 量测环境必须固定（机型/API/温度状态）避免伪回归
+- 无数据不优化，先采集再改动
 
 ## Minimal Template
 ```
 目标: 
 量测基准: 
+量测设备/环境:
+性能阈值:
 优化范围: 
 回归指标: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `量测设备`（机型/API/系统版本）
+- `性能阈值`（startup/jank/memory/apk size）
+- `测试场景`（冷启动、列表滚动、关键交易）
+- `回归标准`（允许波动范围）
+- `责任人`（性能优化 owner）
+
+## Deliverables (完成后交付物)
+
+- `Benchmark` 配置与基线数据
+- `优化变更` 与前后指标对比
+- `CI performance gate`（阻挡规则）
+- `回归报告`（失败原因与处置）
+
+## Performance Gate (验收门槛)
+
+```bash
+./gradlew :benchmark:connectedBenchmarkAndroidTest
+./gradlew test
+```
+
+> 需要在 PR 中附上优化前后数据与采样条件。
 
 ---
 
@@ -252,8 +285,10 @@ fun DebugComposable() {
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（设备/阈值/回归标准）
 - [ ] Startup: Baseline Profiles 生成
 - [ ] Startup: Application onCreate 延迟初始化
 - [ ] Memory: LeakCanary 无泄漏
 - [ ] APK: R8 规则完善
 - [ ] UI: JankStats 无严重掉帧
+- [ ] Performance Gate 已执行并记录结果
