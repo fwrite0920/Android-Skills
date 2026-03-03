@@ -7,6 +7,7 @@ description: Room 进阶用法、Retrofit 集成与 Offline-First 架构
 
 ## Instructions
 - 确认需求属于数据层（Room、网络、脱机策略）
+- 先填写 Required Inputs（数据源、一致性目标、回退策略）
 - 依照下方章节顺序套用
 - 一次只调整一个数据流或责任边界
 - 完成后对照 Quick Checklist
@@ -22,23 +23,55 @@ description: Room 进阶用法、Retrofit 集成与 Offline-First 架构
 - "请用 Offline-First 章节查看目前 Repository 是否符合 SSOT"
 
 ## Workflow
-1. 先检查 Room / Network 的基础设计
-2. 再确立 Offline-First 与数据同步策略
-3. 最后用 Quick Checklist 验收
+1. 先确认 Required Inputs（数据源、同步策略、失败处理）
+2. 检查 Room / Network 的基础设计
+3. 确立 Offline-First 与数据同步策略
+4. 执行 Data Gate（迁移/错误/回归），再用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - Offline-first 只在不稳网络或高一致性需求时激活
 - Repository 必须是 SSOT，避免多处来源竞争
 - 错误处理统一化，避免每层自行判断
+- 每个关键查询必须有索引与量测基线
+- 同步失败要有重试与幂等策略，避免脏写
 
 ## Minimal Template
 ```
 目标: 
 数据源: 
+一致性要求:
+同步触发策略:
 缓存策略: 
 错误处理: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `数据源清单`（本地 DB / 远端 API / 缓存）
+- `一致性目标`（最终一致 / 强一致）
+- `同步触发`（前台/后台/手动）
+- `错误策略`（重试、降级、熔断）
+- `回退策略`（迁移失败或线上异常时）
+
+## Deliverables (完成后交付物)
+
+- `Repository` SSOT 结构与责任边界
+- `Room migration` 脚本与测试
+- `Network error` 统一封装
+- `Offline-first` 同步流程说明
+- `Data Gate` 验收记录
+
+## Data Gate (验收门槛)
+
+```bash
+./gradlew test
+./gradlew connectedDebugAndroidTest
+```
+
+> 至少包含：Migration 测试、Repository 行为测试、错误路径测试。
 
 ---
 
@@ -258,8 +291,10 @@ val darkThemeFlow: Flow<Boolean> = context.dataStore.data
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（数据源/一致性/回退）
 - [ ] Room Migration 测试通过
 - [ ] Network Error 统一处理
 - [ ] Repository 实作 SSOT
 - [ ] DataStore 取代 SharedPreferences
 - [ ] Paging 用于大量数据列表
+- [ ] Data Gate 已执行并记录结果
