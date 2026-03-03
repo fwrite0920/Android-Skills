@@ -85,10 +85,12 @@
 | F | 跨平台共享逻辑 | `kotlin_multiplatform` + `data_layer_mastery` |
 | G | AI-assisted CI / Quality Gates | `coding_style_conventions` + `devops_and_security` |
 | H | Performance-by-default | `deep_performance_tuning` + `project_bootstrapping` |
-| I | Observability-first | `observability_first` + `crash_monitoring` |
+| I | Observability-first | `observability_first` + `crash_monitoring`（先定义 SLO/Owner/告警渠道） |
 | J | Supply Chain Security | `supply_chain_security` + `devops_and_security` |
 | K | Compose-first + Interop | `tech_stack_migration` + `ui_ux_engineering` |
 | L | 多模块治理 | `project_bootstrapping` + `dependency_injection_mastery` |
+
+> 所有场景都建议执行：`Required Inputs` → `Deliverables` → `*Gate` → `Quick Checklist`。
 
 ### 原则 3：明确引用章节
 
@@ -108,6 +110,22 @@
  确认每一项都符合规范」
 ```
 
+### 原则 5：执行契约 (Required Inputs → Deliverables → *Gate)
+
+从当前版本开始，技能默认采用统一执行契约：
+
+1. 先填写 `Required Inputs`（范围、阈值、Owner、回退策略）
+2. 明确 `Deliverables`（本次要产出的文件、配置、报告）
+3. 执行对应 `* Gate`（例如 `Style Gate`、`Release Gate`、`Monitoring Gate`）
+4. 最后再做 `Quick Checklist` 收尾
+
+推荐在提示词里直接加上：
+
+```
+请先填写该技能的 Required Inputs，再输出 Deliverables，
+执行对应 Gate 后，逐条完成 Quick Checklist。
+```
+
 ---
 
 ## 各 AI 工具详细教学
@@ -118,7 +136,7 @@
 
 **契合度：⭐⭐⭐⭐⭐ (高)**
 
-**注意**：Antigravity 官方来源尚未确认，以下为目前可用信息整理；若有官方链接请提供以便更新。
+**注意**：以下流程请以该工具在你使用当日的官方文档为准；本文仅提供技能接入思路与示例。
 
 #### 安装方式
 
@@ -1747,4 +1765,3 @@ Set-Alias -Name android-review -Value Invoke-AndroidReview
 ```
 
 简短说明：若你的 CLI 已内置 skills 机制，请把对应的 skill 目录放到以上标准位置；若版本不同，请以官方文档为准并保留此表作为默认值。
-
