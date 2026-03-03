@@ -7,6 +7,7 @@ description: Deep Links、跨模块导航与复杂 Back Stack 管理
 
 ## Instructions
 - 确认需求属于导览与 Back Stack 管理
+- 先填写 Required Inputs（路由边界、deeplink 清单、返回栈规则）
 - 依照下方章节顺序套用
 - 一次只处理一个导航面向（Deep Link、跨模块、Back Stack）
 - 完成后对照 Quick Checklist
@@ -21,23 +22,56 @@ description: Deep Links、跨模块导航与复杂 Back Stack 管理
 - "请用 Multi-Module Navigation 设计跨模块导航接口"
 
 ## Workflow
-1. 先创建 Compose Navigation 基础路由
-2. 再加入 Deep Links 与跨模块导航
-3. 最后用 Back Stack 管理与 Quick Checklist 验收
+1. 先确认 Required Inputs（路由、deeplink、状态恢复）
+2. 创建 Compose Navigation 基础路由
+3. 加入 Deep Links 与跨模块导航
+4. 定义 Back Stack 规则并执行 Navigation Gate
+5. 用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - 默认采用 type-safe args，避免字符串路由散落
 - Deep Link 必须有验证与回归测试流程
 - Back Stack 规则统一化，避免各模块自订逻辑
+- 路由命名需稳定，禁止在多个模块重复定义同名语义
+- 所有外部 deeplink 必须有 fallback 页面与埋点
 
 ## Minimal Template
 ```
 目标: 
 路由范围: 
+跨模块边界:
+状态恢复策略:
 Deep Link: 
 Back Stack 规则: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `路由清单`（screen 与参数）
+- `Deep Link 清单`（host/path/验证方式）
+- `跨模块边界`（navigator interface）
+- `Back Stack 规则`（singleTop/popUpTo/saveState）
+- `状态恢复策略`（进程重建、配置变更）
+
+## Deliverables (完成后交付物)
+
+- `NavHost` 路由定义与 type-safe args
+- `Deep Link` 配置与验证文件
+- `跨模块导航接口` 与实现
+- `Back Stack` 行为说明与测试用例
+- `Navigation Gate` 验收记录
+
+## Navigation Gate (验收门槛)
+
+```bash
+./gradlew test
+./gradlew connectedDebugAndroidTest
+```
+
+> 关键 deeplink 需在真机或模拟器验证可达与回退路径。
 
 ---
 
@@ -238,8 +272,10 @@ fun MainScreen() {
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（路由/deeplink/返回栈规则）
 - [ ] 使用 Type-Safe Args (Navigation 2.8+)
 - [ ] Deep Links 配置 assetlinks.json
 - [ ] 跨模块使用 Navigator interface
 - [ ] Navigation Events 作为 Single Event 处理
 - [ ] Bottom Nav 正确保存/恢复 State
+- [ ] Navigation Gate 已执行并记录结果
