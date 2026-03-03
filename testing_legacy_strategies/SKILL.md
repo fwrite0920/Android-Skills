@@ -7,6 +7,7 @@ description: 为无测试的旧代码创建安全网的策略
 
 ## Instructions
 - 仅在缺乏测试的既有代码上使用
+- 先填写 Required Inputs（高风险路径、测试栈、阻挡策略）
 - 依照下方章节顺序创建安全网
 - 一次只锁定一类行为或输出
 - 完成后对照 Quick Checklist
@@ -21,15 +22,18 @@ description: 为无测试的旧代码创建安全网的策略
 - "请用 Detekt/Lint Baseline 章节创建技术债控管"
 
 ## Workflow
-1. 先创建 Characterization Tests 锁定行为
-2. 再补齐 Framework 测试与 MockK 策略
-3. 建立 Baseline 与 CI 门禁，避免技术债回流
-4. 最后用 Quick Checklist 验收
+1. 先确认 Required Inputs（风险路径、测试优先级、CI 门槛）
+2. 创建 Characterization Tests 锁定行为
+3. 补齐 Framework 测试与 MockK 策略
+4. 建立 Baseline 与 CI 门禁，避免技术债回流
+5. 执行 Legacy Test Gate 并用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - 测试输出必须可重复与可比对
 - 每次只锁定一类行为，避免测试爆量
 - Baseline 逐步收敛，避免一次性大改
+- 先覆盖高风险业务，再扩展到普通路径
+- flaky case 必须标记 owner 与修复截止时间
 
 ## Environment & Compatibility (先确认)
 - 在开始前先记录测试栈：`AGP` / `Kotlin` / `JUnit4 or JUnit5` / `Robolectric` / `MockK` / `kotlinx-coroutines-test`
@@ -42,10 +46,39 @@ description: 为无测试的旧代码创建安全网的策略
 ```
 目标: 
 测试范围: 
+高风险路径:
+CI 阻挡门槛:
 行为锁定: 
 回归方式: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `高风险路径`（金流/登录/权限/写入）
+- `测试栈版本`（JUnit/MockK/Robolectric/coroutines-test）
+- `CI 阻挡策略`（哪些失败阻挡合并）
+- `Baseline 策略`（是否允许、收敛计划）
+- `责任人`（测试 owner）
+
+## Deliverables (完成后交付物)
+
+- `Characterization tests` 列表
+- `Framework 相关测试`（Robolectric/Instrumented）
+- `Baseline` 文件与收敛计划
+- `CI 测试门禁` 配置
+- `Legacy Test Gate` 验收记录
+
+## Legacy Test Gate (验收门槛)
+
+```bash
+./gradlew test
+./gradlew connectedDebugAndroidTest
+```
+
+> PR 需要说明新增测试覆盖了哪些高风险行为。
 
 ---
 
@@ -282,6 +315,7 @@ fun `report generator produces expected output`() {
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（高风险路径/测试栈/门槛）
 - [ ] 重构前先撰写 Characterization Tests
 - [ ] 每次只锁定一类行为，失败原因可单点定位
 - [ ] 使用 Robolectric 处理 Android 依赖
@@ -292,3 +326,4 @@ fun `report generator produces expected output`() {
 - [ ] 每个 Sprint 减少 Baseline 项目
 - [ ] 固定时区、Locale、随机种子，确保测试可重复
 - [ ] 对 flaky 测试标记原因与修复期限，不长期跳过
+- [ ] Legacy Test Gate 已执行并记录结果
