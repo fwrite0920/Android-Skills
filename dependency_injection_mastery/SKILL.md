@@ -7,6 +7,7 @@ description: Hilt 进阶用法、Custom Components 与 Multi-binding 模式
 
 ## Instructions
 - 确认问题属于 DI 架构或 Scope 设计
+- 先填写 Required Inputs（Scope 边界、模块所有权、替换策略）
 - 依照下方章节顺序套用
 - 一次只调整一种注入模式或 module
 - 完成后对照 Quick Checklist
@@ -22,23 +23,55 @@ description: Hilt 进阶用法、Custom Components 与 Multi-binding 模式
 - "请用 Multi-binding 章节设计插件式支付模块"
 
 ## Workflow
-1. 先确认 Assisted Injection 与 Scope 需求
-2. 再整理 Module Organization 与 Qualifier
-3. 最后用 Quick Checklist 验收
+1. 先确认 Required Inputs（生命周期、模块边界、测试替身）
+2. 确认 Assisted Injection 与 Scope 需求
+3. 整理 Module Organization 与 Qualifier
+4. 执行 DI Gate（编译/测试/图检查）后验收
 
 ## Practical Notes (2026)
 - 多模块采 API/impl 分离，避免跨模块直接依赖实作
 - 跨模块导航与 Service 以 interface + EntryPoint 统一
 - Scope 设计先画出生命周期，再落地到 Module
+- Module 中避免业务逻辑，保持 Provider 纯粹可预测
+- 依赖图变更必须附迁移说明，避免隐式破坏
 
 ## Minimal Template
 ```
 目标: 
 Scope: 
+生命周期边界:
+替换策略(测试/灰度):
 Module 结构: 
 注入模式: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `Scope 边界`（App / Session / Feature）
+- `模块责任`（谁提供、谁消费）
+- `Qualifier 方案`（同类型多实例命名）
+- `替换策略`（测试 mock / runtime fallback）
+- `迁移范围`（旧注入到新注入）
+
+## Deliverables (完成后交付物)
+
+- `DI module` 结构与命名规范
+- `Scope` 生命周期图与说明
+- `Qualifier` 清单
+- `测试替换配置`（`@TestInstallIn`/`@UninstallModules`）
+- `DI Gate` 验收记录
+
+## DI Gate (验收门槛)
+
+```bash
+./gradlew assemble
+./gradlew test
+```
+
+> 关键模块需附带至少一个注入图相关测试或编译验证案例。
 
 ---
 
@@ -242,8 +275,10 @@ object DispatcherModule {
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（scope/边界/替换策略）
 - [ ] ViewModel 动态参数使用 Assisted Injection
 - [ ] 避免在 Module 中使用 `@Provides` 创建复杂逻辑
 - [ ] Qualifier 用于区分相同类型的不同实例
 - [ ] 避免 Circular Dependencies
 - [ ] 测试时使用 `@UninstallModules` + `@TestInstallIn`
+- [ ] DI Gate 已执行并记录结果
