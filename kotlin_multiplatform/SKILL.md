@@ -7,6 +7,7 @@ description: KMP 跨平台架构、共享逻辑与平台集成
 
 ## Instructions
 - 仅在需要跨平台共享逻辑时使用
+- 先填写 Required Inputs（共享边界、平台差异、发布策略）
 - 依照下方章节顺序套用
 - 一次只扩充一个共享模块或平台端集成
 - 完成后对照 Quick Checklist
@@ -20,23 +21,56 @@ description: KMP 跨平台架构、共享逻辑与平台集成
 - "请参考 Ktor Client 与 SQLDelight，规划跨平台数据层"
 
 ## Workflow
-1. 先定义共享边界与项目结构
-2. 再落实 Network/Database 的 expect/actual
-3. 最后用 Testing Shared Code 与 Quick Checklist 验收
+1. 先确认 Required Inputs（共享边界、平台 owner、测试基线）
+2. 定义共享边界与项目结构
+3. 落实 Network/Database 的 expect/actual
+4. 执行 KMP Gate（common + platform tests）
+5. 用 Testing Shared Code 与 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - 共享逻辑必限制在 Domain/Data，避免 UI 共享
 - commonTest 必覆盖内核业务流程
 - 平台特性变更需回写到共享边界文档
+- 每次跨平台抽取后都要验证 API 稳定性与二进制兼容
+- 平台特有 fallback 逻辑必须明确，避免 shared 层泄漏平台细节
 
 ## Minimal Template
 ```
 目标: 
 共享边界: 
+平台 owner:
+发布策略:
 平台差异: 
 测试策略: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `共享边界`（domain/data/util）
+- `平台差异`（android/ios/web）
+- `平台 owner`（责任人）
+- `发布策略`（内部分发/外部发布）
+- `测试基线`（commonTest + platform tests）
+
+## Deliverables (完成后交付物)
+
+- `shared` 模块结构与边界说明
+- `expect/actual` 实现与注释
+- `commonTest` 与平台测试结果
+- `兼容性说明`（API/行为差异）
+- `KMP Gate` 验收记录
+
+## KMP Gate (验收门槛)
+
+```bash
+./gradlew :shared:allTests
+./gradlew :androidApp:test
+```
+
+> 若接入 iOS，请补充 Xcode/CI 的 iOS 测试结果链接。
 
 ---
 
@@ -253,8 +287,10 @@ class UserRepositoryTest {
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（边界/差异/owner）
 - [ ] 共享边界明确 (Domain + Data)
 - [ ] UI 保持平台原生
 - [ ] Ktor Client 配置 expect/actual
 - [ ] SQLDelight 取代 Room (跨平台)
 - [ ] commonTest 测试共享逻辑
+- [ ] KMP Gate 已执行并记录结果
