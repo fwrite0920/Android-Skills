@@ -7,6 +7,7 @@ description: View→Compose, RxJava→Flow 等技术迁移指南
 
 ## Instructions
 - 仅在需要渐进式迁移时使用
+- 先填写 Required Inputs（迁移范围、回滚策略、验收指标）
 - 依照下方章节顺序套用
 - 一次只替换一个技术栈
 - 完成后对照 Quick Checklist
@@ -20,23 +21,56 @@ description: View→Compose, RxJava→Flow 等技术迁移指南
 - "请用 LiveData → StateFlow 的步骤规划迁移"
 
 ## Workflow
-1. 先确认要迁移的技术栈与范围
-2. 依序套用对应章节的范例与对照表
-3. 最后用 Quick Checklist 验收
+1. 先确认 Required Inputs（迁移维度、回滚点、指标阈值）
+2. 确认要迁移的技术栈与范围
+3. 依序套用对应章节的范例与对照表
+4. 执行 Migration Gate 并比较迁移前后指标
+5. 用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - 迁移必先有可验证的测试安全网
 - 一次只迁移一个维度（UI 或 Data 或 DI）
 - 指标回归后才能推进下一步
+- 迁移期间必须保留双栈观测点，便于快速定位回归
+- 功能开关应覆盖新旧实现切换
 
 ## Minimal Template
 ```
 目标: 
 迁移范围: 
+回滚策略:
+观测指标:
 测试安全网: 
 回归指标: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `迁移范围`（模块/页面/数据流）
+- `回滚策略`（开关、版本、降级路径）
+- `回归指标`（崩溃率、启动、耗时、成功率）
+- `测试覆盖`（单元/UI/集成）
+- `负责人`（迁移 owner 与 reviewer）
+
+## Deliverables (完成后交付物)
+
+- 迁移设计说明（旧 -> 新 对照）
+- 双栈过渡实现与开关
+- 回归测试清单与结果
+- 指标对比报告（迁移前后）
+- `Migration Gate` 验收记录
+
+## Migration Gate (验收门槛)
+
+```bash
+./gradlew test
+./gradlew connectedDebugAndroidTest
+```
+
+> 每个迁移 PR 需要附带回滚步骤与开关状态说明。
 
 ---
 
@@ -225,8 +259,10 @@ object LegacyBridgeModule {
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（范围/回滚/指标）
 - [ ] Compose 与 View 的生命周期对齐
 - [ ] AndroidView 正确处理 onRelease
 - [ ] Flow operator 对照 RxJava 正确
 - [ ] StateFlow 使用 collectAsStateWithLifecycle
 - [ ] Hilt 迁移维持向后兼容
+- [ ] Migration Gate 已执行并记录结果
