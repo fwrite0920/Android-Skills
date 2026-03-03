@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0] - 2026-03-03
+
+### Features
+- **Operational Contract (all 17 skills)**: Standardize execution flow to `Required Inputs -> Deliverables -> *Gate -> Quick Checklist`
+- **skill_index**: Add routing contract, routing gate, and strengthened usage workflow for gate-driven execution
+
+### Documentation
+- **ANDROID_SKILLS_GUIDE**: Add Principle 5 (Execution Contract) and align scenario guidance with gate-based validation
+- **project_bootstrapping**: Add project gate section for executable bootstrap validation
+- **sdk_development**: Add release gate, single-source coordinate strategy, and hardened publish checklist
+- **observability_first / crash_monitoring**: Add monitoring/crash gates, owner-based alerting inputs, and deliverables contract
+- **remaining domain skills** (`coding_style_conventions`, `data_layer_mastery`, `deep_performance_tuning`, `dependency_injection_mastery`, `devops_and_security`, `kotlin_multiplatform`, `legacy_rapid_expansion`, `navigation_patterns`, `supply_chain_security`, `tech_stack_migration`, `testing_legacy_strategies`, `ui_ux_engineering`): Add unified input/output/gate/checklist structure
+
 ## [1.1.2] - 2026-03-02
 
 ### Fixes
