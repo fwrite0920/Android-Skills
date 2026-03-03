@@ -7,6 +7,7 @@ description: 依赖治理、SCA、签章与密钥管理
 
 ## Instructions
 - 先盘点依赖来源与版本策略
+- 先填写 Required Inputs（仓库白名单、CVSS 门槛、签章策略）
 - 创建 SCA 扫描与审核流程
 - 一次只强化一个供应链节点
 - 完成后对照 Quick Checklist
@@ -23,24 +24,57 @@ description: 依赖治理、SCA、签章与密钥管理
 - "帮我配置 Gradle Dependency Verification"
 
 ## Workflow
-1. 创建依赖来源与版本锁定策略
-2. 加入 SCA 扫描与审核流程
-3. 设置签章与密钥管理规范
-4. 将风险门槛纳入 CI Gate
+1. 先确认 Required Inputs（来源白名单、风险阈值、owner）
+2. 创建依赖来源与版本锁定策略
+3. 加入 SCA 扫描与审核流程
+4. 设置签章与密钥管理规范
+5. 将风险门槛纳入 CI Gate 并执行 Supply Chain Gate
 
 ## Practical Notes (2026)
 - 版本锁定与审核是最小安全基线
 - 依赖更新与安全修补分开处理
 - SCA 结果必须有处置规则
+- 高危漏洞必须有 SLA 与责任人，不能只有报告
+- 依赖来源、签章、校验三者必须同时满足才允许发布
 
 ## Minimal Template
 ```
 目标:
 依赖来源:
+来源白名单:
+CVSS 阈值:
 版本策略:
 SCA 门槛:
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `仓库白名单`（允许的 Maven 源）
+- `CVSS 阈值`（阻挡标准）
+- `owner`（安全处置负责人）
+- `签章策略`（发布签章与密钥轮换）
+- `依赖更新节奏`（常规升级与安全补丁节奏）
+
+## Deliverables (完成后交付物)
+
+- `Dependency Verification` 配置
+- `SCA 扫描流水线` 与阻挡规则
+- `签章与密钥管理规范`（含轮换流程）
+- `风险处置流程`（SLA + 升级路径）
+- `供应链审计记录`（可回溯）
+
+## Supply Chain Gate (验收门槛)
+
+```bash
+./gradlew --write-verification-metadata sha256,pgp help
+./gradlew dependencyCheckAnalyze
+./gradlew build
+```
+
+> 若 `dependencyCheckAnalyze` 发现超过阈值漏洞，必须在合并前完成修补或例外审批。
 
 ---
 
@@ -292,6 +326,7 @@ jobs:
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（白名单/CVSS/owner）
 - [ ] Version Catalog 作为依赖单一来源
 - [ ] Dependency Verification 启用（sha256 + pgp）
 - [ ] 仓库来源白名单（禁止未审核来源）
@@ -300,3 +335,4 @@ jobs:
 - [ ] Keystore 与 Secrets 不进版控
 - [ ] 签章流程可追踪（CI 环境变量注入）
 - [ ] 风险处置规则明确且有 SLA
+- [ ] Supply Chain Gate 已执行并通过
