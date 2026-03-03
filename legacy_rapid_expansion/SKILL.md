@@ -7,6 +7,7 @@ description: 在旧架构中快速创建新功能的 Islanding 策略
 
 ## Instructions
 - 仅在旧项目加入新功能时使用
+- 先填写 Required Inputs（隔离边界、桥接契约、回退方案）
 - 依照下方章节顺序套用
 - 一次只创建一个隔离区与桥接点
 - 完成后对照 Quick Checklist
@@ -20,23 +21,56 @@ description: 在旧架构中快速创建新功能的 Islanding 策略
 - "请用 Feature Toggle 章节设计新功能开关"
 
 ## Workflow
-1. 先创建 Islanding Architecture 与 Bridge Pattern
-2. 再处理 Hybrid Theming 与 Wrapper Activities
-3. 最后用 Feature Toggle 与 Quick Checklist 验收
+1. 先确认 Required Inputs（隔离范围、bridge API、toggle 策略）
+2. 创建 Islanding Architecture 与 Bridge Pattern
+3. 处理 Hybrid Theming 与 Wrapper Activities
+4. 配置 Feature Toggle 与回滚流程
+5. 执行 Legacy Gate 并用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - 新功能必须独立于 legacy 内部实作
 - Bridge API 需稳定，避免频繁变更造成扩散
 - Feature Toggle 作为上线与回退的唯一入口
+- 新旧系统边界必须有 owner，避免“共享无人区”
+- 迁移期间每个 bridge 调用都应有埋点便于回滚判断
 
 ## Minimal Template
 ```
 目标: 
 隔离范围: 
+旧系统依赖:
+回滚触发条件:
 Bridge 契约: 
 Toggle 策略: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `隔离范围`（新功能边界与 legacy 触点）
+- `Bridge 契约`（输入/输出/错误码）
+- `Feature Toggle 策略`（开关位置、默认值、回滚）
+- `回滚触发条件`（指标阈值与负责人）
+- `埋点字段`（新旧路径识别）
+
+## Deliverables (完成后交付物)
+
+- `modern/` 与 `bridge/` 目录落地
+- `Bridge API` 文档与使用样例
+- `Hybrid theme` 兼容策略
+- `Toggle` 配置与灰度/回滚脚本
+- `Legacy Gate` 验收记录
+
+## Legacy Gate (验收门槛)
+
+```bash
+./gradlew test
+./gradlew connectedDebugAndroidTest
+```
+
+> 需要在 PR 说明中附新旧路径对照与回滚步骤。
 
 ---
 
@@ -218,8 +252,10 @@ class CheckoutNavigator @Inject constructor(
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（边界/契约/回滚）
 - [ ] 新功能放在 `modern/` 目录
 - [ ] 桥接层清晰定义 (bridge/)
 - [ ] Hybrid Theming 确保视觉一致
 - [ ] Feature Toggle 控制上线
 - [ ] 避免新代码依赖旧代码的内部实作
+- [ ] Legacy Gate 已执行并记录结果
