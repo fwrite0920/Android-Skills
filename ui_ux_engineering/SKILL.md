@@ -7,6 +7,7 @@ description: Design System 实作、复杂 UI 模式与 Accessibility
 
 ## Instructions
 - 确认需求属于 UI 架构、交互或可近用性
+- 先填写 Required Inputs（屏幕范围、设计 tokens、a11y 门槛）
 - 依照下方章节顺序套用
 - 一次只调整一种 UI 模式或设计 token
 - 完成后对照 Quick Checklist
@@ -22,23 +23,56 @@ description: Design System 实作、复杂 UI 模式与 Accessibility
 - "用 Accessibility 章节查看主要流程是否符合 a11y"
 
 ## Workflow
-1. 先创建 Design System 的基础 tokens
-2. 再套用 Complex UI Patterns 与 Adaptive Layouts
-3. 最后用 Accessibility 与 Quick Checklist 验收
+1. 先确认 Required Inputs（范围、断点、a11y 目标）
+2. 创建 Design System 的基础 tokens
+3. 套用 Complex UI Patterns 与 Adaptive Layouts
+4. 执行 UI Gate（性能 + a11y）并记录结果
+5. 用 Accessibility 与 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - Compose-first，但保留 View/Fragment 互通规范
 - a11y 验收必包含 TalkBack 走查与触摸目标
 - UI 性能以重组与列表滚动为优先检查点
+- 动效与布局变更必须考虑低端机表现
+- 设计 token 变更应集中在主题层，避免散落硬编码
 
 ## Minimal Template
 ```
 目标: 
 画面范围: 
+断点策略:
+性能目标:
 设计规范: 
 a11y 要求: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `页面范围`（核心流程与非核心流程）
+- `设计 tokens`（颜色/字体/间距）
+- `断点策略`（手机/平板/折叠）
+- `a11y 阈值`（对比度、触控面积、读屏）
+- `性能目标`（重组次数、滚动掉帧）
+
+## Deliverables (完成后交付物)
+
+- `Theme + tokens` 定义
+- `关键组件`（可复用、可测试）
+- `a11y 校验` 结果（TalkBack/对比度/触控）
+- `UI 性能` 量测记录
+- `UI Gate` 验收记录
+
+## UI Gate (验收门槛)
+
+```bash
+./gradlew test
+./gradlew connectedDebugAndroidTest
+```
+
+> PR 需附关键页面截图（至少手机与一个大屏断点）。
 
 ---
 
@@ -259,6 +293,8 @@ Image(
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（范围/tokens/a11y 目标）
+
 ### Design System
 - [ ] Color Scheme 定义 (Light/Dark)
 - [ ] Typography Scale 定义
@@ -270,3 +306,4 @@ Image(
 - [ ] 触摸目标 >= 48dp
 - [ ] 颜色对比度检查
 - [ ] TalkBack 测试通过
+- [ ] UI Gate 已执行并记录结果
