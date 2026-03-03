@@ -7,6 +7,7 @@ description: CI/CD 自动化、Gradle 优化与应用程序安全加固
 
 ## Instructions
 - 仅在发布准备或流程自动化需求时使用
+- 先填写 Required Inputs（CI 平台、签章策略、密钥来源）
 - 依照下方章节顺序套用
 - 一次只处理一个 pipeline 或安全措施
 - 完成后对照 Quick Checklist
@@ -20,23 +21,56 @@ description: CI/CD 自动化、Gradle 优化与应用程序安全加固
 - "请参考 Security Hardening，检查 secrets 与网络安全"
 
 ## Workflow
-1. 先创建 Build Speed 与 CI Quality Gates
-2. 再导入 Fastlane 与 Security Hardening
-3. 最后用 Quick Checklist 验收
+1. 先确认 Required Inputs（CI provider、发布渠道、secret 管理）
+2. 创建 Build Speed 与 CI Quality Gates
+3. 导入 Fastlane 与 Security Hardening
+4. 执行 Delivery Gate 并记录发布演练结果
+5. 用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - 依赖来源与版本必有审核与锁定策略
 - Secrets 仅能通过环境变量或安全保存
 - CI Gate 必含 Lint/Detekt/Test/Build
+- Pipeline 失败要可重现，禁止人工临时绕过
+- 发布流程至少每月 dry-run 一次，避免到发布日失效
 
 ## Minimal Template
 ```
 目标: 
 CI Gate: 
+CI Provider:
+Secrets 来源:
 安全措施: 
 发版流程: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `CI provider`（GitHub Actions / GitLab CI / Jenkins）
+- `发布渠道`（Play Internal/Alpha/Production）
+- `Secret 管理策略`（CI Secret / Vault / KMS）
+- `签章策略`（keystore 来源、轮换周期）
+- `阻挡条件`（哪些任务失败即阻挡发布）
+
+## Deliverables (完成后交付物)
+
+- 可执行 `CI pipeline`（lint/detekt/test/assemble）
+- `发布流水线`（Fastlane 或等效脚本）
+- `安全加固配置`（Network Security / Pinning / Secret policy）
+- `告警与追踪`（失败通知、日志可追溯）
+- `发布演练记录`（dry-run 结果）
+
+## Delivery Gate (验收门槛)
+
+```bash
+./gradlew lint detekt test assemble
+./gradlew bundleRelease
+```
+
+> 若使用 Fastlane，需补跑 `fastlane lane` 的 dry-run 或 internal track 发布演练。
 
 ---
 
@@ -244,9 +278,11 @@ class RootDetection {
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（CI/发布/密钥策略）
 - [ ] Build Cache 激活 (Local + Remote)
 - [ ] CI 包含 Lint, Detekt, Unit Test
 - [ ] Fastlane 自动化部署
 - [ ] Secrets 不进版控
 - [ ] Certificate Pinning 激活
 - [ ] Network Security Config 禁止 Cleartext
+- [ ] Delivery Gate 已执行并通过
