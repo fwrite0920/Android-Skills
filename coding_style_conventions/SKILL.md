@@ -7,6 +7,7 @@ description: Kotlin 代码规范、Linter 配置与 Code Review 检核标准
 
 ## Instructions
 - 确认需求属于本技能范围（命名、格式、检核）
+- 先填写 Required Inputs（规则范围、模块、门槛）并冻结
 - 依照下方章节顺序套用
 - 一次只调整一类规范，避免混杂变更
 - 完成后对照 Quick Checklist
@@ -21,23 +22,56 @@ description: Kotlin 代码规范、Linter 配置与 Code Review 检核标准
 - "请用 Quick Checklist 审视这个 PR 的风格问题"
 
 ## Workflow
-1. 先对照 Naming Conventions 设置命名规则
-2. 再依 Detekt / Ktlint 配置落实到项目
-3. 最后用 Quick Checklist 验收
+1. 先确认 Required Inputs（适用模块、规则级别、阻挡条件）
+2. 对照 Naming Conventions 设置命名规则
+3. 依 Detekt / Ktlint 配置落实到项目
+4. 执行 Style Gate，再用 Quick Checklist 验收
 
 ## Practical Notes (2026)
 - CI Gate 仅针对变更文件运行 Lint/Detekt/Ktlint
 - 规范调整与功能变更分开提交，方便回溯
 - Code Review 以 Checklist 作为硬性验收
+- 禁止在功能 PR 临时放宽规则，规则变更需独立 PR
+- Baseline 只减不增，新增违规必须当次修复
 
 ## Minimal Template
 ```
 目标: 
 适用范围: 
+阻挡门槛:
+Baseline 策略:
 规范重点: 
 检核方式: 
 验收: Quick Checklist
 ```
+
+---
+
+## Required Inputs (执行前输入)
+
+- `适用范围`（全仓 / 模块 / feature）
+- `规则门槛`（warning / error / 阻挡合并）
+- `Baseline 策略`（是否允许、收敛节奏）
+- `CI 执行范围`（全量或仅变更文件）
+- `代码审查口径`（review 必查项）
+
+## Deliverables (完成后交付物)
+
+- `.editorconfig` 与命名规范文档
+- `detekt.yml` / `ktlint` 配置与 baseline
+- `CI style gate`（lint/detekt/ktlint）
+- `PR 模板`（包含风格验收条目）
+- `规则变更记录`（说明原因与影响）
+
+## Style Gate (验收门槛)
+
+```bash
+./gradlew lint
+./gradlew detekt
+./gradlew ktlintCheck
+```
+
+> 旧项目使用 baseline 时，必须在 PR 说明中写明本次减少了哪些 baseline 项目。
 
 ---
 
@@ -188,6 +222,8 @@ fun filterAndSort(tasks: List<Task>, now: Instant = Instant.now()): List<Task>
 
 ## Quick Checklist
 
+- [ ] Required Inputs 已填写并冻结（范围/门槛/baseline）
+
 ### Naming & Style
 - [ ] 命名是否遵循上述规则？
 - [ ] Compose 函数是否用 PascalCase？
@@ -207,3 +243,4 @@ fun filterAndSort(tasks: List<Task>, now: Instant = Instant.now()): List<Task>
 - [ ] Modifier 是否为第一个可选参数？
 - [ ] State 是否正确 hoist？
 - [ ] 是否有 unstable 的参数导致不必要重组？
+- [ ] Style Gate（lint/detekt/ktlintCheck）已执行并通过
